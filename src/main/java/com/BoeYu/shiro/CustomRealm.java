@@ -104,6 +104,7 @@ public class CustomRealm extends AuthorizingRealm {
 		Criteria criteria = example.createCriteria();
 		criteria.andUsernameEqualTo(username);
 		List<TbAdmin> admins = tbAdminMapper.selectByExample(example);
+		TbAdmin aaa = tbAdminMapper.selectByPrimaryKey((long)1);
 		// 账号不存在
 		if (admins == null || admins.size() == 0) {
 			throw new UnknownAccountException("账号不存在!");

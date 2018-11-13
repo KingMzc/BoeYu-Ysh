@@ -102,7 +102,7 @@
   </select>
   <select id="selectByCustomerId"  resultMap="BaseResultMap">
     select
-    *
+    <include refid="Base_Column_List" />
     from child
     where fk_customer_id = #{customerid}
   </select>
