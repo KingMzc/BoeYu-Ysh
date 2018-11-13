@@ -1,0 +1,353 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.BoeYu.mapper.ChildMapper">
+  <resultMap id="BaseResultMap" type="com.BoeYu.pojo.Child">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="sex" jdbcType="CHAR" property="sex" />
+    <result column="grade" jdbcType="VARCHAR" property="grade" />
+    <result column="years" jdbcType="TIMESTAMP" property="years" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="phone" jdbcType="VARCHAR" property="phone" />
+    <result column="flag" jdbcType="CHAR" property="flag" />
+    <result column="fk_family_id" jdbcType="VARCHAR" property="fkFamilyId" />
+    <result column="fk_img_id" jdbcType="VARCHAR" property="fkImgId" />
+    <result column="coordinate" jdbcType="VARCHAR" property="coordinate" />
+    <result column="child_type" jdbcType="CHAR" property="childType" />
+    <result column="lock_startetime" jdbcType="TIMESTAMP" property="lockStartetime" />
+    <result column="lock_endtime" jdbcType="TIMESTAMP" property="lockEndtime" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, name, sex, grade, years, create_time, phone, flag, fk_family_id, fk_img_id, coordinate, 
+    child_type, lock_startetime, lock_endtime
+  </sql>
+  <select id="selectByExample" parameterType="com.BoeYu.pojo.ChildExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from child
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from child
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from child
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.BoeYu.pojo.ChildExample">
+    delete from child
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.BoeYu.pojo.Child">
+    insert into child (id, name, sex, grade, 
+      years, create_time, phone, 
+      flag, fk_family_id, fk_img_id, 
+      coordinate, child_type, lock_startetime, 
+      lock_endtime)
+    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{sex,jdbcType=CHAR}, #{grade,jdbcType=VARCHAR}, 
+      #{years,jdbcType=TIMESTAMP}, #{createTime,jdbcType=TIMESTAMP}, #{phone,jdbcType=VARCHAR}, 
+      #{flag,jdbcType=CHAR}, #{fkFamilyId,jdbcType=VARCHAR}, #{fkImgId,jdbcType=VARCHAR}, 
+      #{coordinate,jdbcType=VARCHAR}, #{childType,jdbcType=CHAR}, #{lockStartetime,jdbcType=TIMESTAMP}, 
+      #{lockEndtime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.BoeYu.pojo.Child">
+    insert into child
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="sex != null">
+        sex,
+      </if>
+      <if test="grade != null">
+        grade,
+      </if>
+      <if test="years != null">
+        years,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="phone != null">
+        phone,
+      </if>
+      <if test="flag != null">
+        flag,
+      </if>
+      <if test="fkFamilyId != null">
+        fk_family_id,
+      </if>
+      <if test="fkImgId != null">
+        fk_img_id,
+      </if>
+      <if test="coordinate != null">
+        coordinate,
+      </if>
+      <if test="childType != null">
+        child_type,
+      </if>
+      <if test="lockStartetime != null">
+        lock_startetime,
+      </if>
+      <if test="lockEndtime != null">
+        lock_endtime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null">
+        #{sex,jdbcType=CHAR},
+      </if>
+      <if test="grade != null">
+        #{grade,jdbcType=VARCHAR},
+      </if>
+      <if test="years != null">
+        #{years,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="phone != null">
+        #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="flag != null">
+        #{flag,jdbcType=CHAR},
+      </if>
+      <if test="fkFamilyId != null">
+        #{fkFamilyId,jdbcType=VARCHAR},
+      </if>
+      <if test="fkImgId != null">
+        #{fkImgId,jdbcType=VARCHAR},
+      </if>
+      <if test="coordinate != null">
+        #{coordinate,jdbcType=VARCHAR},
+      </if>
+      <if test="childType != null">
+        #{childType,jdbcType=CHAR},
+      </if>
+      <if test="lockStartetime != null">
+        #{lockStartetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lockEndtime != null">
+        #{lockEndtime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.BoeYu.pojo.ChildExample" resultType="java.lang.Long">
+    select count(*) from child
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update child
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.name != null">
+        name = #{record.name,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sex != null">
+        sex = #{record.sex,jdbcType=CHAR},
+      </if>
+      <if test="record.grade != null">
+        grade = #{record.grade,jdbcType=VARCHAR},
+      </if>
+      <if test="record.years != null">
+        years = #{record.years,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.createTime != null">
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.phone != null">
+        phone = #{record.phone,jdbcType=VARCHAR},
+      </if>
+      <if test="record.flag != null">
+        flag = #{record.flag,jdbcType=CHAR},
+      </if>
+      <if test="record.fkFamilyId != null">
+        fk_family_id = #{record.fkFamilyId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.fkImgId != null">
+        fk_img_id = #{record.fkImgId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.coordinate != null">
+        coordinate = #{record.coordinate,jdbcType=VARCHAR},
+      </if>
+      <if test="record.childType != null">
+        child_type = #{record.childType,jdbcType=CHAR},
+      </if>
+      <if test="record.lockStartetime != null">
+        lock_startetime = #{record.lockStartetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.lockEndtime != null">
+        lock_endtime = #{record.lockEndtime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update child
+    set id = #{record.id,jdbcType=INTEGER},
+      name = #{record.name,jdbcType=VARCHAR},
+      sex = #{record.sex,jdbcType=CHAR},
+      grade = #{record.grade,jdbcType=VARCHAR},
+      years = #{record.years,jdbcType=TIMESTAMP},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      phone = #{record.phone,jdbcType=VARCHAR},
+      flag = #{record.flag,jdbcType=CHAR},
+      fk_family_id = #{record.fkFamilyId,jdbcType=VARCHAR},
+      fk_img_id = #{record.fkImgId,jdbcType=VARCHAR},
+      coordinate = #{record.coordinate,jdbcType=VARCHAR},
+      child_type = #{record.childType,jdbcType=CHAR},
+      lock_startetime = #{record.lockStartetime,jdbcType=TIMESTAMP},
+      lock_endtime = #{record.lockEndtime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.BoeYu.pojo.Child">
+    update child
+    <set>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null">
+        sex = #{sex,jdbcType=CHAR},
+      </if>
+      <if test="grade != null">
+        grade = #{grade,jdbcType=VARCHAR},
+      </if>
+      <if test="years != null">
+        years = #{years,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="phone != null">
+        phone = #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="flag != null">
+        flag = #{flag,jdbcType=CHAR},
+      </if>
+      <if test="fkFamilyId != null">
+        fk_family_id = #{fkFamilyId,jdbcType=VARCHAR},
+      </if>
+      <if test="fkImgId != null">
+        fk_img_id = #{fkImgId,jdbcType=VARCHAR},
+      </if>
+      <if test="coordinate != null">
+        coordinate = #{coordinate,jdbcType=VARCHAR},
+      </if>
+      <if test="childType != null">
+        child_type = #{childType,jdbcType=CHAR},
+      </if>
+      <if test="lockStartetime != null">
+        lock_startetime = #{lockStartetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lockEndtime != null">
+        lock_endtime = #{lockEndtime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.BoeYu.pojo.Child">
+    update child
+    set name = #{name,jdbcType=VARCHAR},
+      sex = #{sex,jdbcType=CHAR},
+      grade = #{grade,jdbcType=VARCHAR},
+      years = #{years,jdbcType=TIMESTAMP},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      phone = #{phone,jdbcType=VARCHAR},
+      flag = #{flag,jdbcType=CHAR},
+      fk_family_id = #{fkFamilyId,jdbcType=VARCHAR},
+      fk_img_id = #{fkImgId,jdbcType=VARCHAR},
+      coordinate = #{coordinate,jdbcType=VARCHAR},
+      child_type = #{childType,jdbcType=CHAR},
+      lock_startetime = #{lockStartetime,jdbcType=TIMESTAMP},
+      lock_endtime = #{lockEndtime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
