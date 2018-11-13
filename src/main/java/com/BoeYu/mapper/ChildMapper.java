@@ -18,6 +18,8 @@ public interface ChildMapper {
 
     List<Child> selectByExample(ChildExample example);
 
+    List<Child> selectByCustomerId(@Param("customerid") String customerid);
+
     Child selectByPrimaryKey(Integer id);
 
     int updateByExampleSelective(@Param("record") Child record, @Param("example") ChildExample example);

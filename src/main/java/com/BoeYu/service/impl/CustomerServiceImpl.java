@@ -12,7 +12,6 @@ import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.DigestUtils;
-import sun.security.provider.MD5;
 
 import java.util.Date;
 import java.util.HashMap;
@@ -78,8 +77,10 @@ public class CustomerServiceImpl implements CustomerService {
             return map;
         }
          /*= familyMapper.selectByExample()*/
+        List<Child> list = childMapper.selectByCustomerId(customer.getId().toString());
         String token= DigestUtils.md5DigestAsHex((new Date().getTime()+""+phone+wxid).getBytes());
         map.put("customer",customer);
+        map.put("ChildList",list);
         map.put("token",token);
         return map;
     }

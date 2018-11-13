@@ -16,6 +16,7 @@
     <result column="child_type" jdbcType="CHAR" property="childType" />
     <result column="lock_startetime" jdbcType="TIMESTAMP" property="lockStartetime" />
     <result column="lock_endtime" jdbcType="TIMESTAMP" property="lockEndtime" />
+    <result column="fk_customer_id" jdbcType="VARCHAR" property="fkCustomerId" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -77,7 +78,7 @@
   </sql>
   <sql id="Base_Column_List">
     id, name, sex, grade, years, create_time, phone, flag, fk_family_id, fk_img_id, coordinate, 
-    child_type, lock_startetime, lock_endtime
+    child_type, lock_startetime, lock_endtime, fk_customer_id
   </sql>
   <select id="selectByExample" parameterType="com.BoeYu.pojo.ChildExample" resultMap="BaseResultMap">
     select
@@ -99,6 +100,12 @@
     from child
     where id = #{id,jdbcType=INTEGER}
   </select>
+  <select id="selectByCustomerId"  resultMap="BaseResultMap">
+    select
+    *
+    from child
+    where fk_customer_id = #{customerid}
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from child
     where id = #{id,jdbcType=INTEGER}
@@ -114,12 +121,12 @@
       years, create_time, phone, 
       flag, fk_family_id, fk_img_id, 
       coordinate, child_type, lock_startetime, 
-      lock_endtime)
+      lock_endtime, fk_customer_id)
     values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{sex,jdbcType=CHAR}, #{grade,jdbcType=VARCHAR}, 
       #{years,jdbcType=TIMESTAMP}, #{createTime,jdbcType=TIMESTAMP}, #{phone,jdbcType=VARCHAR}, 
       #{flag,jdbcType=CHAR}, #{fkFamilyId,jdbcType=VARCHAR}, #{fkImgId,jdbcType=VARCHAR}, 
       #{coordinate,jdbcType=VARCHAR}, #{childType,jdbcType=CHAR}, #{lockStartetime,jdbcType=TIMESTAMP}, 
-      #{lockEndtime,jdbcType=TIMESTAMP})
+      #{lockEndtime,jdbcType=TIMESTAMP}, #{fkCustomerId,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.BoeYu.pojo.Child">
     insert into child
@@ -166,6 +173,9 @@
       <if test="lockEndtime != null">
         lock_endtime,
       </if>
+      <if test="fkCustomerId != null">
+        fk_customer_id,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -209,6 +219,9 @@
       </if>
       <if test="lockEndtime != null">
         #{lockEndtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="fkCustomerId != null">
+        #{fkCustomerId,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -263,6 +276,9 @@
       <if test="record.lockEndtime != null">
         lock_endtime = #{record.lockEndtime,jdbcType=TIMESTAMP},
       </if>
+      <if test="record.fkCustomerId != null">
+        fk_customer_id = #{record.fkCustomerId,jdbcType=VARCHAR},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -283,7 +299,8 @@
       coordinate = #{record.coordinate,jdbcType=VARCHAR},
       child_type = #{record.childType,jdbcType=CHAR},
       lock_startetime = #{record.lockStartetime,jdbcType=TIMESTAMP},
-      lock_endtime = #{record.lockEndtime,jdbcType=TIMESTAMP}
+      lock_endtime = #{record.lockEndtime,jdbcType=TIMESTAMP},
+      fk_customer_id = #{record.fkCustomerId,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -330,6 +347,9 @@
       <if test="lockEndtime != null">
         lock_endtime = #{lockEndtime,jdbcType=TIMESTAMP},
       </if>
+      <if test="fkCustomerId != null">
+        fk_customer_id = #{fkCustomerId,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -347,7 +367,8 @@
       coordinate = #{coordinate,jdbcType=VARCHAR},
       child_type = #{childType,jdbcType=CHAR},
       lock_startetime = #{lockStartetime,jdbcType=TIMESTAMP},
-      lock_endtime = #{lockEndtime,jdbcType=TIMESTAMP}
+      lock_endtime = #{lockEndtime,jdbcType=TIMESTAMP},
+      fk_customer_id = #{fkCustomerId,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

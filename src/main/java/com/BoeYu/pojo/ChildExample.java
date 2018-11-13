@@ -1034,6 +1034,76 @@ public class ChildExample {
             addCriterion("lock_endtime not between", value1, value2, "lockEndtime");
             return (Criteria) this;
         }
+
+        public Criteria andFkCustomerIdIsNull() {
+            addCriterion("fk_customer_id is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andFkCustomerIdIsNotNull() {
+            addCriterion("fk_customer_id is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andFkCustomerIdEqualTo(String value) {
+            addCriterion("fk_customer_id =", value, "fkCustomerId");
+            return (Criteria) this;
+        }
+
+        public Criteria andFkCustomerIdNotEqualTo(String value) {
+            addCriterion("fk_customer_id <>", value, "fkCustomerId");
+            return (Criteria) this;
+        }
+
+        public Criteria andFkCustomerIdGreaterThan(String value) {
+            addCriterion("fk_customer_id >", value, "fkCustomerId");
+            return (Criteria) this;
+        }
+
+        public Criteria andFkCustomerIdGreaterThanOrEqualTo(String value) {
+            addCriterion("fk_customer_id >=", value, "fkCustomerId");
+            return (Criteria) this;
+        }
+
+        public Criteria andFkCustomerIdLessThan(String value) {
+            addCriterion("fk_customer_id <", value, "fkCustomerId");
+            return (Criteria) this;
+        }
+
+        public Criteria andFkCustomerIdLessThanOrEqualTo(String value) {
+            addCriterion("fk_customer_id <=", value, "fkCustomerId");
+            return (Criteria) this;
+        }
+
+        public Criteria andFkCustomerIdLike(String value) {
+            addCriterion("fk_customer_id like", value, "fkCustomerId");
+            return (Criteria) this;
+        }
+
+        public Criteria andFkCustomerIdNotLike(String value) {
+            addCriterion("fk_customer_id not like", value, "fkCustomerId");
+            return (Criteria) this;
+        }
+
+        public Criteria andFkCustomerIdIn(List<String> values) {
+            addCriterion("fk_customer_id in", values, "fkCustomerId");
+            return (Criteria) this;
+        }
+
+        public Criteria andFkCustomerIdNotIn(List<String> values) {
+            addCriterion("fk_customer_id not in", values, "fkCustomerId");
+            return (Criteria) this;
+        }
+
+        public Criteria andFkCustomerIdBetween(String value1, String value2) {
+            addCriterion("fk_customer_id between", value1, value2, "fkCustomerId");
+            return (Criteria) this;
+        }
+
+        public Criteria andFkCustomerIdNotBetween(String value1, String value2) {
+            addCriterion("fk_customer_id not between", value1, value2, "fkCustomerId");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {

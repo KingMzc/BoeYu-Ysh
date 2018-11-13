@@ -31,6 +31,8 @@ public class Child {
 
     private Date lockEndtime;
 
+    private String fkCustomerId;
+
     public Integer getId() {
         return id;
     }
@@ -141,5 +143,13 @@ public class Child {
 
     public void setLockEndtime(Date lockEndtime) {
         this.lockEndtime = lockEndtime;
+    }
+
+    public String getFkCustomerId() {
+        return fkCustomerId;
+    }
+
+    public void setFkCustomerId(String fkCustomerId) {
+        this.fkCustomerId = fkCustomerId == null ? null : fkCustomerId.trim();
     }
 }
