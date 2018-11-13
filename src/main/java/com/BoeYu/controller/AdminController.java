@@ -79,7 +79,7 @@ public class AdminController {
 	@ResponseBody
 	public ResultUtil login(HttpServletRequest req, String username, String password, String vcode) {
 		if(StringUtils.isEmpty(username)||StringUtils.isEmpty(password)||StringUtils.isEmpty(vcode)){
-			throw new RRException("参数不能为空");
+			throw new RRException("参数不能为空!");
 		}
 		if(!vcode.toLowerCase().equals(ShiroUtils.getKaptcha("kaptcha").toLowerCase())){
 			return ResultUtil.error("验证码不正确");
