@@ -34,6 +34,7 @@ http://www.springframework.org/schema/tx/spring-tx.xsd">
 			logout:注销过滤器，此拦截器设置的url可以不对应一个真实存在controller方法
 		 -->
 			<value>
+				/websocket/**=anon
 				/Api/**=anon
 				/register/**=anon
 				/Parernt/**=anon

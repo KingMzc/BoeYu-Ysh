@@ -44,6 +44,7 @@ public class LoginController {
         }
         Customer customer = (Customer)map.get("customer");
         request.getSession().setAttribute("customerid",customer.getId());
+        System.out.println("22222222222222222222222222222..."+request.getSession().getAttribute("customerid"));
         resultUti.setCode(0);
         resultUti.setMsg("登录成功");
         resultUti.setData(map);

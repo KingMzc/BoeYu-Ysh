@@ -8,7 +8,11 @@
 
 </head>
 <body>
-    Welcome<br/><input id="text" type="text"/>
+    Welcome<br/>
+    id<br/>
+    <input id="id" type="text"/><br/>
+    ms<br/>
+    <input id="text" type="text"/>
     <button onclick="send()">发送消息</button>
     <div id="list"></div>
     <hr/>
@@ -56,14 +60,9 @@
 
     //将消息显示在网页上
     function setMessageInnerHTML(innerHTML) {
-
         document.getElementById('message').innerHTML += innerHTML + '<br/>';
     }
 
-    function setMessageInnerHTML(innerHTML) {
-        document.getElementById('list').innerHTML += innerHTML + '<br/>';
-        document.getElementById('message').innerHTML += innerHTML + '<br/>';
-    }
 
     //关闭WebSocket连接
     function closeWebSocket() {
@@ -73,7 +72,9 @@
     //发送消息
     function send() {
         var message = document.getElementById('text').value;
-        websocket.send(message);
+        var  id = document.getElementById('id').value;
+        var jsonms = id+"-"+message;
+        websocket.send(jsonms);
     }
 </script>
 </html>
