@@ -84,8 +84,9 @@
 				</shiro:hasPermission>--%>
 				<%--<div class="layui-inline">（支持模糊查询）</div>--%>
 			</div>
+		</form>
 	</blockquote>
-	</form>
+
 	<div class="layui-form">
 		<table id="userList" lay-filter="userList"></table>
 	</div>

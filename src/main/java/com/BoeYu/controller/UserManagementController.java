@@ -176,7 +176,6 @@ public class UserManagementController {
 		}
 	}
 
-
 	@RequestMapping("getCustomerList")
 	@ResponseBody
 	public ResultUtil getCustomerList(HttpServletRequest req,Integer page, Integer limit, UserSearch search){

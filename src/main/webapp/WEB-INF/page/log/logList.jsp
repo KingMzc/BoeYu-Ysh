@@ -40,8 +40,9 @@
 			<div class="layui-inline">
 				（支持模糊查询）
 			</div>
+		</form>
 	</blockquote>
-	</form>
+
 	<div class="layui-form">
 	  	<table id="logList" lay-filter="logList"></table>
 	</div>
@@ -125,8 +126,6 @@
 				,page: true //开启分页
 				,where: {timestamp: (new Date()).valueOf()}
 		  });
-		
-
 		//查询
 	 	$(".search_btn").click(function(){
 			var type = $(this).data('type');
