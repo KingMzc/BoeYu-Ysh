@@ -52,7 +52,8 @@ public class AdminController {
 		return "page/main";
 	}
 	@RequestMapping("/test")
-	public String test() {
+	public String test(HttpServletRequest req) {
+		req.setAttribute("customerid",req.getSession().getAttribute("customerid"));
 		return "page/websocket/index";
 	}
 	@RequestMapping("/index")
@@ -242,6 +243,7 @@ public class AdminController {
 	public String editRole(TbRoles role,Model model) {
 		role=adminServiceImpl.getRole(role);
 		model.addAttribute("role", role);
+
 		return "page/admin/editRole";
 	}
 	

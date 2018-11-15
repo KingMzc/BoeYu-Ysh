@@ -391,8 +391,10 @@
       password = #{password,jdbcType=VARCHAR}
     where id = #{id,jdbcType=BIGINT}
   </update>
-
-
-
-
+  <select id="selectPhone" resultType="java.lang.Integer">
+    select
+    count(1)
+    from customer
+    where phone = #{0}
+  </select>
 </mapper>

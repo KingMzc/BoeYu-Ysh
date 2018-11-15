@@ -13,4 +13,6 @@ public interface CustomerService {
      Customer selCustomerById(Long id);
 
      Map<String,Object> loginInfo(String phone,String wxid,String mm);
+
+     int selectPhone(String phone);
 }

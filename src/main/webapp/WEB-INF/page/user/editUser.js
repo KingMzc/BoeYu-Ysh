@@ -52,20 +52,24 @@ layui.config({
             data:data.field,
 			dataType:"json",
 			success:function(d){
-				if(d.code==0){
-		        	msg="修改成功！";
-				}else{
-		        	msg=d.msg;
-				}
+                if(d.code==0){
+                    msg="修改成功";
+                }else{
+                    msg=d.msg;
+                }
 			}
         });
+        setTimeout(function(){
+            top.layer.close(index);
+        },1000);
+        setTimeout(function(){
+            top.layer.msg(msg);
+        },2000);
  		setTimeout(function(){
- 			top.layer.close(index);
- 			top.layer.msg(msg);
  			layer.closeAll("iframe");
  			//刷新父页面
 	 		parent.location.reload();
-        },2000);
+        },3000);
  		return false;
  	})
 	

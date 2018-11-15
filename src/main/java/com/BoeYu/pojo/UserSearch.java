@@ -4,6 +4,7 @@ public class UserSearch {
 	private String nickname;
 	private String sex;
 	private String status;
+	private String vip;
 	private String createTimeStart;
 	private String createTimeEnd;
 	private String operation;
@@ -43,5 +44,12 @@ public class UserSearch {
 	public void setOperation(String operation) {
 		this.operation = operation;
 	}
-	
+
+	public String getVip() {
+		return vip;
+	}
+
+	public void setVip(String vip) {
+		this.vip = vip;
+	}
 }

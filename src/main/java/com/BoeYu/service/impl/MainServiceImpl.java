@@ -2,6 +2,9 @@ package com.BoeYu.service.impl;
 
 import java.util.List;
 
+import com.BoeYu.mapper.CustomerMapper;
+import com.BoeYu.pojo.Customer;
+import com.BoeYu.pojo.CustomerExample;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,36 +18,36 @@ import com.BoeYu.service.MainService;
 public class MainServiceImpl implements MainService {
 	
 	@Autowired
-	private TbUsersMapper tbUsersMapper;
+	private CustomerMapper customerMapper;
 	
 	@Autowired
 	private MainMapper mainMapper;
 
 	@Override
-	public List<TbUsers> selUserList() {
-		TbUsersExample example=new TbUsersExample();
-		return tbUsersMapper.selectByExample(example);
+	public List<Customer> selUserList() {
+		CustomerExample example=new CustomerExample();
+		return customerMapper.selectByExample(example);
 	}
 	
 	@Override
-	public List<TbUsers> selUsersToday() {
+	public List<Customer> selUsersToday() {
 		return mainMapper.selUsersToday();
 	}
 
 	@Override
-	public List<TbUsers> selUsersYestoday() {
+	public List<Customer> selUsersYestoday() {
 		return mainMapper.selUsersYesterday();
 	}
 
 
 	@Override
-	public List<TbUsers> selUsersYearWeek() {
+	public List<Customer> selUsersYearWeek() {
 		// TODO Auto-generated method stub
 		return mainMapper.selUsersYearWeek();
 	}
 	
 	@Override
-	public List<TbUsers> selUsersMonth() {
+	public List<Customer> selUsersMonth() {
 		// TODO Auto-generated method stub
 		return mainMapper.selUsersMonth();
 	}
@@ -52,10 +55,10 @@ public class MainServiceImpl implements MainService {
 	@Override
 	public int seUserCountBygender(int i) {
 		// TODO Auto-generated method stub
-		TbUsersExample example=new TbUsersExample();
-		Criteria criteria = example.createCriteria();
+		CustomerExample example=new CustomerExample();
+		CustomerExample.Criteria criteria = example.createCriteria();
 		criteria.andSexEqualTo(i+"");
-		List<TbUsers> list = tbUsersMapper.selectByExample(example);
+		List<Customer> list = customerMapper.selectByExample(example);
 		return list.size();
 	}
 

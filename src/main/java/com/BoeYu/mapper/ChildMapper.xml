@@ -371,4 +371,6 @@
       fk_customer_id = #{fkCustomerId,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
+
+
 </mapper>

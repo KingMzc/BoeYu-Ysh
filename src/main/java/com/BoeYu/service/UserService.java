@@ -1,5 +1,6 @@
 package com.BoeYu.service;
 
+import com.BoeYu.pojo.Customer;
 import com.BoeYu.pojo.TbUsers;
 import com.BoeYu.pojo.UserSearch;
 import com.BoeYu.util.ResultUtil;
@@ -27,5 +28,5 @@ public interface UserService {
 	public TbUsers selUserByUid(Long uid);
 
 	//更新用户信息
-	public void updUserService(TbUsers user);
+	public void updUserService(Customer customer);
 }

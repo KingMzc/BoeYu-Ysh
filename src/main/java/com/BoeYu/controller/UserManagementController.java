@@ -28,11 +28,11 @@ public class UserManagementController {
 	@Autowired
 	private CustomerService customerServiceImpl;
 	
-	@RequestMapping("addUser")
+	/*@RequestMapping("addUser")
 	@RequiresPermissions("user:user:save")
 	public String userAdd(){
 		return "page/user/addUser";
-	}
+	}*/
 	
 	@RequestMapping("userList")
 	@RequiresPermissions("user:user:list")
@@ -155,16 +155,20 @@ public class UserManagementController {
 	
 	/**
 	 * 更新用户信息
-	 * @param user
+	 * @param customer
 	 * @return
 	 */
 	@SysLog(value="更新用户信息")
 	@RequestMapping("updUser")
 	@RequiresPermissions("user:user:update")
 	@ResponseBody
-	public ResultUtil updUser(TbUsers user){
+	public ResultUtil updUser(Customer customer){
 		try {
-			userServiceImpl.updUserService(user);
+            int flag= customerServiceImpl.selectPhone(customer.getPhone());
+            if(flag>0){
+                return ResultUtil.error("手机号码不能重复！！");
+            }
+			userServiceImpl.updUserService(customer);
 			return ResultUtil.ok();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -174,14 +178,8 @@ public class UserManagementController {
 
 
 	@RequestMapping("getCustomerList")
-
 	@ResponseBody
 	public ResultUtil getCustomerList(HttpServletRequest req,Integer page, Integer limit, UserSearch search){
-		System.out.println("qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq1"+req.getSession());
-		System.out.println("qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq2"+req.getSession().getAttribute("uid"));
-		System.out.println("qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq3"+req.getSession().getId());
-		System.out.println("qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq4"+req.getSession().getAttribute("user"));
-
 		return customerServiceImpl.selCustomer(page,limit,search);
 	}
 }

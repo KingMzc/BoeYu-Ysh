@@ -47,6 +47,9 @@ public class CustomerServiceImpl implements CustomerService {
         if(search.getStatus()!=null&&!"-1".equals(search.getStatus())){
             criteria.andStatusEqualTo(search.getStatus());
         }
+        if(search.getVip()!=null&&!"-1".equals(search.getVip())){
+            criteria.andVipEqualTo(search.getVip());
+        }
         if(search.getCreateTimeStart()!=null&&!"".equals(search.getCreateTimeStart())){
             criteria.andCreateTimeGreaterThanOrEqualTo(MyUtil.getDateByString(search.getCreateTimeStart()));
         }
@@ -83,5 +86,10 @@ public class CustomerServiceImpl implements CustomerService {
         map.put("ChildList",list);
         map.put("token",token);
         return map;
+    }
+
+    @Override
+    public int selectPhone(String phone) {
+        return customerMapper.selectPhone(phone);
     }
 }

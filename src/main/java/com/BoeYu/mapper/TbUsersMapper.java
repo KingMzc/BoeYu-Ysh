@@ -1,5 +1,6 @@
 package com.BoeYu.mapper;
 
+import com.BoeYu.pojo.Customer;
 import com.BoeYu.pojo.TbUsers;
 import com.BoeYu.pojo.TbUsersExample;
 import java.util.List;
@@ -26,5 +27,5 @@ public interface TbUsersMapper {
 
     int updateByPrimaryKeySelective(TbUsers record);
 
-    int updateByPrimaryKey(TbUsers record);
+    int updateByPrimaryKey(Customer record);
 }

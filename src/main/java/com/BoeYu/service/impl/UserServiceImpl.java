@@ -3,6 +3,8 @@ package com.BoeYu.service.impl;
 import java.util.Date;
 import java.util.List;
 
+import com.BoeYu.mapper.CustomerMapper;
+import com.BoeYu.pojo.Customer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.DigestUtils;
@@ -25,6 +27,8 @@ public class UserServiceImpl implements UserService {
 
 	@Autowired
 	private TbUsersMapper tbUsersMapper;
+	@Autowired
+	private CustomerMapper customerMapper;
 	
 	@Override
 	public TbUsers selUserByEmail(String eMail,Long uid) {
@@ -127,12 +131,12 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public void updUserService(TbUsers user) {
-		TbUsers u = tbUsersMapper.selectByPrimaryKey(user.getUid());
-		user.setPassword(u.getPassword());
-		user.seteCode(u.geteCode());
-		user.setCreateTime(u.getCreateTime());
-		tbUsersMapper.updateByPrimaryKey(user);
+	public void updUserService(Customer customer) {
+		Customer u = customerMapper.selectByPrimaryKey(customer.getId());
+		customer.setPassword(u.getPassword());
+		customer.setCreateTime(u.getCreateTime());
+		customer.setWxid(u.getWxid());
+		customerMapper.updateByPrimaryKey(customer);
 	}
 
 }

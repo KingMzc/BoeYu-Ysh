@@ -50,6 +50,14 @@
 							<option value="2">禁用</option>
 						</select>
 					</div>
+					<div class="layui-input-inline layui-form">
+						<select name="vip" class="" id="vip">
+							<option value="-1">请选择账户类型</option>
+							<option value="0">普通</option>
+							<option value="1">VIP</option>
+							<option value="2">异常</option>
+						</select>
+					</div>
 				</div>
 			</div>
 			<div style="margin-top: 1%">
@@ -133,7 +141,7 @@
 									max = null,
 									active = {
 										search : function() {
-											var nickname = $('#nickname'), sex = $('#sex option:selected'), status = $('#status option:selected');
+											var nickname = $('#nickname'), sex = $('#sex option:selected'), vip = $('#vip option:selected') ,status = $('#status option:selected'),
 													createTimeStart = $("#createTimeStart"),
 													createTimeEnd = $("#createTimeEnd");
 											//执行重载
@@ -151,7 +159,9 @@
 																			.val(),
 																	sex : sex
 																			.val(),
-																	status : status
+                                                                    status : status
+                                                                            .val(),
+																	vip : vip
 																			.val(),
 																	createTimeStart : createTimeStart
 																			.val(),
@@ -203,13 +213,13 @@
 										,
 										limits : [ 10, 20, 30, 40 ],
 										cols : [ [ //表头
-												{
+												/*{
 													type : 'checkbox'
-												},
+												},*/
 												{
 													field : 'id',
 													title : 'ID',
-													width : 60
+													width : '4%'
 												},
 
 												{
@@ -219,7 +229,8 @@
 												{
 													field : 'sex',
 													title : '性别',
-													templet : '#sexTpl'
+													templet : '#sexTpl',
+                                                    width : '5%'
 												},
 
 
@@ -231,12 +242,14 @@
 												{
 													field : 'status',
 													title : '状态',
-													templet : '#statusTpl'
+													templet : '#statusTpl',
+                                                    width : '5%'
 												},
 												{
 													field : 'vip',
 													title : 'VIP',
-													templet : '#vipTpl'
+													templet : '#vipTpl',
+                                                    width : '5%'
 												},
 												{
 													field : 'vipTime',

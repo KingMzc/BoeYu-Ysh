@@ -2,6 +2,7 @@ package com.BoeYu.service.impl;
 
 import java.util.List;
 
+import com.BoeYu.pojo.Customer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -31,8 +32,8 @@ public class AccountServiceImpl implements AccountService {
 	}
 
 	@Override
-	public void updUserStatus(TbUsers user) {
-		tbUsersMapper.updateByPrimaryKey(user);
+	public void updUserStatus(Customer customer) {
+		tbUsersMapper.updateByPrimaryKey(customer);
 	}
 
 }

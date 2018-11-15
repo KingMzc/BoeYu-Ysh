@@ -1,5 +1,6 @@
 package com.BoeYu.controller;
 
+import com.BoeYu.pojo.Customer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,9 +17,9 @@ public class AccountController {
 	@Autowired
 	private AccountService accountServiceImpl;
 	
-	@RequestMapping("active/{eCode}")
-	public String active(@PathVariable("eCode")String eCode,Model model){
-		TbUsers user = accountServiceImpl.selUserByCodeAndStatus(eCode,0+"");
+	//@RequestMapping("active/{eCode}")
+	/*public String active(@PathVariable("eCode")String eCode,Model model){
+		Customer ustomer = accountServiceImpl.selUserByCodeAndStatus(eCode,0+"");
 		if(user!=null){
 			//激活成功
 			//修改用户状态
@@ -31,5 +32,5 @@ public class AccountController {
 			model.addAttribute("msg", "账户不存在或者已经激活，请重试！");
 			return "active";
 		}
-	}
+	}*/
 }

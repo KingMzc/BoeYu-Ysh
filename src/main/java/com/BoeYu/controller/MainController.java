@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.BoeYu.pojo.Customer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,30 +23,30 @@ public class MainController {
 	
 	@RequestMapping("getUserTotal")
 	@ResponseBody
-	public List<TbUsers> getUserTotal(){
+	public List<Customer> getUserTotal(){
 		return mainServiceImpl.selUserList();
 	}
 	
 	
 	@RequestMapping("getUsersToday")
 	@ResponseBody
-	public List<TbUsers> getUsersToday(){
+	public List<Customer> getUsersToday(){
 		return mainServiceImpl.selUsersToday();
 	}
 	@RequestMapping("getUsersYestoday")
 	@ResponseBody
-	public List<TbUsers> getUsersYestoday(){
+	public List<Customer> getUsersYestoday(){
 		return mainServiceImpl.selUsersYestoday();
 	}
 	@RequestMapping("getUsersYearWeek")
 	@ResponseBody
-	public List<TbUsers> getUsersYearWeek(){
+	public List<Customer> getUsersYearWeek(){
 		return mainServiceImpl.selUsersYearWeek();
 	}
 	
 	@RequestMapping("getUsersMonth")
 	@ResponseBody
-	public List<TbUsers> getUsersMonth(){
+	public List<Customer> getUsersMonth(){
 		return mainServiceImpl.selUsersMonth();
 	}
 
@@ -53,7 +54,7 @@ public class MainController {
 	@ResponseBody
 	public Map<String, Object> dataAccessGender() {
 	    Map<String, Object> j=new HashMap<>();
-	    String[] categories = {"男", "女", "保密"};
+	    String[] categories = {"女", "男", "保密"};
 	    j.put("categories", categories);
 	    Map<String, Object> json=null;
 	    List<Map<String, Object>> list=new ArrayList<>();

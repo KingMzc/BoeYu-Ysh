@@ -2,19 +2,20 @@ package com.BoeYu.service;
 
 import java.util.List;
 
+import com.BoeYu.pojo.Customer;
 import com.BoeYu.pojo.TbUsers;
 
 public interface MainService {
 
-	public List<TbUsers> selUserList();
+	 List<Customer> selUserList();
 
-	public List<TbUsers> selUsersToday();
+	 List<Customer> selUsersToday();
 
-	public List<TbUsers> selUsersYestoday();
+	 List<Customer> selUsersYestoday();
 	
-	public List<TbUsers> selUsersYearWeek();
+	 List<Customer> selUsersYearWeek();
 	
-	public List<TbUsers> selUsersMonth();
+	 List<Customer> selUsersMonth();
 
-	public int seUserCountBygender(int i);
+	 int seUserCountBygender(int i);
 }
