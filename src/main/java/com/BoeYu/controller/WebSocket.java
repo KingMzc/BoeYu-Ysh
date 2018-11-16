@@ -45,14 +45,13 @@ public class WebSocket {
     }
     /**
      * 收到客户端消息后调用的方法
-     * @param jsonms 客户端发送过来的消息
-     * @param session 可选的参数
+     * @param data 客户端发送过来的消息
      */
     @OnMessage
-    public void onMessage(String jsonms, Session session,@PathParam("uid")String uid) throws IOException {
+    public void onMessage(String data,@PathParam("uid")String uid) throws IOException {
         //群发消息
         Set<String> set = map.keySet(); //取出所有的key值
-        String[] ss = jsonms.split("-");
+        String[] ss = data.split("-");
         int send=0;
         for (String key:set) {
             if(ss[0].equals(key)){

@@ -371,6 +371,16 @@
       fk_customer_id = #{fkCustomerId,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
-
-
+  <select id="CheckChild" resultType="java.lang.Integer">
+    select
+    count(1)
+    from child
+    where id = #{0}
+  </select>
+  <update id="LockChild" parameterType="com.BoeYu.pojo.Child">
+    update child
+    set
+      child_type = #{childType,jdbcType=CHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
 </mapper>

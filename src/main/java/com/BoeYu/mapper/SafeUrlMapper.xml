@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.BoeYu.mapper.FamilyMapper">
-  <resultMap id="BaseResultMap" type="com.BoeYu.pojo.Family">
+<mapper namespace="com.BoeYu.mapper.SafeUrlMapper">
+  <resultMap id="BaseResultMap" type="com.BoeYu.pojo.SafeUrl">
     <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="safe_type" jdbcType="CHAR" property="safeType" />
+    <result column="safe_content" jdbcType="VARCHAR" property="safeContent" />
     <result column="fk_customer_id" jdbcType="VARCHAR" property="fkCustomerId" />
     <result column="fk_child_id" jdbcType="VARCHAR" property="fkChildId" />
-    <result column="flag" jdbcType="CHAR" property="flag" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
   </resultMap>
   <sql id="Example_Where_Clause">
@@ -67,15 +68,15 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, fk_customer_id, fk_child_id, flag, create_time
+    id, safe_type, safe_content, fk_customer_id, fk_child_id, create_time
   </sql>
-  <select id="selectByExample" parameterType="com.BoeYu.pojo.FamilyExample" resultMap="BaseResultMap">
+  <select id="selectByExample" parameterType="com.BoeYu.pojo.SafeUrlExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from family
+    from safe_url
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
@@ -86,39 +87,44 @@
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from family
+    from safe_url
     where id = #{id,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-    delete from family
+    delete from safe_url
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <delete id="deleteByExample" parameterType="com.BoeYu.pojo.FamilyExample">
-    delete from family
+  <delete id="deleteByExample" parameterType="com.BoeYu.pojo.SafeUrlExample">
+    delete from safe_url
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.BoeYu.pojo.Family">
-    insert into family (id, fk_customer_id, fk_child_id, 
-      flag, create_time)
-    values (#{id,jdbcType=INTEGER}, #{fkCustomerId,jdbcType=VARCHAR}, #{fkChildId,jdbcType=VARCHAR}, 
-      #{flag,jdbcType=CHAR}, #{createTime,jdbcType=TIMESTAMP})
+  <insert id="insert" parameterType="com.BoeYu.pojo.SafeUrl">
+    insert into safe_url (id, safe_type, safe_content, 
+      fk_customer_id, fk_child_id, create_time
+      )
+    values (#{id,jdbcType=INTEGER}, #{safeType,jdbcType=CHAR}, #{safeContent,jdbcType=VARCHAR}, 
+      #{fkCustomerId,jdbcType=VARCHAR}, #{fkChildId,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}
+      )
   </insert>
-  <insert id="insertSelective" parameterType="com.BoeYu.pojo.Family">
-    insert into family
+  <insert id="insertSelective" parameterType="com.BoeYu.pojo.SafeUrl">
+    insert into safe_url
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
         id,
+      </if>
+      <if test="safeType != null">
+        safe_type,
+      </if>
+      <if test="safeContent != null">
+        safe_content,
       </if>
       <if test="fkCustomerId != null">
         fk_customer_id,
       </if>
       <if test="fkChildId != null">
         fk_child_id,
-      </if>
-      <if test="flag != null">
-        flag,
       </if>
       <if test="createTime != null">
         create_time,
@@ -128,40 +134,46 @@
       <if test="id != null">
         #{id,jdbcType=INTEGER},
       </if>
+      <if test="safeType != null">
+        #{safeType,jdbcType=CHAR},
+      </if>
+      <if test="safeContent != null">
+        #{safeContent,jdbcType=VARCHAR},
+      </if>
       <if test="fkCustomerId != null">
         #{fkCustomerId,jdbcType=VARCHAR},
       </if>
       <if test="fkChildId != null">
         #{fkChildId,jdbcType=VARCHAR},
       </if>
-      <if test="flag != null">
-        #{flag,jdbcType=CHAR},
-      </if>
       <if test="createTime != null">
         #{createTime,jdbcType=TIMESTAMP},
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="com.BoeYu.pojo.FamilyExample" resultType="java.lang.Long">
-    select count(*) from family
+  <select id="countByExample" parameterType="com.BoeYu.pojo.SafeUrlExample" resultType="java.lang.Long">
+    select count(*) from safe_url
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </select>
   <update id="updateByExampleSelective" parameterType="map">
-    update family
+    update safe_url
     <set>
       <if test="record.id != null">
         id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.safeType != null">
+        safe_type = #{record.safeType,jdbcType=CHAR},
+      </if>
+      <if test="record.safeContent != null">
+        safe_content = #{record.safeContent,jdbcType=VARCHAR},
       </if>
       <if test="record.fkCustomerId != null">
         fk_customer_id = #{record.fkCustomerId,jdbcType=VARCHAR},
       </if>
       <if test="record.fkChildId != null">
         fk_child_id = #{record.fkChildId,jdbcType=VARCHAR},
-      </if>
-      <if test="record.flag != null">
-        flag = #{record.flag,jdbcType=CHAR},
       </if>
       <if test="record.createTime != null">
         create_time = #{record.createTime,jdbcType=TIMESTAMP},
@@ -172,27 +184,31 @@
     </if>
   </update>
   <update id="updateByExample" parameterType="map">
-    update family
+    update safe_url
     set id = #{record.id,jdbcType=INTEGER},
+      safe_type = #{record.safeType,jdbcType=CHAR},
+      safe_content = #{record.safeContent,jdbcType=VARCHAR},
       fk_customer_id = #{record.fkCustomerId,jdbcType=VARCHAR},
       fk_child_id = #{record.fkChildId,jdbcType=VARCHAR},
-      flag = #{record.flag,jdbcType=CHAR},
       create_time = #{record.createTime,jdbcType=TIMESTAMP}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.BoeYu.pojo.Family">
-    update family
+  <update id="updateByPrimaryKeySelective" parameterType="com.BoeYu.pojo.SafeUrl">
+    update safe_url
     <set>
+      <if test="safeType != null">
+        safe_type = #{safeType,jdbcType=CHAR},
+      </if>
+      <if test="safeContent != null">
+        safe_content = #{safeContent,jdbcType=VARCHAR},
+      </if>
       <if test="fkCustomerId != null">
         fk_customer_id = #{fkCustomerId,jdbcType=VARCHAR},
       </if>
       <if test="fkChildId != null">
         fk_child_id = #{fkChildId,jdbcType=VARCHAR},
-      </if>
-      <if test="flag != null">
-        flag = #{flag,jdbcType=CHAR},
       </if>
       <if test="createTime != null">
         create_time = #{createTime,jdbcType=TIMESTAMP},
@@ -200,26 +216,13 @@
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.BoeYu.pojo.Family">
-    update family
-    set fk_customer_id = #{fkCustomerId,jdbcType=VARCHAR},
+  <update id="updateByPrimaryKey" parameterType="com.BoeYu.pojo.SafeUrl">
+    update safe_url
+    set safe_type = #{safeType,jdbcType=CHAR},
+      safe_content = #{safeContent,jdbcType=VARCHAR},
+      fk_customer_id = #{fkCustomerId,jdbcType=VARCHAR},
       fk_child_id = #{fkChildId,jdbcType=VARCHAR},
-      flag = #{flag,jdbcType=CHAR},
       create_time = #{createTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
   </update>
-
-  <select id="GetchildId"  resultType="java.lang.String">
-    select
-    fk_child_id
-    from family
-    where fk_customer_id=#{customerid}
-  </select>
-
-  <select id="CheckChildIsCustomer" resultType="java.lang.Integer">
-    select
-    count(1)
-    from family
-    where fk_customer_id = #{0} and fk_child_id=#{1}
-  </select>
 </mapper>

@@ -1,5 +1,6 @@
 package com.BoeYu.parent;
 
+import com.BoeYu.pojo.Child;
 import com.BoeYu.pojo.Customer;
 import com.BoeYu.service.CustomerService;
 import com.BoeYu.util.ResultUtil;
@@ -8,12 +9,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 @Controller
-@RequestMapping("register")
+@RequestMapping("Api/parent")
 public class LoginController {
     @Autowired
     private CustomerService customerService;
@@ -56,6 +58,113 @@ public class LoginController {
         resultUti.setData(map);
         return resultUti;
     }
+    @RequestMapping("/Getchilds")
+    @ResponseBody
+    public ResultUtil Getchilds(String token){
+        ResultUtil resultUti=new ResultUtil();
+        if(CheckToken(token)==false){
+            resultUti.setCode(1);
+            resultUti.setMsg("登录身份过期请重新登录！");
+            return resultUti;
+        }
+        Customer customer = GetCustomer(token);
+        List<Child> list = customerService.GetChild(customer.getId().toString());
+        resultUti.setCode(0);
+        resultUti.setMsg("查询成功");
+        resultUti.setData(list);
+        return resultUti;
+    }
+
+    @RequestMapping("/SwitchChild")
+    @ResponseBody
+    public ResultUtil SwitchChild(String token,String childId){
+        ResultUtil resultUti=new ResultUtil();
+        if(CheckToken(token)==false){
+            resultUti.setCode(1);
+            resultUti.setMsg("登录身份过期请重新登录!");
+            return resultUti;
+        }
+        if(customerService.CheckChild(childId)<=0){
+            resultUti.setCode(1);
+            resultUti.setMsg("没有找到这个孩子！");
+            return resultUti;
+        }
+        Customer customer = GetCustomer(token);
+        if(customerService.CheckChildIsCustomer(customer.getId().toString(),childId)<=0){
+            resultUti.setCode(1);
+            resultUti.setMsg("没有权限绑定这个孩子!");
+            return resultUti;
+        }
+        customer.setFkFamilyId(childId);
+        int flag = customerService.updateChild(customer);
+        if(flag>0){
+            resultUti.setCode(0);
+            resultUti.setMsg("切换成功");
+            return resultUti;
+        }else{
+            resultUti.setCode(1);
+            resultUti.setMsg("切换失败 ");
+            return resultUti;
+        }
+    }
+    @RequestMapping("/LockChild")
+    @ResponseBody
+    public ResultUtil LockChild(String token,String childId,String type){
+        ResultUtil resultUti=new ResultUtil();
+        if(CheckToken(token)==false){
+            resultUti.setCode(1);
+            resultUti.setMsg("登录身份过期请重新登录!");
+            return resultUti;
+        }
+        if(customerService.CheckChild(childId)<=0){
+            resultUti.setCode(1);
+            resultUti.setMsg("没有找到这个孩子！");
+            return resultUti;
+        }
+        Customer customer = GetCustomer(token);
+        if(customerService.CheckChildIsCustomer(customer.getId().toString(),childId)<=0){
+            resultUti.setCode(1);
+            resultUti.setMsg("没有权限锁屏这个孩子!");
+            return resultUti;
+        }
+        Child child = new Child();
+        child.setChildType(type);
+        child.setId(Integer.valueOf(childId));
+        int flag = customerService.LockChild(child);
+        if(flag>0){
+            resultUti.setCode(0);
+            resultUti.setMsg("锁屏成功");
+            return resultUti;
+        }else{
+            resultUti.setCode(1);
+            resultUti.setMsg("锁屏失败");
+            return resultUti;
+        }
+    }
+    @RequestMapping("/ceshi")
+    @ResponseBody
+    public ResultUtil ceshi(){
+        ResultUtil resultUti=new ResultUtil();
+            resultUti.setCode(0);
+            resultUti.setMsg("锁屏成功");
+            return resultUti;
+    }
+
+
+    public boolean CheckToken(String token){
+        boolean check = true;
+        int flag = customerService.selectToken(token);
+        if(flag!=1){
+            check=false;
+        }
+        return check;
+    }
+
+    public Customer GetCustomer(String token){
+        Customer customer = customerService.GetCustomerByToken(token);
+        return customer;
+    }
+
     /**
      * 注册
      *@参数  [xx, cc]

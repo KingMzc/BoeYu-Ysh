@@ -29,4 +29,9 @@ public interface ChildMapper {
     int updateByPrimaryKeySelective(Child record);
 
     int updateByPrimaryKey(Child record);
+
+    int CheckChild(String childId);
+
+    int LockChild(Child child);
+
 }

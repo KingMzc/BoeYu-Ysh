@@ -20,6 +20,8 @@ public interface CustomerMapper {
 
     Customer selectByPrimaryKey(Long id);
 
+    Customer GetCustomerByToken(String token);
+
     Customer selectByLogin(@Param("phone") String phone,@Param("wxid") String wxid,@Param("password") String password);
 
     int updateByExampleSelective(@Param("record") Customer record, @Param("example") CustomerExample example);
@@ -30,5 +32,13 @@ public interface CustomerMapper {
 
     int updateByPrimaryKey(Customer record);
 
+    int updateToken(Customer record);
+
+    int updateChild(Customer record);
+
     int selectPhone(String phone);
+
+    int selectToken(String token);
+
+
 }

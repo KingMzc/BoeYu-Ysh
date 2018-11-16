@@ -13,10 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.DigestUtils;
 
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 public class CustomerServiceImpl implements CustomerService {
@@ -80,10 +77,12 @@ public class CustomerServiceImpl implements CustomerService {
             return map;
         }
          /*= familyMapper.selectByExample()*/
-        List<Child> list = childMapper.selectByCustomerId(customer.getId().toString());
+        /*List<Child> list = childMapper.selectByCustomerId(customer.getId().toString());*/
         String token= DigestUtils.md5DigestAsHex((new Date().getTime()+""+phone+wxid).getBytes());
+        customer.setToken(token);
+        customerMapper.updateToken(customer);
         map.put("customer",customer);
-        map.put("ChildList",list);
+        /*map.put("ChildList",list);*/
         map.put("token",token);
         return map;
     }
@@ -91,5 +90,45 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     public int selectPhone(String phone) {
         return customerMapper.selectPhone(phone);
+    }
+
+    @Override
+    public int selectToken(String token) {
+        return customerMapper.selectToken(token);
+    }
+
+    @Override
+    public Customer GetCustomerByToken(String token) {
+        return customerMapper.GetCustomerByToken(token);
+    }
+
+    @Override
+    public List<Child> GetChild(String CustomerID) {
+        List<String> childlist = familyMapper.GetchildId(CustomerID);
+        List<Child> list =new ArrayList<Child>();
+        for (int i=0;i<childlist.size();i++){
+            list.add(childMapper.selectByPrimaryKey(Integer.valueOf(childlist.get(i))));
+        }
+        return list;
+    }
+
+    @Override
+    public int updateChild(Customer customer) {
+        return customerMapper.updateChild(customer);
+    }
+
+    @Override
+    public int CheckChild(String childId) {
+        return childMapper.CheckChild(childId);
+    }
+
+    @Override
+    public int CheckChildIsCustomer(String CustomerId, String ChildId) {
+        return familyMapper.CheckChildIsCustomer(CustomerId,ChildId);
+    }
+
+    @Override
+    public int LockChild(Child child) {
+        return childMapper.LockChild(child);
     }
 }

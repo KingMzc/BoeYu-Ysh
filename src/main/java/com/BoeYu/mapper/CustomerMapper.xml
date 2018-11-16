@@ -397,4 +397,31 @@
     from customer
     where phone = #{0}
   </select>
+
+  <select id="selectToken" resultType="java.lang.Integer">
+    select
+    count(1)
+    from customer
+    where token = #{0}
+  </select>
+
+  <update id="updateToken" parameterType="com.BoeYu.pojo.Customer">
+    update customer
+    set
+      token = #{token,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+
+  <select id="GetCustomerByToken"  resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from customer
+    where token = #{0}
+  </select>
+  <update id="updateChild" parameterType="com.BoeYu.pojo.Customer">
+    update customer
+    set
+      fk_family_id = #{fkFamilyId,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
 </mapper>
