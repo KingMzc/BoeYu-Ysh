@@ -1,6 +1,5 @@
 package com.BoeYu.parent;
 
-import com.BoeYu.pojo.Child;
 import com.BoeYu.pojo.Customer;
 import com.BoeYu.pojo.SafeUrl;
 import com.BoeYu.service.CustomerService;
@@ -43,7 +42,7 @@ public class SafeController {
         Customer customer = GetCustomer(token);
         if(customerService.CheckChildIsCustomer(customer.getId().toString(),childId)<=0){
             resultUti.setCode(1);
-            resultUti.setMsg("没有权限设置这个孩子的黑白名单!");
+            resultUti.setMsg("没有权限设置这个孩子的"+md+"!");
             return resultUti;
         }
         SafeUrl safeUrl = new SafeUrl();
@@ -53,7 +52,6 @@ public class SafeController {
         safeUrl.setFkCustomerId(customer.getId().toString());
         safeUrl.setSafeType(type);
         safeUrl.setCreateTime(date);
-
         int flag = safeUrlService.insert(safeUrl);
         if(flag>0){
             resultUti.setCode(0);

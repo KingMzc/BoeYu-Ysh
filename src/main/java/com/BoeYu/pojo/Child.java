@@ -33,6 +33,8 @@ public class Child {
 
     private String fkCustomerId;
 
+    private String token;
+
     public Integer getId() {
         return id;
     }
@@ -151,5 +153,13 @@ public class Child {
 
     public void setFkCustomerId(String fkCustomerId) {
         this.fkCustomerId = fkCustomerId == null ? null : fkCustomerId.trim();
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token == null ? null : token.trim();
     }
 }

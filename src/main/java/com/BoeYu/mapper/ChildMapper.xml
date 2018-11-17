@@ -17,6 +17,7 @@
     <result column="lock_startetime" jdbcType="TIMESTAMP" property="lockStartetime" />
     <result column="lock_endtime" jdbcType="TIMESTAMP" property="lockEndtime" />
     <result column="fk_customer_id" jdbcType="VARCHAR" property="fkCustomerId" />
+    <result column="token" jdbcType="VARCHAR" property="token" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -78,7 +79,7 @@
   </sql>
   <sql id="Base_Column_List">
     id, name, sex, grade, years, create_time, phone, flag, fk_family_id, fk_img_id, coordinate, 
-    child_type, lock_startetime, lock_endtime, fk_customer_id
+    child_type, lock_startetime, lock_endtime, fk_customer_id, token
   </sql>
   <select id="selectByExample" parameterType="com.BoeYu.pojo.ChildExample" resultMap="BaseResultMap">
     select
@@ -100,12 +101,6 @@
     from child
     where id = #{id,jdbcType=INTEGER}
   </select>
-  <select id="selectByCustomerId"  resultMap="BaseResultMap">
-    select
-    <include refid="Base_Column_List" />
-    from child
-    where fk_customer_id = #{customerid}
-  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from child
     where id = #{id,jdbcType=INTEGER}
@@ -121,12 +116,14 @@
       years, create_time, phone, 
       flag, fk_family_id, fk_img_id, 
       coordinate, child_type, lock_startetime, 
-      lock_endtime, fk_customer_id)
+      lock_endtime, fk_customer_id, token
+      )
     values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{sex,jdbcType=CHAR}, #{grade,jdbcType=VARCHAR}, 
       #{years,jdbcType=TIMESTAMP}, #{createTime,jdbcType=TIMESTAMP}, #{phone,jdbcType=VARCHAR}, 
       #{flag,jdbcType=CHAR}, #{fkFamilyId,jdbcType=VARCHAR}, #{fkImgId,jdbcType=VARCHAR}, 
       #{coordinate,jdbcType=VARCHAR}, #{childType,jdbcType=CHAR}, #{lockStartetime,jdbcType=TIMESTAMP}, 
-      #{lockEndtime,jdbcType=TIMESTAMP}, #{fkCustomerId,jdbcType=VARCHAR})
+      #{lockEndtime,jdbcType=TIMESTAMP}, #{fkCustomerId,jdbcType=VARCHAR}, #{token,jdbcType=VARCHAR}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.BoeYu.pojo.Child">
     insert into child
@@ -176,6 +173,9 @@
       <if test="fkCustomerId != null">
         fk_customer_id,
       </if>
+      <if test="token != null">
+        token,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -222,6 +222,9 @@
       </if>
       <if test="fkCustomerId != null">
         #{fkCustomerId,jdbcType=VARCHAR},
+      </if>
+      <if test="token != null">
+        #{token,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -279,6 +282,9 @@
       <if test="record.fkCustomerId != null">
         fk_customer_id = #{record.fkCustomerId,jdbcType=VARCHAR},
       </if>
+      <if test="record.token != null">
+        token = #{record.token,jdbcType=VARCHAR},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -300,7 +306,8 @@
       child_type = #{record.childType,jdbcType=CHAR},
       lock_startetime = #{record.lockStartetime,jdbcType=TIMESTAMP},
       lock_endtime = #{record.lockEndtime,jdbcType=TIMESTAMP},
-      fk_customer_id = #{record.fkCustomerId,jdbcType=VARCHAR}
+      fk_customer_id = #{record.fkCustomerId,jdbcType=VARCHAR},
+      token = #{record.token,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -350,6 +357,9 @@
       <if test="fkCustomerId != null">
         fk_customer_id = #{fkCustomerId,jdbcType=VARCHAR},
       </if>
+      <if test="token != null">
+        token = #{token,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -368,18 +378,21 @@
       child_type = #{childType,jdbcType=CHAR},
       lock_startetime = #{lockStartetime,jdbcType=TIMESTAMP},
       lock_endtime = #{lockEndtime,jdbcType=TIMESTAMP},
-      fk_customer_id = #{fkCustomerId,jdbcType=VARCHAR}
+      fk_customer_id = #{fkCustomerId,jdbcType=VARCHAR},
+      token = #{token,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
+
   <select id="CheckChild" resultType="java.lang.Integer">
     select
     count(1)
     from child
     where id = #{0}
   </select>
+
   <update id="LockChild" parameterType="com.BoeYu.pojo.Child">
     update child
-    set
+    set name =
       child_type = #{childType,jdbcType=CHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
