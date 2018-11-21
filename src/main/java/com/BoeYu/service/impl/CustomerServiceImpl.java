@@ -118,6 +118,12 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
+    public int updateName(Customer customer) {
+
+        return customerMapper.updateName(customer);
+    }
+
+    @Override
     public int CheckChild(String childId) {
         return childMapper.CheckChild(childId);
     }

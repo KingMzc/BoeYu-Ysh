@@ -355,14 +355,14 @@ layui.define('layer' , function(exports){
         }
       break;
       case 'audio': //音频文件
-        if(!RegExp('\\w\\.('+ (exts || 'mp3|wav|mid') +')$', 'i').test(escape(value))){
+        if(!RegExp('\\w\\.('+ (exts || '|wav|mid') +')$', 'i').test(escape(value))){
           that.msg('选择的音频中包含不支持的格式');
           return elemFile.value = '';
         }
       break;
       default: //图片文件
         layui.each(value, function(i, item){
-          if(!RegExp('\\w\\.('+ (exts || 'jpg|png|gif|bmp|jpeg$') +')', 'i').test(escape(item))){
+          if(!RegExp('\\w\\.('+ (exts || 'mp3|jpg|png|gif|bmp|jpeg$') +')', 'i').test(escape(item))){
             check = true;
           }
         });

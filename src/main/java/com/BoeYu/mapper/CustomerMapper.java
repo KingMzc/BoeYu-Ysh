@@ -40,5 +40,6 @@ public interface CustomerMapper {
 
     int selectToken(String token);
 
+    int updateName(Customer record);
 
 }

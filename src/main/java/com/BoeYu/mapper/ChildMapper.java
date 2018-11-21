@@ -31,4 +31,20 @@ public interface ChildMapper {
     int CheckChild(String childId);
 
     int LockChild(Child record);
+
+    Child GetChildByPhone(String phone);
+
+    int updateToken(Child record);
+
+    int CheckChildByPhone(String phone);
+
+    int CheckChildByToken(String token);
+
+    Child GetChildByAndroid(String android);
+
+    int updateSex(Child record);
+
+    int updateYears(Child record);
+
+
 }

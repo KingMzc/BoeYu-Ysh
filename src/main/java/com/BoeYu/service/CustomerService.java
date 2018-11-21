@@ -26,6 +26,10 @@ public interface CustomerService {
 
      int updateChild(Customer customer);
 
+     int updateName(Customer customer);
+
+
+
      int CheckChild(String childId);
 
      int CheckChildIsCustomer(String CustomerId,String ChildId);

@@ -54,6 +54,7 @@
 		<!--<table schema="" tableName="customer"></table>
 		<table schema="" tableName="child"></table>
 		<table schema="" tableName="family"></table>-->
-		<table schema="" tableName=""></table>
+		<!--<table schema="" tableName="safe_url"></table>-->
+		<table schema="" tableName="times"></table>
 	</context>
 </generatorConfiguration>

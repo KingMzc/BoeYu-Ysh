@@ -424,4 +424,10 @@
       fk_family_id = #{fkFamilyId,jdbcType=VARCHAR}
     where id = #{id,jdbcType=BIGINT}
   </update>
+  <update id="updateName" parameterType="com.BoeYu.pojo.Customer">
+    update customer
+    set
+      nickname = #{nickname,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
 </mapper>

@@ -52,7 +52,7 @@ public class FileController {
 			map.put("src", img);
 			return ResultUtil.ok(map);
 		} else {
-			return ResultUtil.error("文件格式不支持,请重新选择！!!!!!!!");
+			return ResultUtil.error("文件格式不支持,请重新选择！");
 		}
 	}
 

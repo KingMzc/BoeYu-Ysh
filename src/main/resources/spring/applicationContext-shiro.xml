@@ -37,7 +37,6 @@ http://www.springframework.org/schema/tx/spring-tx.xsd">
 				/websocket/**=anon
 				/Api/**=anon
 				/register/**=anon
-				/Parernt/**=anon
 				/css/**=anon
 				/js/**=anon
 				/layui/**=anon

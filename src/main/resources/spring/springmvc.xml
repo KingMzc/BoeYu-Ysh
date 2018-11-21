@@ -12,10 +12,11 @@
         http://www.springframework.org/schema/context/spring-context.xsd
         http://www.springframework.org/schema/mvc
         http://www.springframework.org/schema/mvc/spring-mvc.xsd">
-	<context:component-scan base-package="com.BoeYu.parent,com.BoeYu.controller,com.BoeYu.annotation,com.BoeYu.shiro" />
+	<context:component-scan base-package="com.BoeYu.parent,com.BoeYu.child,com.BoeYu.controller,com.BoeYu.annotation,com.BoeYu.shiro" />
 	<!-- 配置标签使springmvc注解生效 -->
     <aop:aspectj-autoproxy/> 
     <mvc:annotation-driven></mvc:annotation-driven>
+	<mvc:default-servlet-handler></mvc:default-servlet-handler>
     <aop:aspectj-autoproxy proxy-target-class="true" />  
 	<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 		<!--/WEB-INF/page/index.jsp  -->
@@ -30,7 +31,7 @@
 	<mvc:resources location="/json/" mapping="/json/**"/>
 	<mvc:resources location="/images/" mapping="/images/**"/>
 	<mvc:resources location="/WEB-INF/page/" mapping="/page/**"/>
-	
+	<mvc:resources location="/WEB-INF" mapping="/**"/>
 	<aop:config proxy-target-class="true"/>
 	<!-- 开启shiro注解支持 -->
 	<bean

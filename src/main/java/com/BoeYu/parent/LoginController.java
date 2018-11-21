@@ -75,6 +75,21 @@ public class LoginController {
         return resultUti;
     }
 
+    @RequestMapping("/ShowMap")
+    @ResponseBody
+    public ResultUtil ShowMap(String token){
+        ResultUtil resultUti=new ResultUtil();
+        if(CheckToken(token)==false){
+            resultUti.setCode(1);
+            resultUti.setMsg("登录身份过期请重新登录！");
+            return resultUti;
+        }
+        resultUti.setCode(0);
+        resultUti.setMsg("查询成功");
+        resultUti.setData("34.123174,108.446045");
+        return resultUti;
+    }
+
     @RequestMapping("/SwitchChild")
     @ResponseBody
     public ResultUtil SwitchChild(String token,String childId){

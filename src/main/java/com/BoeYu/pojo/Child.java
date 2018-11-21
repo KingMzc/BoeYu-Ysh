@@ -15,7 +15,7 @@ public class Child {
 
     private Date createTime;
 
-    private String phone;
+    private String android;
 
     private String flag;
 
@@ -32,8 +32,6 @@ public class Child {
     private Date lockEndtime;
 
     private String fkCustomerId;
-
-    private String token;
 
     public Integer getId() {
         return id;
@@ -83,12 +81,12 @@ public class Child {
         this.createTime = createTime;
     }
 
-    public String getPhone() {
-        return phone;
+    public String getAndroid() {
+        return android;
     }
 
-    public void setPhone(String phone) {
-        this.phone = phone == null ? null : phone.trim();
+    public void setAndroid(String android) {
+        this.android = android == null ? null : android.trim();
     }
 
     public String getFlag() {
@@ -153,13 +151,5 @@ public class Child {
 
     public void setFkCustomerId(String fkCustomerId) {
         this.fkCustomerId = fkCustomerId == null ? null : fkCustomerId.trim();
-    }
-
-    public String getToken() {
-        return token;
-    }
-
-    public void setToken(String token) {
-        this.token = token == null ? null : token.trim();
     }
 }

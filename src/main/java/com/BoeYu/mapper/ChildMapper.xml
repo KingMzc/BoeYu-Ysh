@@ -8,7 +8,7 @@
     <result column="grade" jdbcType="VARCHAR" property="grade" />
     <result column="years" jdbcType="TIMESTAMP" property="years" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
-    <result column="phone" jdbcType="VARCHAR" property="phone" />
+    <result column="android" jdbcType="VARCHAR" property="android" />
     <result column="flag" jdbcType="CHAR" property="flag" />
     <result column="fk_family_id" jdbcType="VARCHAR" property="fkFamilyId" />
     <result column="fk_img_id" jdbcType="VARCHAR" property="fkImgId" />
@@ -17,7 +17,6 @@
     <result column="lock_startetime" jdbcType="TIMESTAMP" property="lockStartetime" />
     <result column="lock_endtime" jdbcType="TIMESTAMP" property="lockEndtime" />
     <result column="fk_customer_id" jdbcType="VARCHAR" property="fkCustomerId" />
-    <result column="token" jdbcType="VARCHAR" property="token" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -78,8 +77,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, name, sex, grade, years, create_time, phone, flag, fk_family_id, fk_img_id, coordinate, 
-    child_type, lock_startetime, lock_endtime, fk_customer_id, token
+    id, name, sex, grade, years, create_time, android, flag, fk_family_id, fk_img_id, 
+    coordinate, child_type, lock_startetime, lock_endtime, fk_customer_id
   </sql>
   <select id="selectByExample" parameterType="com.BoeYu.pojo.ChildExample" resultMap="BaseResultMap">
     select
@@ -113,17 +112,15 @@
   </delete>
   <insert id="insert" parameterType="com.BoeYu.pojo.Child">
     insert into child (id, name, sex, grade, 
-      years, create_time, phone, 
+      years, create_time, android, 
       flag, fk_family_id, fk_img_id, 
       coordinate, child_type, lock_startetime, 
-      lock_endtime, fk_customer_id, token
-      )
+      lock_endtime, fk_customer_id)
     values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{sex,jdbcType=CHAR}, #{grade,jdbcType=VARCHAR}, 
-      #{years,jdbcType=TIMESTAMP}, #{createTime,jdbcType=TIMESTAMP}, #{phone,jdbcType=VARCHAR}, 
+      #{years,jdbcType=TIMESTAMP}, #{createTime,jdbcType=TIMESTAMP}, #{android,jdbcType=VARCHAR}, 
       #{flag,jdbcType=CHAR}, #{fkFamilyId,jdbcType=VARCHAR}, #{fkImgId,jdbcType=VARCHAR}, 
       #{coordinate,jdbcType=VARCHAR}, #{childType,jdbcType=CHAR}, #{lockStartetime,jdbcType=TIMESTAMP}, 
-      #{lockEndtime,jdbcType=TIMESTAMP}, #{fkCustomerId,jdbcType=VARCHAR}, #{token,jdbcType=VARCHAR}
-      )
+      #{lockEndtime,jdbcType=TIMESTAMP}, #{fkCustomerId,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.BoeYu.pojo.Child">
     insert into child
@@ -146,8 +143,8 @@
       <if test="createTime != null">
         create_time,
       </if>
-      <if test="phone != null">
-        phone,
+      <if test="android != null">
+        android,
       </if>
       <if test="flag != null">
         flag,
@@ -173,9 +170,6 @@
       <if test="fkCustomerId != null">
         fk_customer_id,
       </if>
-      <if test="token != null">
-        token,
-      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -196,8 +190,8 @@
       <if test="createTime != null">
         #{createTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="phone != null">
-        #{phone,jdbcType=VARCHAR},
+      <if test="android != null">
+        #{android,jdbcType=VARCHAR},
       </if>
       <if test="flag != null">
         #{flag,jdbcType=CHAR},
@@ -222,9 +216,6 @@
       </if>
       <if test="fkCustomerId != null">
         #{fkCustomerId,jdbcType=VARCHAR},
-      </if>
-      <if test="token != null">
-        #{token,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -255,8 +246,8 @@
       <if test="record.createTime != null">
         create_time = #{record.createTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="record.phone != null">
-        phone = #{record.phone,jdbcType=VARCHAR},
+      <if test="record.android != null">
+        android = #{record.android,jdbcType=VARCHAR},
       </if>
       <if test="record.flag != null">
         flag = #{record.flag,jdbcType=CHAR},
@@ -282,9 +273,6 @@
       <if test="record.fkCustomerId != null">
         fk_customer_id = #{record.fkCustomerId,jdbcType=VARCHAR},
       </if>
-      <if test="record.token != null">
-        token = #{record.token,jdbcType=VARCHAR},
-      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -298,7 +286,7 @@
       grade = #{record.grade,jdbcType=VARCHAR},
       years = #{record.years,jdbcType=TIMESTAMP},
       create_time = #{record.createTime,jdbcType=TIMESTAMP},
-      phone = #{record.phone,jdbcType=VARCHAR},
+      android = #{record.android,jdbcType=VARCHAR},
       flag = #{record.flag,jdbcType=CHAR},
       fk_family_id = #{record.fkFamilyId,jdbcType=VARCHAR},
       fk_img_id = #{record.fkImgId,jdbcType=VARCHAR},
@@ -306,8 +294,7 @@
       child_type = #{record.childType,jdbcType=CHAR},
       lock_startetime = #{record.lockStartetime,jdbcType=TIMESTAMP},
       lock_endtime = #{record.lockEndtime,jdbcType=TIMESTAMP},
-      fk_customer_id = #{record.fkCustomerId,jdbcType=VARCHAR},
-      token = #{record.token,jdbcType=VARCHAR}
+      fk_customer_id = #{record.fkCustomerId,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -330,8 +317,8 @@
       <if test="createTime != null">
         create_time = #{createTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="phone != null">
-        phone = #{phone,jdbcType=VARCHAR},
+      <if test="android != null">
+        android = #{android,jdbcType=VARCHAR},
       </if>
       <if test="flag != null">
         flag = #{flag,jdbcType=CHAR},
@@ -357,9 +344,6 @@
       <if test="fkCustomerId != null">
         fk_customer_id = #{fkCustomerId,jdbcType=VARCHAR},
       </if>
-      <if test="token != null">
-        token = #{token,jdbcType=VARCHAR},
-      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -370,7 +354,7 @@
       grade = #{grade,jdbcType=VARCHAR},
       years = #{years,jdbcType=TIMESTAMP},
       create_time = #{createTime,jdbcType=TIMESTAMP},
-      phone = #{phone,jdbcType=VARCHAR},
+      android = #{android,jdbcType=VARCHAR},
       flag = #{flag,jdbcType=CHAR},
       fk_family_id = #{fkFamilyId,jdbcType=VARCHAR},
       fk_img_id = #{fkImgId,jdbcType=VARCHAR},
@@ -378,8 +362,7 @@
       child_type = #{childType,jdbcType=CHAR},
       lock_startetime = #{lockStartetime,jdbcType=TIMESTAMP},
       lock_endtime = #{lockEndtime,jdbcType=TIMESTAMP},
-      fk_customer_id = #{fkCustomerId,jdbcType=VARCHAR},
-      token = #{token,jdbcType=VARCHAR}
+      fk_customer_id = #{fkCustomerId,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
 
@@ -389,11 +372,58 @@
     from child
     where id = #{0}
   </select>
+  <select id="CheckChildByPhone" resultType="java.lang.Integer">
+    select
+    count(1)
+    from child
+    where phone = #{0}
+  </select>
+
+  <select id="CheckChildByToken" resultType="java.lang.Integer">
+    select
+    count(1)
+    from child
+    where token = #{0}
+  </select>
 
   <update id="LockChild" parameterType="com.BoeYu.pojo.Child">
     update child
     set name =
       child_type = #{childType,jdbcType=CHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="GetChildByPhone"  resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from child
+    where phone = #{0}
+  </select>
+
+  <select id="GetChildByAndroid"  resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from child
+    where android = #{0}
+  </select>
+
+  <update id="updateToken" parameterType="com.BoeYu.pojo.Child">
+    update child
+    set
+      token = #{token,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+  <update id="updateSex" parameterType="com.BoeYu.pojo.Child">
+    update child
+    set
+      sex = #{sex,jdbcType=CHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+  <update id="updateYears" parameterType="com.BoeYu.pojo.Child">
+    update child
+    set
+      years = #{years,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>
