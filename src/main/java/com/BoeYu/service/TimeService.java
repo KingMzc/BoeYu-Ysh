@@ -17,5 +17,15 @@ public interface TimeService {
 
     Map<String, List<Times>> GetLockTime(String childId,String type);
 
+    Map<String,String> GetEyeRemindTime(String childId);
+
     String ShowLockTime(String childId,String week,String type,String flag);
+
+    int addRemindTime(String childId,String remindtime,String resttime);
+
+    int CheckRemindTime(String childId);
+
+    int updateRemindTime(long id,String remindtime,String resttime);
+
+    Times GetRemindTime(String childId);
 }

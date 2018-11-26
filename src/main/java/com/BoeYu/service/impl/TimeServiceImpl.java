@@ -6,10 +6,8 @@ import com.BoeYu.service.TimeService;
 import org.omg.CORBA.Object;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+
+import java.util.*;
 
 
 @Service
@@ -68,7 +66,51 @@ public class TimeServiceImpl implements TimeService {
     }
 
     @Override
+    public Map<String,String> GetEyeRemindTime(String childId) {
+        List<Times> list = timesMapper.GetEyeRemindTime(childId);
+        Map<String,String> map = new HashMap<String,String>();
+        map.put("RemindTime",list.get(0).getStartetime());
+        map.put("RestTime",list.get(0).getEndtime());
+        return map;
+    }
+
+    @Override
     public String ShowLockTime(String childId, String week, String type, String flag) {
-        return null;
+        return timesMapper.ShowLockTime(childId,week,type,flag);
+    }
+
+    @Override
+    public int addRemindTime(String childId,String remindtime, String resttime) {
+        Times times = new Times();
+        Date date = new Date();
+        times.setFkChildId(childId);
+        times.setTimes(remindtime+","+resttime);
+        times.setStartetime(remindtime);
+        times.setEndtime(resttime);
+        times.setWeek("0");
+        times.setType("3");
+        times.setFlag("REMIND");
+        times.setCreateTime(date);
+        return timesMapper.insert(times);
+    }
+
+    @Override
+    public int CheckRemindTime(String childId) {
+        return timesMapper.CheckCheckRemindTime(childId);
+    }
+
+    @Override
+    public int updateRemindTime(long id, String remindtime, String resttime) {
+        Times times = new Times();
+        times.setTimes(remindtime+","+resttime);
+        times.setStartetime(remindtime);
+        times.setEndtime(resttime);
+        times.setId((int) id);
+        return timesMapper.updateRemindTime(times);
+    }
+
+    @Override
+    public Times GetRemindTime(String childId) {
+        return timesMapper.GetRemindTime(childId);
     }
 }

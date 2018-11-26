@@ -35,4 +35,12 @@ public interface TimesMapper {
     List<Times> GetLockTime(String childId,String week,String type);
 
     String ShowLockTime(String childId, String week, String type, String flag);
+
+    int CheckCheckRemindTime(String childId);
+
+    Times GetRemindTime(String childId);
+
+    int updateRemindTime(Times record);
+
+    List<Times> GetEyeRemindTime(String childId);
 }

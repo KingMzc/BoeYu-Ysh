@@ -1,5 +1,6 @@
 package com.BoeYu.parent;
 
+import com.BoeYu.pojo.Customer;
 import com.BoeYu.pojo.Times;
 import com.BoeYu.service.CustomerService;
 import com.BoeYu.service.TimeService;
@@ -91,6 +92,42 @@ public class LockController {
         return resultUti;
     }
 
+    @RequestMapping("/EyeRemind")
+    @ResponseBody
+    public ResultUtil EyeRemind(String token,String remindtime,String resttime){
+        ResultUtil resultUti = new ResultUtil();
+        if(CheckToken(token)==false){
+            resultUti.setCode(1);
+            resultUti.setMsg("登录身份过期请重新登录!");
+            return resultUti;
+        }
+        Customer customer = GetCustomer(token);
+
+        if(timeService.CheckRemindTime(customer.getFkFamilyId())>0){
+            Times times = timeService.GetRemindTime(customer.getFkFamilyId());
+            int flag = timeService.updateRemindTime(times.getId(),remindtime,resttime);
+            if(flag>0){
+                resultUti.setCode(0);
+                resultUti.setMsg("护眼时间修改成功");
+                return resultUti;
+            }else{
+                resultUti.setCode(1);
+                resultUti.setMsg("护眼时间修改失败");
+                return resultUti;
+            }
+        }else{
+            int flag = timeService.addRemindTime(customer.getFkFamilyId(),remindtime,resttime);
+            if(flag>0){
+                resultUti.setCode(0);
+                resultUti.setMsg("护眼时间添加成功");
+                return resultUti;
+            }else{
+                resultUti.setCode(1);
+                resultUti.setMsg("护眼时间添加失败");
+                return resultUti;
+            }
+        }
+    }
     public List<Integer> GetTimes(String times){
         String time = times.replace(" ","");
         String[] datas = time.split(",");
@@ -132,7 +169,10 @@ public class LockController {
     }
 
 
-
+    public Customer GetCustomer(String token){
+        Customer customer = customerService.GetCustomerByToken(token);
+        return customer;
+    }
 
 
 }

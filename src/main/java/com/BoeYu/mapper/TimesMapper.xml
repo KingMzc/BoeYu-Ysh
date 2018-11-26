@@ -297,4 +297,32 @@
     times
     from times where fk_child_id=#{0} and week=#{1} and type=#{2} and flag=#{3}
   </select>
+
+  <select id="CheckCheckRemindTime" resultType="java.lang.Integer">
+    select
+    count(1)
+    from times
+    where fk_child_id = #{0}  and type='3'
+  </select>
+
+  <select id="GetRemindTime"  resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from times where fk_child_id=#{0}  and type='3'
+  </select>
+
+  <update id="updateRemindTime" parameterType="com.BoeYu.pojo.Times">
+    update times
+    set
+      startetime = #{startetime,jdbcType=VARCHAR},
+      endtime = #{endtime,jdbcType=VARCHAR},
+      times = #{times,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+  <select id="GetEyeRemindTime"  resultMap="BaseResultMap">
+    select
+    startetime, endtime,
+    from times where fk_child_id=#{0} and type='3'
+  </select>
 </mapper>

@@ -426,4 +426,11 @@
       years = #{years,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
   </update>
+
+  <update id="updateFlag" >
+    update child
+    set
+      flag = #{1}
+    where id = #{0}
+  </update>
 </mapper>

@@ -85,6 +85,7 @@ public class WebSocket {
         //this.session.getAsyncRemote().sendText(message);
     }
     public void send(String list) throws IOException{
+
         this.session.getBasicRemote().sendText(list);
         //this.session.getAsyncRemote().sendText(message);
     }

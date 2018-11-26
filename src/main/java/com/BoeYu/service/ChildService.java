@@ -1,7 +1,9 @@
 package com.BoeYu.service;
 
 import com.BoeYu.pojo.Child;
+import com.BoeYu.pojo.Confidantnumber;
 
+import java.util.List;
 import java.util.Map;
 
 public interface ChildService {
@@ -18,7 +20,13 @@ public interface ChildService {
 
     int updateYears(Child child);
 
+    int updateFlag(Integer id ,String flag);
+
     Child selectByPrimaryKey(Integer id);
+
+    int insertCoordinate(Child child, String coordinate);
+
+    List<Confidantnumber> SelectConfidantnumber(String ChildId);
 
 
 

@@ -1,8 +1,6 @@
 package com.BoeYu.service.impl;
 
-import com.BoeYu.mapper.ChildMapper;
-import com.BoeYu.mapper.CustomerMapper;
-import com.BoeYu.mapper.FamilyMapper;
+import com.BoeYu.mapper.*;
 import com.BoeYu.pojo.*;
 import com.BoeYu.service.CustomerService;
 import com.BoeYu.util.MyUtil;
@@ -13,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.DigestUtils;
 
+import javax.websocket.server.ServerEndpointConfig;
 import java.util.*;
 
 @Service
@@ -24,6 +23,10 @@ public class CustomerServiceImpl implements CustomerService {
     private ChildMapper childMapper;
     @Autowired
     private FamilyMapper familyMapper;
+    @Autowired
+    private CoordinateMapper coordinateMapper;
+    @Autowired
+    private ConfidantnumberMapper confidantnumberMapper;
 
     @Override
     public ResultUtil selCustomer(Integer page, Integer limit, UserSearch search) {
@@ -136,5 +139,33 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     public int LockChild(Child child) {
         return childMapper.LockChild(child);
+    }
+
+    @Override
+    public List<String> getcoordinate(String childId, String date,String datee) {
+        return coordinateMapper.GetCoordinate(childId,date,datee);
+    }
+
+    @Override
+    public int addConfidantnumber(String childId, String name, String phone) {
+        Confidantnumber confidantnumber =new Confidantnumber();
+        confidantnumber.setFkChildId(childId);
+        confidantnumber.setName(name);
+        confidantnumber.setPhone(phone);
+        return confidantnumberMapper.insert(confidantnumber);
+    }
+
+    @Override
+    public int CheckPhone(String childId, String phone) {
+        return confidantnumberMapper.CheckPhone(childId,phone);
+    }
+
+    @Override
+    public int updateConfidantnumber(String id, String name, String phone) {
+        Confidantnumber confidantnumber =new Confidantnumber();
+        confidantnumber.setId(Integer.valueOf(id));
+        confidantnumber.setName(name);
+        confidantnumber.setPhone(phone);
+        return confidantnumberMapper.updateById(confidantnumber);
     }
 }

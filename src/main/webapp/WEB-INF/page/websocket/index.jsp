@@ -25,7 +25,7 @@
     var websocket = null;
     //判断当前浏览器是否支持WebSocket
     if ('WebSocket' in window) {
-        websocket = new WebSocket("ws://localhost:8080/websocket/${customerid }");
+        websocket = new WebSocket("ws://7ncpn3.natappfree.cc/websocket/${customerid }");
     }
     else {
         alert('当前浏览器 Not support websocket');
@@ -41,9 +41,7 @@
     //接收到消息的回调方法
     websocket.onmessage = function (event) {
         var mycars=new Array(event.data);
-       /* Api/parent/ceshi*/
-        window.location.href="http://localhost:8080/"+mycars[0];
-        //setMessageInnerHTML(mycars[0]);
+        setMessageInnerHTML(mycars[0]);
     };
     //连接关闭的回调方法
     websocket.onclose = function () {

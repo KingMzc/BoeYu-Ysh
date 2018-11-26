@@ -27,4 +27,6 @@ public interface SafeUrlMapper {
     int updateByPrimaryKeySelective(SafeUrl record);
 
     int updateByPrimaryKey(SafeUrl record);
+
+    List<SafeUrl> selectSafeUrl(String childId,String type);
 }

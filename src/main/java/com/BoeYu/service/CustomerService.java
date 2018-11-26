@@ -28,12 +28,18 @@ public interface CustomerService {
 
      int updateName(Customer customer);
 
-
-
      int CheckChild(String childId);
 
      int CheckChildIsCustomer(String CustomerId,String ChildId);
 
     int LockChild(Child child);
+
+    List<String> getcoordinate(String childId,String date,String datee);
+
+    int addConfidantnumber(String childId,String name,String phone);
+
+    int CheckPhone(String childId,String phone);
+
+    int updateConfidantnumber(String id,String name,String phone);
 
 }

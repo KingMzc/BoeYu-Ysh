@@ -46,5 +46,7 @@ public interface ChildMapper {
 
     int updateYears(Child record);
 
+    int updateFlag(Integer id,String flag);
+
 
 }

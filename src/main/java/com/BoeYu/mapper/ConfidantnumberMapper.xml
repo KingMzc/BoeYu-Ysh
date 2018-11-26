@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.BoeYu.mapper.SafeUrlMapper">
-  <resultMap id="BaseResultMap" type="com.BoeYu.pojo.SafeUrl">
+<mapper namespace="com.BoeYu.mapper.ConfidantnumberMapper">
+  <resultMap id="BaseResultMap" type="com.BoeYu.pojo.Confidantnumber">
     <id column="id" jdbcType="INTEGER" property="id" />
-    <result column="safe_type" jdbcType="CHAR" property="safeType" />
-    <result column="safe_content" jdbcType="VARCHAR" property="safeContent" />
-    <result column="fk_customer_id" jdbcType="VARCHAR" property="fkCustomerId" />
+    <result column="phone" jdbcType="VARCHAR" property="phone" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
     <result column="fk_child_id" jdbcType="VARCHAR" property="fkChildId" />
-    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="flag" jdbcType="CHAR" property="flag" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -68,15 +67,15 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, safe_type, safe_content, fk_customer_id, fk_child_id, create_time
+    id, phone, name, fk_child_id, flag
   </sql>
-  <select id="selectByExample" parameterType="com.BoeYu.pojo.SafeUrlExample" resultMap="BaseResultMap">
+  <select id="selectByExample" parameterType="com.BoeYu.pojo.ConfidantnumberExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from safe_url
+    from confidantnumber
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
@@ -87,96 +86,85 @@
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from safe_url
+    from confidantnumber
     where id = #{id,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-    delete from safe_url
+    delete from confidantnumber
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <delete id="deleteByExample" parameterType="com.BoeYu.pojo.SafeUrlExample">
-    delete from safe_url
+  <delete id="deleteByExample" parameterType="com.BoeYu.pojo.ConfidantnumberExample">
+    delete from confidantnumber
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.BoeYu.pojo.SafeUrl">
-    insert into safe_url (id, safe_type, safe_content, 
-      fk_customer_id, fk_child_id, create_time
-      )
-    values (#{id,jdbcType=INTEGER}, #{safeType,jdbcType=CHAR}, #{safeContent,jdbcType=VARCHAR}, 
-      #{fkCustomerId,jdbcType=VARCHAR}, #{fkChildId,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}
-      )
+  <insert id="insert" parameterType="com.BoeYu.pojo.Confidantnumber">
+    insert into confidantnumber (id, phone, name, 
+      fk_child_id, flag)
+    values (#{id,jdbcType=INTEGER}, #{phone,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
+      #{fkChildId,jdbcType=VARCHAR}, #{flag,jdbcType=CHAR})
   </insert>
-  <insert id="insertSelective" parameterType="com.BoeYu.pojo.SafeUrl">
-    insert into safe_url
+  <insert id="insertSelective" parameterType="com.BoeYu.pojo.Confidantnumber">
+    insert into confidantnumber
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
         id,
       </if>
-      <if test="safeType != null">
-        safe_type,
+      <if test="phone != null">
+        phone,
       </if>
-      <if test="safeContent != null">
-        safe_content,
-      </if>
-      <if test="fkCustomerId != null">
-        fk_customer_id,
+      <if test="name != null">
+        name,
       </if>
       <if test="fkChildId != null">
         fk_child_id,
       </if>
-      <if test="createTime != null">
-        create_time,
+      <if test="flag != null">
+        flag,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
         #{id,jdbcType=INTEGER},
       </if>
-      <if test="safeType != null">
-        #{safeType,jdbcType=CHAR},
+      <if test="phone != null">
+        #{phone,jdbcType=VARCHAR},
       </if>
-      <if test="safeContent != null">
-        #{safeContent,jdbcType=VARCHAR},
-      </if>
-      <if test="fkCustomerId != null">
-        #{fkCustomerId,jdbcType=VARCHAR},
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
       </if>
       <if test="fkChildId != null">
         #{fkChildId,jdbcType=VARCHAR},
       </if>
-      <if test="createTime != null">
-        #{createTime,jdbcType=TIMESTAMP},
+      <if test="flag != null">
+        #{flag,jdbcType=CHAR},
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="com.BoeYu.pojo.SafeUrlExample" resultType="java.lang.Long">
-    select count(*) from safe_url
+  <select id="countByExample" parameterType="com.BoeYu.pojo.ConfidantnumberExample" resultType="java.lang.Long">
+    select count(*) from confidantnumber
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </select>
   <update id="updateByExampleSelective" parameterType="map">
-    update safe_url
+    update confidantnumber
     <set>
       <if test="record.id != null">
         id = #{record.id,jdbcType=INTEGER},
       </if>
-      <if test="record.safeType != null">
-        safe_type = #{record.safeType,jdbcType=CHAR},
+      <if test="record.phone != null">
+        phone = #{record.phone,jdbcType=VARCHAR},
       </if>
-      <if test="record.safeContent != null">
-        safe_content = #{record.safeContent,jdbcType=VARCHAR},
-      </if>
-      <if test="record.fkCustomerId != null">
-        fk_customer_id = #{record.fkCustomerId,jdbcType=VARCHAR},
+      <if test="record.name != null">
+        name = #{record.name,jdbcType=VARCHAR},
       </if>
       <if test="record.fkChildId != null">
         fk_child_id = #{record.fkChildId,jdbcType=VARCHAR},
       </if>
-      <if test="record.createTime != null">
-        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      <if test="record.flag != null">
+        flag = #{record.flag,jdbcType=CHAR},
       </if>
     </set>
     <if test="_parameter != null">
@@ -184,52 +172,60 @@
     </if>
   </update>
   <update id="updateByExample" parameterType="map">
-    update safe_url
+    update confidantnumber
     set id = #{record.id,jdbcType=INTEGER},
-      safe_type = #{record.safeType,jdbcType=CHAR},
-      safe_content = #{record.safeContent,jdbcType=VARCHAR},
-      fk_customer_id = #{record.fkCustomerId,jdbcType=VARCHAR},
+      phone = #{record.phone,jdbcType=VARCHAR},
+      name = #{record.name,jdbcType=VARCHAR},
       fk_child_id = #{record.fkChildId,jdbcType=VARCHAR},
-      create_time = #{record.createTime,jdbcType=TIMESTAMP}
+      flag = #{record.flag,jdbcType=CHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.BoeYu.pojo.SafeUrl">
-    update safe_url
+  <update id="updateByPrimaryKeySelective" parameterType="com.BoeYu.pojo.Confidantnumber">
+    update confidantnumber
     <set>
-      <if test="safeType != null">
-        safe_type = #{safeType,jdbcType=CHAR},
+      <if test="phone != null">
+        phone = #{phone,jdbcType=VARCHAR},
       </if>
-      <if test="safeContent != null">
-        safe_content = #{safeContent,jdbcType=VARCHAR},
-      </if>
-      <if test="fkCustomerId != null">
-        fk_customer_id = #{fkCustomerId,jdbcType=VARCHAR},
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
       </if>
       <if test="fkChildId != null">
         fk_child_id = #{fkChildId,jdbcType=VARCHAR},
       </if>
-      <if test="createTime != null">
-        create_time = #{createTime,jdbcType=TIMESTAMP},
+      <if test="flag != null">
+        flag = #{flag,jdbcType=CHAR},
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.BoeYu.pojo.SafeUrl">
-    update safe_url
-    set safe_type = #{safeType,jdbcType=CHAR},
-      safe_content = #{safeContent,jdbcType=VARCHAR},
-      fk_customer_id = #{fkCustomerId,jdbcType=VARCHAR},
+  <update id="updateByPrimaryKey" parameterType="com.BoeYu.pojo.Confidantnumber">
+    update confidantnumber
+    set phone = #{phone,jdbcType=VARCHAR},
+      name = #{name,jdbcType=VARCHAR},
       fk_child_id = #{fkChildId,jdbcType=VARCHAR},
-      create_time = #{createTime,jdbcType=TIMESTAMP}
+      flag = #{flag,jdbcType=CHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
 
-  <select id="selectSafeUrl"  resultMap="BaseResultMap">
+  <select id="CheckPhone" resultType="java.lang.Integer">
+  select
+  count(1)
+  from confidantnumber
+  where fk_child_id=#{0} and phone={1}
+  </select>
+
+  <update id="updateById" parameterType="com.BoeYu.pojo.Confidantnumber">
+    update confidantnumber
+    set phone = #{phone,jdbcType=VARCHAR},
+      name = #{name,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectConfidantnumber"  resultMap="BaseResultMap">
     select
-    <include refid="Base_Column_List" />
-    from safe_url
-    where fk_child_id = #{0} and safe_type=#{1}
+    id, phone, name, fk_child_id
+    from confidantnumber
+    where fk_child_id = #{0}
   </select>
 </mapper>
