@@ -1,6 +1,6 @@
 <component name="ArtifactManager">
   <artifact type="exploded-war" name="BoeyYu-Ysh:war exploded">
-    <output-path>$PROJECT_DIR$/target/ssm</output-path>
+    <output-path>$PROJECT_DIR$/target/Boeyu-Ysh</output-path>
     <root id="root">
       <element id="directory" name="WEB-INF">
         <element id="directory" name="classes">
@@ -35,7 +35,6 @@
           <element id="library" level="project" name="Maven: com.sun.mail:javax.mail:1.4.4" />
           <element id="library" level="project" name="Maven: javax.activation:activation:1.1" />
           <element id="library" level="project" name="Maven: org.apache.shiro:shiro-core:1.2.3" />
-          <element id="library" level="project" name="Maven: org.slf4j:slf4j-api:1.6.4" />
           <element id="library" level="project" name="Maven: commons-beanutils:commons-beanutils:1.8.3" />
           <element id="library" level="project" name="Maven: org.apache.shiro:shiro-ehcache:1.2.3" />
           <element id="library" level="project" name="Maven: net.sf.ehcache:ehcache-core:2.5.0" />
@@ -56,10 +55,14 @@
           <element id="library" level="project" name="Maven: net.sf.json-lib:json-lib:jdk15:2.4" />
           <element id="library" level="project" name="Maven: commons-logging:commons-logging:1.1.1" />
           <element id="library" level="project" name="Maven: net.sf.ezmorph:ezmorph:1.0.6" />
+          <element id="library" level="project" name="Maven: org.apache.httpcomponents:httpclient:4.5.3" />
+          <element id="library" level="project" name="Maven: org.apache.httpcomponents:httpcore:4.4.6" />
+          <element id="library" level="project" name="Maven: org.slf4j:slf4j-api:1.7.21" />
+          <element id="library" level="project" name="Maven: org.slf4j:slf4j-simple:1.7.21" />
         </element>
       </element>
       <element id="directory" name="META-INF">
-        <element id="file-copy" path="$PROJECT_DIR$/target/ssm/META-INF/MANIFEST.MF" />
+        <element id="file-copy" path="$PROJECT_DIR$/target/Boeyu-Ysh/META-INF/MANIFEST.MF" />
       </element>
       <element id="javaee-facet-resources" facet="BoeyYu-Ysh/web/Web" />
     </root>

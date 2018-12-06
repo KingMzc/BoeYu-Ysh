@@ -69,8 +69,13 @@ public class LoginController {
         }
         Customer customer = GetCustomer(token);
         List<Child> list = customerService.GetChild(customer.getId().toString());
-        resultUti.setCode(0);
-        resultUti.setMsg("查询成功");
+        if(list.size()>0){
+            resultUti.setCode(0);
+            resultUti.setMsg("查询成功");
+        }else{
+            resultUti.setCode(1);
+            resultUti.setMsg("暂无数据");
+        }
         resultUti.setData(list);
         return resultUti;
     }

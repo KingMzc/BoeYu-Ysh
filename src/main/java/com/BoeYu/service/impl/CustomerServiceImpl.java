@@ -106,6 +106,11 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
+    public Customer GetCustomerByPhone(String phone) {
+        return customerMapper.GetCustomerByPhone(phone);
+    }
+
+    @Override
     public List<Child> GetChild(String CustomerID) {
         List<String> childlist = familyMapper.GetchildId(CustomerID);
         List<Child> list =new ArrayList<Child>();
@@ -167,5 +172,10 @@ public class CustomerServiceImpl implements CustomerService {
         confidantnumber.setName(name);
         confidantnumber.setPhone(phone);
         return confidantnumberMapper.updateById(confidantnumber);
+    }
+
+    @Override
+    public int updateVipTime(Customer customer) {
+        return customerMapper.updateVipTime(customer);
     }
 }

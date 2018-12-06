@@ -22,6 +22,8 @@ public interface CustomerService {
 
      Customer GetCustomerByToken(String token);
 
+     Customer GetCustomerByPhone(String phone);
+
      List<Child> GetChild(String CustomerID);
 
      int updateChild(Customer customer);
@@ -41,5 +43,7 @@ public interface CustomerService {
     int CheckPhone(String childId,String phone);
 
     int updateConfidantnumber(String id,String name,String phone);
+
+    int updateVipTime(Customer customer);
 
 }

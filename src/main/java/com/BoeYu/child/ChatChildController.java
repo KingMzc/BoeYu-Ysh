@@ -40,7 +40,7 @@ public class ChatChildController {
             return resultUti;
         }else{
             resultUti.setCode(0);
-            resultUti.setMsg("暂无记录!");
+              resultUti.setMsg("暂无记录!");
             return resultUti;
         }
     }
@@ -61,13 +61,12 @@ public class ChatChildController {
                 os.write(buffer, 0, count);
                 os.flush();
             }
-
         } catch (Exception e) {
             e.printStackTrace();
         }
         try {
             fis.close();
-            os.close( );
+            os.close();
         } catch (IOException e) {
             e.printStackTrace();
         }

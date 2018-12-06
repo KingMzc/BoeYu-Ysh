@@ -370,7 +370,7 @@
     select
     count(1)
     from child
-    where id = #{0}
+    where android = #{0}
   </select>
   <select id="CheckChildByPhone" resultType="java.lang.Integer">
     select
@@ -410,27 +410,48 @@
     update child
     set
       token = #{token,jdbcType=VARCHAR}
-    where id = #{id,jdbcType=INTEGER}
+    where android = #{android,jdbcType=VARCHAR}
   </update>
 
   <update id="updateSex" parameterType="com.BoeYu.pojo.Child">
     update child
     set
       sex = #{sex,jdbcType=CHAR}
-    where id = #{id,jdbcType=INTEGER}
+    where android = #{android,jdbcType=VARCHAR}
+  </update>
+
+  <update id="updateName" parameterType="com.BoeYu.pojo.Child">
+    update child
+    set
+      name = #{name,jdbcType=VARCHAR}
+    where android = #{android,jdbcType=VARCHAR}
   </update>
 
   <update id="updateYears" parameterType="com.BoeYu.pojo.Child">
     update child
     set
       years = #{years,jdbcType=TIMESTAMP}
-    where id = #{id,jdbcType=INTEGER}
+    where android = #{android,jdbcType=VARCHAR}
   </update>
 
   <update id="updateFlag" >
     update child
     set
       flag = #{1}
-    where id = #{0}
+    where android = #{0}
   </update>
+
+  <select id="CheckCustomerBinding" resultType="java.lang.Integer">
+    select
+    count(1)
+    from child
+    where fk_customer_id = #{0}
+  </select>
+
+  <select id="selectByAndroid"  resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from child
+    where android = #{0}
+  </select>
 </mapper>

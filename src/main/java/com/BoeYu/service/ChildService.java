@@ -16,6 +16,8 @@ public interface ChildService {
 
     Child GetChildByAndroid(String android);
 
+    int updateName(Child child);
+
     int updateSex(Child child);
 
     int updateYears(Child child);
@@ -24,10 +26,14 @@ public interface ChildService {
 
     Child selectByPrimaryKey(Integer id);
 
+    Child selectByAndroid(String android);
+
     int insertCoordinate(Child child, String coordinate);
 
     List<Confidantnumber> SelectConfidantnumber(String ChildId);
 
+    int selectChildBinding(String android);
 
+    int addChild(Child child);
 
 }

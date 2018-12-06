@@ -295,7 +295,7 @@
   <select id="ShowLockTime"  resultType="java.lang.String">
     select
     times
-    from times where fk_child_id=#{0} and week=#{1} and type=#{2} and flag=#{3}
+    from times where fk_child_id=#{0} and week=#{1} and type=#{2} and flag=#{3} limit 1
   </select>
 
   <select id="CheckCheckRemindTime" resultType="java.lang.Integer">
@@ -322,7 +322,7 @@
 
   <select id="GetEyeRemindTime"  resultMap="BaseResultMap">
     select
-    startetime, endtime,
+    startetime, endtime
     from times where fk_child_id=#{0} and type='3'
   </select>
 </mapper>

@@ -20,6 +20,8 @@ public interface ChildMapper {
 
     Child selectByPrimaryKey(Integer id);
 
+    Child selectByAndroid(String android);
+
     int updateByExampleSelective(@Param("record") Child record, @Param("example") ChildExample example);
 
     int updateByExample(@Param("record") Child record, @Param("example") ChildExample example);
@@ -28,7 +30,7 @@ public interface ChildMapper {
 
     int updateByPrimaryKey(Child record);
 
-    int CheckChild(String childId);
+    int CheckChild(String android);
 
     int LockChild(Child record);
 
@@ -42,11 +44,15 @@ public interface ChildMapper {
 
     Child GetChildByAndroid(String android);
 
+    int updateName(Child record);
+
     int updateSex(Child record);
 
     int updateYears(Child record);
 
     int updateFlag(Integer id,String flag);
+
+    int CheckCustomerBinding(String phone);
 
 
 }

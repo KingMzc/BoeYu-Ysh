@@ -55,6 +55,7 @@
 		<table schema="" tableName="child"></table>
 		<table schema="" tableName="family"></table>-->
 		<!--<table schema="" tableName="safe_url"></table>-->
-		<table schema="" tableName="Confidantnumber"></table>
+		<!--<table schema="" tableName="Confidantnumber"></table>-->
+		<table schema="" tableName="app_record"></table>
 	</context>
 </generatorConfiguration>

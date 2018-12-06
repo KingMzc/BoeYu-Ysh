@@ -409,7 +409,7 @@
     update customer
     set
       token = #{token,jdbcType=VARCHAR}
-    where id = #{id,jdbcType=BIGINT}
+    where phone = #{phone,jdbcType=VARCHAR}
   </update>
 
   <select id="GetCustomerByToken"  resultMap="BaseResultMap">
@@ -422,12 +422,26 @@
     update customer
     set
       fk_family_id = #{fkFamilyId,jdbcType=VARCHAR}
-    where id = #{id,jdbcType=BIGINT}
+    where phone = #{phone,jdbcType=VARCHAR}
   </update>
   <update id="updateName" parameterType="com.BoeYu.pojo.Customer">
     update customer
     set
       nickname = #{nickname,jdbcType=VARCHAR}
-    where id = #{id,jdbcType=BIGINT}
+    where phone = #{phone,jdbcType=VARCHAR}
   </update>
+
+  <update id="updateVipTime" parameterType="com.BoeYu.pojo.Customer">
+    update customer
+    set
+      vip_time = #{vipTime,jdbcType=TIMESTAMP}
+    where phone = #{phone,jdbcType=VARCHAR}
+  </update>
+
+  <select id="GetCustomerByPhone"  resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from customer
+    where phone = #{0}
+  </select>
 </mapper>

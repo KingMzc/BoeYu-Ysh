@@ -8,9 +8,12 @@ import com.BoeYu.service.CustomerService;
 import com.BoeYu.util.ResultUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.ws.rs.PathParam;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -43,6 +46,29 @@ public class InfoController {
         return resultUti;
     }
 
+    @RequestMapping("/UpdateChildName")
+    @ResponseBody
+    public ResultUtil UpdateChildName(String token, String name) {
+        ResultUtil resultUti = new ResultUtil();
+        if(CheckToken(token)==false){
+            resultUti.setCode(1);
+            resultUti.setMsg("登录身份过期请重新登录!");
+            return resultUti;
+        }
+        Customer customer=GetCustomer(token);
+        Child child =childService.selectByAndroid(customer.getFkFamilyId());
+        child.setName(name);
+        int flag = childService.updateName(child);
+        if (flag>0){
+            resultUti.setCode(0);
+            resultUti.setMsg("修改成功");
+        }else {
+            resultUti.setCode(1);
+            resultUti.setMsg("修改失败");
+        }
+        return resultUti;
+    }
+
     @RequestMapping("/UpdateChildSex")
     @ResponseBody
     public ResultUtil UpdateChildSex(String token, String sex) {
@@ -53,7 +79,7 @@ public class InfoController {
             return resultUti;
         }
         Customer customer=GetCustomer(token);
-        Child child =childService.selectByPrimaryKey(Integer.valueOf(customer.getFkFamilyId()));
+        Child child =childService.selectByAndroid(customer.getFkFamilyId());
         child.setSex(sex);
         int flag = childService.updateSex(child);
         if (flag>0){
@@ -78,7 +104,7 @@ public class InfoController {
             return resultUti;
         }
         Customer customer=GetCustomer(token);
-        Child child =childService.selectByPrimaryKey(Integer.valueOf(customer.getFkFamilyId()));
+        Child child =childService.selectByAndroid(customer.getFkFamilyId());
         child.setYears(years);
         int flag = childService.updateYears(child);
         if (flag>0){
@@ -177,6 +203,69 @@ public class InfoController {
         }
         return resultUti;
     }
+    @RequestMapping("/FreeVip")
+    @ResponseBody
+    public ResultUtil FreeVip(String token) {
+        ResultUtil resultUti = new ResultUtil();
+        Customer customer = GetCustomer(token);
+        Calendar c = Calendar.getInstance();
+        Date date =new Date();
+        if(customer.getVipTime()==null||customer.getVipTime().equals("")){
+            c.setTime(date);
+        }else{
+            c.setTime(customer.getVipTime());
+        }
+        c.add(Calendar.DAY_OF_MONTH, 3);
+        customer.setVipTime(c.getTime());
+        int flag = customerService.updateVipTime(customer);
+        if(flag>0){
+            resultUti.setCode(0);
+            resultUti.setMsg("Vip领取成功");
+        }else{
+            resultUti.setCode(1);
+            resultUti.setMsg("Vip领取失败");
+        }
+        return resultUti;
+    }
+
+    @RequestMapping("/FreeVip/{phone}")
+    @ResponseBody
+    public ResultUtil FreeVipT( String token, @PathVariable String phone) {
+        ResultUtil resultUti = new ResultUtil();
+        Customer vipcustomer = customerService.GetCustomerByPhone(phone);
+        if(vipcustomer.getVip().equals("0")||vipcustomer.getVip()==null){
+            resultUti.setCode(1);
+            resultUti.setMsg("Vip领取失败");
+        }
+        Customer customer = GetCustomer(token);
+        Calendar c = Calendar.getInstance();
+        Date date =new Date();
+        if(customer.getVipTime()==null||customer.getVipTime().equals("")){
+            c.setTime(date);
+        }else{
+            c.setTime(customer.getVipTime());
+        }
+        c.add(Calendar.DAY_OF_MONTH, 7);
+        customer.setVipTime(c.getTime());
+        int flag = customerService.updateVipTime(customer);
+        if(flag>0){
+            c.setTime(vipcustomer.getVipTime());
+            c.add(Calendar.DAY_OF_MONTH, 7);
+            vipcustomer.setVipTime(c.getTime());
+            int flagt = customerService.updateVipTime(vipcustomer);
+            if(flagt>0){
+                resultUti.setCode(0);
+                resultUti.setMsg("Vip领取成功");
+            }else{
+                resultUti.setCode(1);
+                resultUti.setMsg("Vip领取失败");
+            }
+        }else{
+            resultUti.setCode(1);
+            resultUti.setMsg("Vip领取失败");
+        }
+        return resultUti;
+    }
 
     public Customer GetCustomer(String token){
         Customer customer = customerService.GetCustomerByToken(token);
@@ -191,4 +280,6 @@ public class InfoController {
         }
         return check;
     }
+
+
 }

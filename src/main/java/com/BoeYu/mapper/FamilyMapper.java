@@ -32,5 +32,7 @@ public interface FamilyMapper {
 
     int CheckChildIsCustomer(String CustomerId,String ChildId);
 
+    int selectChildBinding(String android);
+
 
 }

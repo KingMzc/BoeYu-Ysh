@@ -1,7 +1,9 @@
 package com.BoeYu.parent;
 
+import com.BoeYu.pojo.AppRecord;
 import com.BoeYu.pojo.Customer;
 import com.BoeYu.pojo.Times;
+import com.BoeYu.service.AppTypeService;
 import com.BoeYu.service.CustomerService;
 import com.BoeYu.service.TimeService;
 import com.BoeYu.util.ResultUtil;
@@ -19,6 +21,8 @@ public class LockController {
     private TimeService timeService;
     @Autowired
     private CustomerService customerService;
+    @Autowired
+    private AppTypeService appTypeService;
     @RequestMapping("/SetLockTime")
     @ResponseBody
     public ResultUtil LockChild( String token,String times,String childId,String week,String type,String flag){
@@ -102,7 +106,6 @@ public class LockController {
             return resultUti;
         }
         Customer customer = GetCustomer(token);
-
         if(timeService.CheckRemindTime(customer.getFkFamilyId())>0){
             Times times = timeService.GetRemindTime(customer.getFkFamilyId());
             int flag = timeService.updateRemindTime(times.getId(),remindtime,resttime);
@@ -128,6 +131,51 @@ public class LockController {
             }
         }
     }
+
+    @RequestMapping("/GetAppType")
+    @ResponseBody
+    public ResultUtil GetAppType(String token){
+        ResultUtil resultUti = new ResultUtil();
+        if(CheckToken(token)==false){
+            resultUti.setCode(1);
+            resultUti.setMsg("登录身份过期请重新登录!");
+            return resultUti;
+        }
+        Customer customer = GetCustomer(token);
+        List<AppRecord> list =appTypeService.GetAppType(customer.getFkFamilyId());
+        if(list.size()>0){
+            resultUti.setCode(0);
+            resultUti.setMsg("查询成功");
+            resultUti.setData(list);
+            return resultUti;
+        }else{
+            resultUti.setCode(1);
+            resultUti.setMsg("暂无数据");
+            return resultUti;
+        }
+    }
+
+    @RequestMapping("/updateAppType")
+    @ResponseBody
+    public ResultUtil updateAppType(String token,String id,String type){
+        ResultUtil resultUti = new ResultUtil();
+        if(CheckToken(token)==false){
+            resultUti.setCode(1);
+            resultUti.setMsg("登录身份过期请重新登录!");
+            return resultUti;
+        }
+        int flag = appTypeService.updateAppType(id,type);
+        if(flag>0){
+            resultUti.setCode(0);
+            resultUti.setMsg("修改成功");
+            return resultUti;
+        }else{
+            resultUti.setCode(1);
+            resultUti.setMsg("修改失败");
+            return resultUti;
+        }
+    }
+
     public List<Integer> GetTimes(String times){
         String time = times.replace(" ","");
         String[] datas = time.split(",");

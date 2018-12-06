@@ -69,8 +69,10 @@ public class TimeServiceImpl implements TimeService {
     public Map<String,String> GetEyeRemindTime(String childId) {
         List<Times> list = timesMapper.GetEyeRemindTime(childId);
         Map<String,String> map = new HashMap<String,String>();
-        map.put("RemindTime",list.get(0).getStartetime());
-        map.put("RestTime",list.get(0).getEndtime());
+        if(list.size()>0){
+            map.put("RemindTime",list.get(0).getStartetime());
+            map.put("RestTime",list.get(0).getEndtime());
+        }
         return map;
     }
 
