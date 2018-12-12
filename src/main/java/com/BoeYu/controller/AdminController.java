@@ -2,7 +2,9 @@ package com.BoeYu.controller;
 
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletRequest;
@@ -11,10 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.BoeYu.annotation.SysLog;
 import com.BoeYu.pojo.*;
 import com.BoeYu.service.LogService;
-import com.BoeYu.util.JsonUtils;
-import com.BoeYu.util.RRException;
-import com.BoeYu.util.ResultUtil;
-import com.BoeYu.util.ShiroUtils;
+import com.BoeYu.util.*;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.shiro.SecurityUtils;
@@ -55,6 +54,30 @@ public class AdminController {
 	public String test(HttpServletRequest req) {
 		req.setAttribute("customerid",req.getSession().getAttribute("customerid"));
 		return "page/websocket/index";
+	}
+	@RequestMapping("/testpptx")
+	public String testpptx(HttpServletRequest req) {
+		return "page/websocket/pptx";
+	}
+
+	@RequestMapping("/testppt")
+	public String testppt(HttpServletRequest req,String fname) {
+		String url=fname;
+		String iurl="C:/Users/Admin/Desktop/DOME/";
+		//req.setAttribute("customerid",req.getSession().getAttribute("customerid"));
+		String [] ppt = url.split("\\.");
+		Map<String,Object>  map = new HashMap<String,Object>();
+		if(ppt[1].length()>3){
+			map=PPTUtil.converPPTXtoImage(url,iurl,"gif");
+		}else{
+			map=PPTUtil.converPPTtoImage(url,iurl,"gif");
+		}
+		if ((Boolean)map.get("converReturnResult")==true){
+			req.setAttribute("imgNames", map.get("imgNames"));
+		}else{
+			req.setAttribute("imgNames", "解析失败");
+		}
+		return "page/websocket/ppt";
 	}
 	@RequestMapping("/index")
 	public String index(HttpServletRequest req) {

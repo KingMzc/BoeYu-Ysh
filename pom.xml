@@ -19,6 +19,13 @@
 		<kaptcha.version>2.3.2</kaptcha.version>
 	</properties>
 	<dependencies>
+		<!-- poi -->
+		<dependency>
+			<groupId>org.apache.poi</groupId>
+			<artifactId>poi-ooxml</artifactId>
+			<version>4.0.1</version>
+		</dependency>
+
 		<!-- spring -->
 		<dependency>
 			<groupId>org.springframework</groupId>

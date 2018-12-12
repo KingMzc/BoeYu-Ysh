@@ -90,7 +90,42 @@ public class FileController {
 		}
 		return "ok";
 	}
-	
+
+	/**
+	 * 本地图片回显
+	 *
+
+	 * @param response
+	 * @return
+	 */
+	@RequestMapping(value = "/showPPT")
+	@ResponseBody
+	public String showPPT(String fileName, HttpServletResponse response) {
+		// String fileName="4d857472b93b4b9bb04d65f1506b2a329707.jpeg";
+		FileInputStream fis = null;
+		OutputStream os = null;
+		try {
+			//图片的本地全路径
+			fis = new FileInputStream("C:/Users/Admin/Desktop/DOME/"+ fileName);
+			os = response.getOutputStream();
+			int count = 0;
+			byte[] buffer = new byte[1024 * 8];
+			while ((count = fis.read(buffer)) != -1) {
+				os.write(buffer, 0, count);
+				os.flush();
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		try {
+			fis.close();
+			os.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return "ok";
+	}
+
 	/**
 	 * 处理文件下载
 	 * @param request

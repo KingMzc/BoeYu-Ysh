@@ -137,12 +137,11 @@ public class TimeServiceImpl implements TimeService {
     }
 
     @Override
-    public int updateRegionTime(String childId, String meter, String startTime, String endTime, String week, String name, String timeId) {
+    public int updateRegionTime( String childId,String meter,String startTime,String endTime,String week,String name,String timeId) {
         Times times = new Times();
         times.setId(Integer.valueOf(timeId));
         times.setStartetime(startTime);
         times.setEndtime(endTime);
-        times.setWeek(week);
         times.setFlag(name);
         times.setTimes(meter);
         return 0;
@@ -166,28 +165,34 @@ public class TimeServiceImpl implements TimeService {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        List<Times> times=timesMapper.CheckRegion(android,week);
-        if(times.size()>0){
-            for(int i =0;i<times.size();i++){
-                if(Integer.valueOf(times.get(i).getStartetime())<=hour && Integer.valueOf(times.get(i).getEndtime())>hour){
-                    String [] materandcoordinate = times.get(i).getTimes().split("-");
-                    mater=materandcoordinate[0];
-                    Regioncoordinate=materandcoordinate[1];
-                    hav=1;
-                    break;
-                }
+        List<Times> time=timesMapper.CheckRegion(android,week);
+        List<Times> times = new ArrayList<Times>();
+        if(time.size()>0){
+            for(int i =0;i<time.size();i++){
+
             }
-            if (hav>0){
-                String [] coordinateyzb = coordinate.split(",");
-                String [] coordinateezb = Regioncoordinate.split(",");
-                double jlmater = MapUtil.getDistance(
-                        Double.parseDouble(coordinateyzb[0]),
-                        Double.parseDouble(coordinateyzb[1]),
-                        Double.parseDouble(coordinateezb[0]),
-                        Double.parseDouble(coordinateezb[1]));
-                if (Integer.valueOf(mater)<jlmater){
-                    System.out.println("孩子已经跑了~~报警开始~~~~~~~");
-                    flag=1;
+            if(times.size()>0){
+                for(int i =0;i<times.size();i++){
+                    if(Integer.valueOf(times.get(i).getStartetime())<=hour && Integer.valueOf(times.get(i).getEndtime())>hour){
+                        String [] materandcoordinate = times.get(i).getTimes().split("-");
+                        mater=materandcoordinate[0];
+                        Regioncoordinate=materandcoordinate[1];
+                        hav=1;
+                        break;
+                    }
+                }
+                if (hav>0){
+                    String [] coordinateyzb = coordinate.split(",");
+                    String [] coordinateezb = Regioncoordinate.split(",");
+                    double jlmater = MapUtil.getDistance(
+                            Double.parseDouble(coordinateyzb[0]),
+                            Double.parseDouble(coordinateyzb[1]),
+                            Double.parseDouble(coordinateezb[0]),
+                            Double.parseDouble(coordinateezb[1]));
+                    if (Integer.valueOf(mater)<jlmater){
+                        System.out.println("孩子已经跑了~~报警开始~~~~~~~");
+                        flag=1;
+                    }
                 }
             }
         }

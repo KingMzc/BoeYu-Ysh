@@ -218,4 +218,23 @@ public class DateUtil {
         int hour=Integer.valueOf(df.format(date).substring(11,13));
         return hour;
     }
+//判断时间区间是不是重复
+    public static boolean pdycsjcd(String time,String time1,String time2,String time3){
+        int res=time.compareTo(time2);
+        int res1=time2.compareTo(time1);
+        int res2=time.compareTo(time3);
+        int res3=time3.compareTo(time1);
+        int res4=time.compareTo(time2);
+        int res5=time1.compareTo(time3);
+        if((res<0&&res1<0)||(res2<0&&res3<0)){
+            return false;
+        }else{
+            if(res4==0&&res5==0){
+                return false;
+            }else{
+                return true;
+            }
+        }
+
+    }
 }

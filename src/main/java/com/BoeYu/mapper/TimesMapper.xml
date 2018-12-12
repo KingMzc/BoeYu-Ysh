@@ -3,7 +3,7 @@
 <mapper namespace="com.BoeYu.mapper.TimesMapper">
   <resultMap id="BaseResultMap" type="com.BoeYu.pojo.Times">
     <id column="id" jdbcType="INTEGER" property="id" />
-    <result column="week" jdbcType="CHAR" property="week" />
+    <result column="week" jdbcType="VARCHAR" property="week" />
     <result column="startetime" jdbcType="VARCHAR" property="startetime" />
     <result column="endtime" jdbcType="VARCHAR" property="endtime" />
     <result column="type" jdbcType="VARCHAR" property="type" />
@@ -108,7 +108,7 @@
       endtime, type, fk_child_id, 
       create_time, times, flag
       )
-    values (#{id,jdbcType=INTEGER}, #{week,jdbcType=CHAR}, #{startetime,jdbcType=VARCHAR}, 
+    values (#{id,jdbcType=INTEGER}, #{week,jdbcType=VARCHAR}, #{startetime,jdbcType=VARCHAR},
       #{endtime,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, #{fkChildId,jdbcType=VARCHAR}, 
       #{createTime,jdbcType=TIMESTAMP}, #{times,jdbcType=VARCHAR}, #{flag,jdbcType=VARCHAR}
       )
@@ -149,7 +149,7 @@
         #{id,jdbcType=INTEGER},
       </if>
       <if test="week != null">
-        #{week,jdbcType=CHAR},
+        #{week,jdbcType=VARCHAR},
       </if>
       <if test="startetime != null">
         #{startetime,jdbcType=VARCHAR},
@@ -187,7 +187,7 @@
         id = #{record.id,jdbcType=INTEGER},
       </if>
       <if test="record.week != null">
-        week = #{record.week,jdbcType=CHAR},
+        week = #{record.week,jdbcType=VARCHAR},
       </if>
       <if test="record.startetime != null">
         startetime = #{record.startetime,jdbcType=VARCHAR},
@@ -218,7 +218,7 @@
   <update id="updateByExample" parameterType="map">
     update times
     set id = #{record.id,jdbcType=INTEGER},
-      week = #{record.week,jdbcType=CHAR},
+      week = #{record.week,jdbcType=VARCHAR},
       startetime = #{record.startetime,jdbcType=VARCHAR},
       endtime = #{record.endtime,jdbcType=VARCHAR},
       type = #{record.type,jdbcType=VARCHAR},
@@ -234,7 +234,7 @@
     update times
     <set>
       <if test="week != null">
-        week = #{week,jdbcType=CHAR},
+        week = #{week,jdbcType=VARCHAR},
       </if>
       <if test="startetime != null">
         startetime = #{startetime,jdbcType=VARCHAR},
@@ -262,7 +262,7 @@
   </update>
   <update id="updateByPrimaryKey" parameterType="com.BoeYu.pojo.Times">
     update times
-    set week = #{week,jdbcType=CHAR},
+    set week = #{week,jdbcType=VARCHAR},
       startetime = #{startetime,jdbcType=VARCHAR},
       endtime = #{endtime,jdbcType=VARCHAR},
       type = #{type,jdbcType=VARCHAR},
@@ -350,7 +350,7 @@
 
   <update id="updateRegionTime" parameterType="com.BoeYu.pojo.Times">
     update times
-    set week = #{week,jdbcType=CHAR},
+    set
       startetime = #{startetime,jdbcType=VARCHAR},
       endtime = #{endtime,jdbcType=VARCHAR},
       times = #{times,jdbcType=VARCHAR},

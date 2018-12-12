@@ -4,6 +4,7 @@ import com.BoeYu.pojo.*;
 import com.BoeYu.service.ChildService;
 import com.BoeYu.service.CustomerService;
 import com.BoeYu.service.TimeService;
+import com.BoeYu.util.DateUtil;
 import com.BoeYu.util.ResultUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -151,6 +152,16 @@ public class InfoController {
             resultUti.setMsg("登录身份过期请重新登录!");
             return resultUti;
         }
+        if(name.equals("undefined")||name==null){
+            resultUti.setCode(1);
+            resultUti.setMsg("姓名不能为空!");
+            return resultUti;
+        }
+        if(phone.equals("undefined")||phone==null){
+            resultUti.setCode(1);
+            resultUti.setMsg("手机号码不能为空!");
+            return resultUti;
+        }
         Customer customer=GetCustomer(token);
         if (customerService.CheckPhone(customer.getFkFamilyId(),phone)>0){
             resultUti.setCode(1);
@@ -174,6 +185,22 @@ public class InfoController {
         if(CheckToken(token)==false){
             resultUti.setCode(1);
             resultUti.setMsg("登录身份过期请重新登录!");
+            return resultUti;
+        }
+        if(id.equals("undefined")||id==null){
+            resultUti.setCode(1);
+            resultUti.setMsg("ID不能为空!");
+            return resultUti;
+        }
+        if(name.equals("undefined")||name==null){
+            resultUti.setCode(1);
+            resultUti.setMsg("姓名不能为空!");
+            return resultUti;
+        }
+
+        if(phone.equals("undefined")||phone==null){
+            resultUti.setCode(1);
+            resultUti.setMsg("手机号码不能为空!");
             return resultUti;
         }
         int flag = customerService.updateConfidantnumber(id,name,phone);
@@ -381,6 +408,22 @@ public class InfoController {
             return resultUti;
         }
         Customer customer = GetCustomer(token);
+        List<Times> times=timeService.GetRegionTime(customer.getFkFamilyId());
+        boolean res=true;
+        if (times.size()>0){
+            for(int i=0;i<times.size();i++){
+                res = DateUtil.pdycsjcd(startTime,endTime,times.get(i).getStartetime(),times.get(i).getEndtime());
+                if(res==false){
+                    res=false;
+                    break;
+                }
+            }
+        }
+        if(res==false){
+            resultUti.setCode(1);
+            resultUti.setMsg("区域时间重复！");
+            return resultUti;
+        }
         if(timeId.equals("")||timeId==null){
             int flag= timeService.addRegionTime(customer.getFkFamilyId(),meter,startTime,endTime,week,name);
             if(flag>0){
@@ -391,7 +434,14 @@ public class InfoController {
                 resultUti.setMsg("区域范围添加失败");
             }
         }else{
-            System.out.println("xiugai "+timeId);
+            int flag= timeService.updateRegionTime(customer.getFkFamilyId(),meter,startTime,endTime,week,name,timeId);
+            if(flag>0){
+                resultUti.setCode(0);
+                resultUti.setMsg("区域范围修改成功");
+            }else{
+                resultUti.setCode(1);
+                resultUti.setMsg("区域范围修改失败");
+            }
         }
 
         return resultUti;
