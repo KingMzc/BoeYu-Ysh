@@ -6,14 +6,15 @@ import com.BoeYu.pojo.Customer;
 import com.BoeYu.pojo.SafeUrl;
 import com.BoeYu.service.ChildService;
 import com.BoeYu.service.SafeUrlService;
+import com.BoeYu.service.TimeService;
 import com.BoeYu.util.ResultUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 
 @Controller
@@ -23,13 +24,22 @@ public class InfoChildController {
     private ChildService childService;
     @Autowired
     private SafeUrlService safeUrlService;
+    @Autowired
+    private TimeService timeService;
     @RequestMapping("/Coordinate")
     @ResponseBody
     public ResultUtil Coordinate(String android, String coordinate) {
         ResultUtil resultUti = new ResultUtil();
         Child child =GetChild(android);
         int flag = childService.insertCoordinate(child,coordinate);
+        //判断 是不是安全范围
+
         if (flag>0){
+           if(timeService.CheckRegion(android,coordinate)>0){
+               Map<String,String> map =new HashMap<String,String>();
+               map.put("msg","孩子已经逃跑~~~请抓回！！！！！！！");
+               resultUti.setData(map);
+           }
             resultUti.setCode(0);
             resultUti.setMsg("新增成功");
             return resultUti;
@@ -83,6 +93,7 @@ public class InfoChildController {
             return resultUti;
         }
     }
+
 
     public Child GetChild(String android){
         Child child =childService.GetChildByAndroid(android);

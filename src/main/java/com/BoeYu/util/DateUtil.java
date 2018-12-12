@@ -201,4 +201,21 @@ public class DateUtil {
         if (seconds > 0) showtime += seconds + "秒";
         return showtime;
     }
+
+    public static String dateToWeekday(Date changeDate) throws Exception {
+        String[] weekdays = { "7", "1", "2", "3", "4", "5", "6" };
+        if(changeDate == null) {
+            throw new Exception("传入时间为Null");
+        }
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(changeDate);
+        int numOfWeek = cal.get(Calendar.DAY_OF_WEEK) - 1;
+        return weekdays[numOfWeek];
+    }
+//  获取时间的 小时
+    public static int datehour(Date date) throws Exception {
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        int hour=Integer.valueOf(df.format(date).substring(11,13));
+        return hour;
+    }
 }

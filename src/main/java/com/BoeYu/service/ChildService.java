@@ -36,4 +36,8 @@ public interface ChildService {
 
     int addChild(Child child);
 
+    int deleteChild(Child child);
+
+
+
 }

@@ -33,4 +33,6 @@ public interface ConfidantnumberMapper {
     int updateById(Confidantnumber record);
 
     List<Confidantnumber> selectConfidantnumber(String ChildId);
+
+    int deleteChild(String android);
 }

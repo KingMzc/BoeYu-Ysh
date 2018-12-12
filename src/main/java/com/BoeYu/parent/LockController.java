@@ -132,6 +132,27 @@ public class LockController {
         }
     }
 
+    @RequestMapping("/DeleteEyeRemind")
+    @ResponseBody
+    public ResultUtil DeleteEyeRemind(String token){
+        ResultUtil resultUti = new ResultUtil();
+        if(CheckToken(token)==false){
+            resultUti.setCode(1);
+            resultUti.setMsg("登录身份过期请重新登录!");
+            return resultUti;
+        }
+        Customer customer = GetCustomer(token);
+        int flag = timeService.deleteRemindTime(customer.getFkFamilyId());
+        if(flag>0){
+            resultUti.setCode(0);
+            resultUti.setMsg("护眼提醒关闭成功!");
+        }else{
+            resultUti.setCode(1);
+            resultUti.setMsg("护眼提醒关闭失败!");
+        }
+        return resultUti;
+    }
+
     @RequestMapping("/GetAppType")
     @ResponseBody
     public ResultUtil GetAppType(String token){

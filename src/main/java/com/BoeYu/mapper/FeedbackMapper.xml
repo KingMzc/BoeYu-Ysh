@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.BoeYu.mapper.ChatMapper">
-  <resultMap id="BaseResultMap" type="com.BoeYu.pojo.Chat">
+<mapper namespace="com.BoeYu.mapper.FeedbackMapper">
+  <resultMap id="BaseResultMap" type="com.BoeYu.pojo.Feedback">
     <id column="id" jdbcType="INTEGER" property="id" />
-    <result column="send_id" jdbcType="VARCHAR" property="sendId" />
-    <result column="to_id" jdbcType="VARCHAR" property="toId" />
-    <result column="chat_msg" jdbcType="VARCHAR" property="chatMsg" />
-    <result column="chattype" jdbcType="CHAR" property="chattype" />
+    <result column="content" jdbcType="VARCHAR" property="content" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
-    <result column="isread" jdbcType="CHAR" property="isread" />
+    <result column="fk_customer_id" jdbcType="VARCHAR" property="fkCustomerId" />
+    <result column="type" jdbcType="CHAR" property="type" />
+    <result column="updatetime" jdbcType="TIMESTAMP" property="updatetime" />
+    <result column="admin_id" jdbcType="VARCHAR" property="adminId" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -69,15 +69,15 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, send_id, to_id, chat_msg, chattype, create_time, isread
+    id, content, create_time, fk_customer_id, type, updatetime, admin_id
   </sql>
-  <select id="selectByExample" parameterType="com.BoeYu.pojo.ChatExample" resultMap="BaseResultMap">
+  <select id="selectByExample" parameterType="com.BoeYu.pojo.FeedbackExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from chat
+    from feedback
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
@@ -88,105 +88,105 @@
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from chat
+    from feedback
     where id = #{id,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-    delete from chat
+    delete from feedback
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <delete id="deleteByExample" parameterType="com.BoeYu.pojo.ChatExample">
-    delete from chat
+  <delete id="deleteByExample" parameterType="com.BoeYu.pojo.FeedbackExample">
+    delete from feedback
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.BoeYu.pojo.Chat">
-    insert into chat (id, send_id, to_id, 
-      chat_msg, chattype, create_time, 
-      isread)
-    values (#{id,jdbcType=INTEGER}, #{sendId,jdbcType=VARCHAR}, #{toId,jdbcType=VARCHAR}, 
-      #{chatMsg,jdbcType=VARCHAR}, #{chattype,jdbcType=CHAR}, #{createTime,jdbcType=TIMESTAMP}, 
-      #{isread,jdbcType=CHAR})
+  <insert id="insert" parameterType="com.BoeYu.pojo.Feedback">
+    insert into feedback (id, content, create_time, 
+      fk_customer_id, type, updatetime, 
+      admin_id)
+    values (#{id,jdbcType=INTEGER}, #{content,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{fkCustomerId,jdbcType=VARCHAR}, #{type,jdbcType=CHAR}, #{updatetime,jdbcType=TIMESTAMP}, 
+      #{adminId,jdbcType=VARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="com.BoeYu.pojo.Chat">
-    insert into chat
+  <insert id="insertSelective" parameterType="com.BoeYu.pojo.Feedback">
+    insert into feedback
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
         id,
       </if>
-      <if test="sendId != null">
-        send_id,
-      </if>
-      <if test="toId != null">
-        to_id,
-      </if>
-      <if test="chatMsg != null">
-        chat_msg,
-      </if>
-      <if test="chattype != null">
-        chattype,
+      <if test="content != null">
+        content,
       </if>
       <if test="createTime != null">
         create_time,
       </if>
-      <if test="isread != null">
-        isread,
+      <if test="fkCustomerId != null">
+        fk_customer_id,
+      </if>
+      <if test="type != null">
+        type,
+      </if>
+      <if test="updatetime != null">
+        updatetime,
+      </if>
+      <if test="adminId != null">
+        admin_id,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
         #{id,jdbcType=INTEGER},
       </if>
-      <if test="sendId != null">
-        #{sendId,jdbcType=VARCHAR},
-      </if>
-      <if test="toId != null">
-        #{toId,jdbcType=VARCHAR},
-      </if>
-      <if test="chatMsg != null">
-        #{chatMsg,jdbcType=VARCHAR},
-      </if>
-      <if test="chattype != null">
-        #{chattype,jdbcType=CHAR},
+      <if test="content != null">
+        #{content,jdbcType=VARCHAR},
       </if>
       <if test="createTime != null">
         #{createTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="isread != null">
-        #{isread,jdbcType=CHAR},
+      <if test="fkCustomerId != null">
+        #{fkCustomerId,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null">
+        #{type,jdbcType=CHAR},
+      </if>
+      <if test="updatetime != null">
+        #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="adminId != null">
+        #{adminId,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="com.BoeYu.pojo.ChatExample" resultType="java.lang.Long">
-    select count(*) from chat
+  <select id="countByExample" parameterType="com.BoeYu.pojo.FeedbackExample" resultType="java.lang.Long">
+    select count(*) from feedback
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </select>
   <update id="updateByExampleSelective" parameterType="map">
-    update chat
+    update feedback
     <set>
       <if test="record.id != null">
         id = #{record.id,jdbcType=INTEGER},
       </if>
-      <if test="record.sendId != null">
-        send_id = #{record.sendId,jdbcType=VARCHAR},
-      </if>
-      <if test="record.toId != null">
-        to_id = #{record.toId,jdbcType=VARCHAR},
-      </if>
-      <if test="record.chatMsg != null">
-        chat_msg = #{record.chatMsg,jdbcType=VARCHAR},
-      </if>
-      <if test="record.chattype != null">
-        chattype = #{record.chattype,jdbcType=CHAR},
+      <if test="record.content != null">
+        content = #{record.content,jdbcType=VARCHAR},
       </if>
       <if test="record.createTime != null">
         create_time = #{record.createTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="record.isread != null">
-        isread = #{record.isread,jdbcType=CHAR},
+      <if test="record.fkCustomerId != null">
+        fk_customer_id = #{record.fkCustomerId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.type != null">
+        type = #{record.type,jdbcType=CHAR},
+      </if>
+      <if test="record.updatetime != null">
+        updatetime = #{record.updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.adminId != null">
+        admin_id = #{record.adminId,jdbcType=VARCHAR},
       </if>
     </set>
     <if test="_parameter != null">
@@ -194,69 +194,50 @@
     </if>
   </update>
   <update id="updateByExample" parameterType="map">
-    update chat
+    update feedback
     set id = #{record.id,jdbcType=INTEGER},
-      send_id = #{record.sendId,jdbcType=VARCHAR},
-      to_id = #{record.toId,jdbcType=VARCHAR},
-      chat_msg = #{record.chatMsg,jdbcType=VARCHAR},
-      chattype = #{record.chattype,jdbcType=CHAR},
+      content = #{record.content,jdbcType=VARCHAR},
       create_time = #{record.createTime,jdbcType=TIMESTAMP},
-      isread = #{record.isread,jdbcType=CHAR}
+      fk_customer_id = #{record.fkCustomerId,jdbcType=VARCHAR},
+      type = #{record.type,jdbcType=CHAR},
+      updatetime = #{record.updatetime,jdbcType=TIMESTAMP},
+      admin_id = #{record.adminId,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.BoeYu.pojo.Chat">
-    update chat
+  <update id="updateByPrimaryKeySelective" parameterType="com.BoeYu.pojo.Feedback">
+    update feedback
     <set>
-      <if test="sendId != null">
-        send_id = #{sendId,jdbcType=VARCHAR},
-      </if>
-      <if test="toId != null">
-        to_id = #{toId,jdbcType=VARCHAR},
-      </if>
-      <if test="chatMsg != null">
-        chat_msg = #{chatMsg,jdbcType=VARCHAR},
-      </if>
-      <if test="chattype != null">
-        chattype = #{chattype,jdbcType=CHAR},
+      <if test="content != null">
+        content = #{content,jdbcType=VARCHAR},
       </if>
       <if test="createTime != null">
         create_time = #{createTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="isread != null">
-        isread = #{isread,jdbcType=CHAR},
+      <if test="fkCustomerId != null">
+        fk_customer_id = #{fkCustomerId,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null">
+        type = #{type,jdbcType=CHAR},
+      </if>
+      <if test="updatetime != null">
+        updatetime = #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="adminId != null">
+        admin_id = #{adminId,jdbcType=VARCHAR},
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.BoeYu.pojo.Chat">
-    update chat
-    set send_id = #{sendId,jdbcType=VARCHAR},
-      to_id = #{toId,jdbcType=VARCHAR},
-      chat_msg = #{chatMsg,jdbcType=VARCHAR},
-      chattype = #{chattype,jdbcType=CHAR},
+  <update id="updateByPrimaryKey" parameterType="com.BoeYu.pojo.Feedback">
+    update feedback
+    set content = #{content,jdbcType=VARCHAR},
       create_time = #{createTime,jdbcType=TIMESTAMP},
-      isread = #{isread,jdbcType=CHAR}
+      fk_customer_id = #{fkCustomerId,jdbcType=VARCHAR},
+      type = #{type,jdbcType=CHAR},
+      updatetime = #{updatetime,jdbcType=TIMESTAMP},
+      admin_id = #{adminId,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
-
-  <select id="selectIsReadMsg"  resultMap="BaseResultMap">
-    select
-    <include refid="Base_Column_List" />
-    from chat
-    where to_id=#{0} and isread='0' and send_id=#{1}  order by create_time desc
-  </select>
-
-  <select id="selectReadImg"  resultMap="BaseResultMap">
-    select
-    <include refid="Base_Column_List" />
-    from chat
-    where to_id=#{0} and send_id=#{1} and chattype='3' order by create_time desc
-  </select>
-
-  <delete id="deleteChild" >
-    delete from chat
-    WHERE to_id=#{0} or send_id=#{0}
-  </delete>
 </mapper>

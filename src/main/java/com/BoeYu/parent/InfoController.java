@@ -1,10 +1,9 @@
 package com.BoeYu.parent;
 
-import com.BoeYu.pojo.Child;
-import com.BoeYu.pojo.Confidantnumber;
-import com.BoeYu.pojo.Customer;
+import com.BoeYu.pojo.*;
 import com.BoeYu.service.ChildService;
 import com.BoeYu.service.CustomerService;
+import com.BoeYu.service.TimeService;
 import com.BoeYu.util.ResultUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -24,6 +23,8 @@ public class InfoController {
     private CustomerService customerService;
     @Autowired
     private ChildService childService;
+    @Autowired
+    private TimeService timeService;
     @RequestMapping("/UpdateName")
     @ResponseBody
     public ResultUtil UpdateName(String token, String name) {
@@ -191,6 +192,11 @@ public class InfoController {
     @ResponseBody
     public ResultUtil SelectConfidantnumber(String token) {
         ResultUtil resultUti = new ResultUtil();
+        if(CheckToken(token)==false){
+            resultUti.setCode(1);
+            resultUti.setMsg("登录身份过期请重新登录!");
+            return resultUti;
+        }
         Customer customer=GetCustomer(token);
         List<Confidantnumber> list =childService.SelectConfidantnumber(customer.getFkFamilyId());
         if(list.size()>0){
@@ -207,6 +213,11 @@ public class InfoController {
     @ResponseBody
     public ResultUtil FreeVip(String token) {
         ResultUtil resultUti = new ResultUtil();
+        if(CheckToken(token)==false){
+            resultUti.setCode(1);
+            resultUti.setMsg("登录身份过期请重新登录!");
+            return resultUti;
+        }
         Customer customer = GetCustomer(token);
         Calendar c = Calendar.getInstance();
         Date date =new Date();
@@ -232,6 +243,11 @@ public class InfoController {
     @ResponseBody
     public ResultUtil FreeVipT( String token, @PathVariable String phone) {
         ResultUtil resultUti = new ResultUtil();
+        if(CheckToken(token)==false){
+            resultUti.setCode(1);
+            resultUti.setMsg("登录身份过期请重新登录!");
+            return resultUti;
+        }
         Customer vipcustomer = customerService.GetCustomerByPhone(phone);
         if(vipcustomer.getVip().equals("0")||vipcustomer.getVip()==null){
             resultUti.setCode(1);
@@ -266,6 +282,123 @@ public class InfoController {
         }
         return resultUti;
     }
+
+    @RequestMapping("/SelectVip")
+    @ResponseBody
+    public ResultUtil SelectVip(String token) {
+        ResultUtil resultUti = new ResultUtil();
+        if(CheckToken(token)==false){
+            resultUti.setCode(1);
+            resultUti.setMsg("登录身份过期请重新登录!");
+            return resultUti;
+        }
+        List<Vip> vip = customerService.GetVipList();
+        if(vip.size()>0){
+            resultUti.setCode(0);
+            resultUti.setMsg("查询成功");
+            resultUti.setData(vip);
+        }else{
+            resultUti.setCode(1);
+            resultUti.setMsg("暂无数据");
+        }
+        return resultUti;
+    }
+
+    @RequestMapping("/Feedback")
+    @ResponseBody
+    public ResultUtil Feedback(String token,String content) {
+        ResultUtil resultUti = new ResultUtil();
+        if(CheckToken(token)==false){
+            resultUti.setCode(1);
+            resultUti.setMsg("登录身份过期请重新登录!");
+            return resultUti;
+        }
+        Customer customer = GetCustomer(token);
+        Feedback feedback =new Feedback();
+        feedback.setFkCustomerId(customer.getPhone());
+        feedback.setContent(content);
+        feedback.setCreateTime(new Date());
+        customerService.addFeedback(feedback);
+        resultUti.setCode(0);
+        resultUti.setMsg("反馈成功");
+        return resultUti;
+    }
+
+    @RequestMapping("/selectRegionTime")
+    @ResponseBody
+    public ResultUtil selectRegionTime(String token) {
+        ResultUtil resultUti = new ResultUtil();
+        if(CheckToken(token)==false){
+            resultUti.setCode(1);
+            resultUti.setMsg("登录身份过期请重新登录!");
+            return resultUti;
+        }
+        Customer customer = GetCustomer(token);
+        List<Times> times=timeService.GetRegionTime(customer.getFkFamilyId());
+        if (times.size()>0){
+            resultUti.setMsg("查询成功");
+            resultUti.setData(times);
+            resultUti.setCode(0);
+        }else{
+            resultUti.setCode(1);
+            resultUti.setMsg("暂无数据");
+        }
+        return resultUti;
+    }
+
+    @RequestMapping("/deleteRegionTime")
+    @ResponseBody
+    public ResultUtil deleteRegionTime(String token,String timeId) {
+        ResultUtil resultUti = new ResultUtil();
+        if(CheckToken(token)==false){
+            resultUti.setCode(1);
+            resultUti.setMsg("登录身份过期请重新登录!");
+            return resultUti;
+        }
+        int flag = timeService.deleteRegionTime(timeId);
+        if (flag>0){
+            resultUti.setMsg("删除成功");
+            resultUti.setCode(0);
+        }else{
+            resultUti.setCode(1);
+            resultUti.setMsg("删除失败");
+        }
+        return resultUti;
+    }
+
+    @RequestMapping("/addRegionTime")
+    @ResponseBody
+    public ResultUtil addRegionTime(String token,String meter,String startTime,String endTime,String week,String name,String timeId) {
+        ResultUtil resultUti = new ResultUtil();
+        if(CheckToken(token)==false){
+            resultUti.setCode(1);
+            resultUti.setMsg("登录身份过期请重新登录!");
+            return resultUti;
+        }
+        if(Integer.valueOf(startTime)>=Integer.valueOf(endTime)){
+            resultUti.setCode(1);
+            resultUti.setMsg("结束时间必须大于开始时间!");
+            return resultUti;
+        }
+        Customer customer = GetCustomer(token);
+        if(timeId.equals("")||timeId==null){
+            int flag= timeService.addRegionTime(customer.getFkFamilyId(),meter,startTime,endTime,week,name);
+            if(flag>0){
+                resultUti.setCode(0);
+                resultUti.setMsg("区域范围添加成功");
+            }else{
+                resultUti.setCode(1);
+                resultUti.setMsg("区域范围添加失败");
+            }
+        }else{
+            System.out.println("xiugai "+timeId);
+        }
+
+        return resultUti;
+    }
+
+
+
 
     public Customer GetCustomer(String token){
         Customer customer = customerService.GetCustomerByToken(token);

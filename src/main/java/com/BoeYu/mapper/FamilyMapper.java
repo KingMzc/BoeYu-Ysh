@@ -34,5 +34,6 @@ public interface FamilyMapper {
 
     int selectChildBinding(String android);
 
+    int deletechild(String android);
 
 }

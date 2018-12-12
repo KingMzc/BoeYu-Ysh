@@ -31,4 +31,6 @@ public interface ChatMapper {
     List<Chat> selectIsReadMsg(String toid,String sendid);
 
     List<Chat> selectReadImg(String toid,String sendid);
+
+    int deleteChild(String android);
 }

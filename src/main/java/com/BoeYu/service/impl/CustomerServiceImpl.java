@@ -27,6 +27,10 @@ public class CustomerServiceImpl implements CustomerService {
     private CoordinateMapper coordinateMapper;
     @Autowired
     private ConfidantnumberMapper confidantnumberMapper;
+    @Autowired
+    private VipMapper vipMapper;
+    @Autowired
+    private FeedbackMapper feedbackMapper;
 
     @Override
     public ResultUtil selCustomer(Integer page, Integer limit, UserSearch search) {
@@ -115,7 +119,7 @@ public class CustomerServiceImpl implements CustomerService {
         List<String> childlist = familyMapper.GetchildId(CustomerID);
         List<Child> list =new ArrayList<Child>();
         for (int i=0;i<childlist.size();i++){
-            list.add(childMapper.selectByPrimaryKey(Integer.valueOf(childlist.get(i))));
+            list.add(childMapper.GetChildByAndroid(childlist.get(i)));
         }
         return list;
     }
@@ -178,4 +182,20 @@ public class CustomerServiceImpl implements CustomerService {
     public int updateVipTime(Customer customer) {
         return customerMapper.updateVipTime(customer);
     }
+
+    @Override
+    public List<Vip> GetVipList() {
+        return vipMapper.selectByExample(new VipExample());
+    }
+
+    @Override
+    public Vip selectByPrimaryKey(Integer id) {
+        return vipMapper.selectByPrimaryKey(id);
+    }
+
+    @Override
+    public int addFeedback(Feedback feedback) {
+        return feedbackMapper.insert(feedback);
+    }
+
 }

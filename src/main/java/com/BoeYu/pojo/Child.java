@@ -2,9 +2,7 @@ package com.BoeYu.pojo;
 
 import java.util.Date;
 
-public class Child {
-    private Integer id;
-
+public class Child extends ChildKey {
     private String name;
 
     private String sex;
@@ -14,8 +12,6 @@ public class Child {
     private Date years;
 
     private Date createTime;
-
-    private String android;
 
     private String flag;
 
@@ -27,19 +23,11 @@ public class Child {
 
     private String childType;
 
-    private Date lockStartetime;
+    private String safeType;
 
-    private Date lockEndtime;
+    private String type;
 
     private String fkCustomerId;
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
 
     public String getName() {
         return name;
@@ -79,14 +67,6 @@ public class Child {
 
     public void setCreateTime(Date createTime) {
         this.createTime = createTime;
-    }
-
-    public String getAndroid() {
-        return android;
-    }
-
-    public void setAndroid(String android) {
-        this.android = android == null ? null : android.trim();
     }
 
     public String getFlag() {
@@ -129,20 +109,20 @@ public class Child {
         this.childType = childType == null ? null : childType.trim();
     }
 
-    public Date getLockStartetime() {
-        return lockStartetime;
+    public String getSafeType() {
+        return safeType;
     }
 
-    public void setLockStartetime(Date lockStartetime) {
-        this.lockStartetime = lockStartetime;
+    public void setSafeType(String safeType) {
+        this.safeType = safeType == null ? null : safeType.trim();
     }
 
-    public Date getLockEndtime() {
-        return lockEndtime;
+    public String getType() {
+        return type;
     }
 
-    public void setLockEndtime(Date lockEndtime) {
-        this.lockEndtime = lockEndtime;
+    public void setType(String type) {
+        this.type = type == null ? null : type.trim();
     }
 
     public String getFkCustomerId() {

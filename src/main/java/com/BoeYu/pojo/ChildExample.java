@@ -165,6 +165,76 @@ public class ChildExample {
             return (Criteria) this;
         }
 
+        public Criteria andAndroidIsNull() {
+            addCriterion("android is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andAndroidIsNotNull() {
+            addCriterion("android is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andAndroidEqualTo(String value) {
+            addCriterion("android =", value, "android");
+            return (Criteria) this;
+        }
+
+        public Criteria andAndroidNotEqualTo(String value) {
+            addCriterion("android <>", value, "android");
+            return (Criteria) this;
+        }
+
+        public Criteria andAndroidGreaterThan(String value) {
+            addCriterion("android >", value, "android");
+            return (Criteria) this;
+        }
+
+        public Criteria andAndroidGreaterThanOrEqualTo(String value) {
+            addCriterion("android >=", value, "android");
+            return (Criteria) this;
+        }
+
+        public Criteria andAndroidLessThan(String value) {
+            addCriterion("android <", value, "android");
+            return (Criteria) this;
+        }
+
+        public Criteria andAndroidLessThanOrEqualTo(String value) {
+            addCriterion("android <=", value, "android");
+            return (Criteria) this;
+        }
+
+        public Criteria andAndroidLike(String value) {
+            addCriterion("android like", value, "android");
+            return (Criteria) this;
+        }
+
+        public Criteria andAndroidNotLike(String value) {
+            addCriterion("android not like", value, "android");
+            return (Criteria) this;
+        }
+
+        public Criteria andAndroidIn(List<String> values) {
+            addCriterion("android in", values, "android");
+            return (Criteria) this;
+        }
+
+        public Criteria andAndroidNotIn(List<String> values) {
+            addCriterion("android not in", values, "android");
+            return (Criteria) this;
+        }
+
+        public Criteria andAndroidBetween(String value1, String value2) {
+            addCriterion("android between", value1, value2, "android");
+            return (Criteria) this;
+        }
+
+        public Criteria andAndroidNotBetween(String value1, String value2) {
+            addCriterion("android not between", value1, value2, "android");
+            return (Criteria) this;
+        }
+
         public Criteria andNameIsNull() {
             addCriterion("name is null");
             return (Criteria) this;
@@ -492,76 +562,6 @@ public class ChildExample {
 
         public Criteria andCreateTimeNotBetween(Date value1, Date value2) {
             addCriterion("create_time not between", value1, value2, "createTime");
-            return (Criteria) this;
-        }
-
-        public Criteria andAndroidIsNull() {
-            addCriterion("android is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andAndroidIsNotNull() {
-            addCriterion("android is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andAndroidEqualTo(String value) {
-            addCriterion("android =", value, "android");
-            return (Criteria) this;
-        }
-
-        public Criteria andAndroidNotEqualTo(String value) {
-            addCriterion("android <>", value, "android");
-            return (Criteria) this;
-        }
-
-        public Criteria andAndroidGreaterThan(String value) {
-            addCriterion("android >", value, "android");
-            return (Criteria) this;
-        }
-
-        public Criteria andAndroidGreaterThanOrEqualTo(String value) {
-            addCriterion("android >=", value, "android");
-            return (Criteria) this;
-        }
-
-        public Criteria andAndroidLessThan(String value) {
-            addCriterion("android <", value, "android");
-            return (Criteria) this;
-        }
-
-        public Criteria andAndroidLessThanOrEqualTo(String value) {
-            addCriterion("android <=", value, "android");
-            return (Criteria) this;
-        }
-
-        public Criteria andAndroidLike(String value) {
-            addCriterion("android like", value, "android");
-            return (Criteria) this;
-        }
-
-        public Criteria andAndroidNotLike(String value) {
-            addCriterion("android not like", value, "android");
-            return (Criteria) this;
-        }
-
-        public Criteria andAndroidIn(List<String> values) {
-            addCriterion("android in", values, "android");
-            return (Criteria) this;
-        }
-
-        public Criteria andAndroidNotIn(List<String> values) {
-            addCriterion("android not in", values, "android");
-            return (Criteria) this;
-        }
-
-        public Criteria andAndroidBetween(String value1, String value2) {
-            addCriterion("android between", value1, value2, "android");
-            return (Criteria) this;
-        }
-
-        public Criteria andAndroidNotBetween(String value1, String value2) {
-            addCriterion("android not between", value1, value2, "android");
             return (Criteria) this;
         }
 
@@ -915,123 +915,143 @@ public class ChildExample {
             return (Criteria) this;
         }
 
-        public Criteria andLockStartetimeIsNull() {
-            addCriterion("lock_startetime is null");
+        public Criteria andSafeTypeIsNull() {
+            addCriterion("safe_type is null");
             return (Criteria) this;
         }
 
-        public Criteria andLockStartetimeIsNotNull() {
-            addCriterion("lock_startetime is not null");
+        public Criteria andSafeTypeIsNotNull() {
+            addCriterion("safe_type is not null");
             return (Criteria) this;
         }
 
-        public Criteria andLockStartetimeEqualTo(Date value) {
-            addCriterion("lock_startetime =", value, "lockStartetime");
+        public Criteria andSafeTypeEqualTo(String value) {
+            addCriterion("safe_type =", value, "safeType");
             return (Criteria) this;
         }
 
-        public Criteria andLockStartetimeNotEqualTo(Date value) {
-            addCriterion("lock_startetime <>", value, "lockStartetime");
+        public Criteria andSafeTypeNotEqualTo(String value) {
+            addCriterion("safe_type <>", value, "safeType");
             return (Criteria) this;
         }
 
-        public Criteria andLockStartetimeGreaterThan(Date value) {
-            addCriterion("lock_startetime >", value, "lockStartetime");
+        public Criteria andSafeTypeGreaterThan(String value) {
+            addCriterion("safe_type >", value, "safeType");
             return (Criteria) this;
         }
 
-        public Criteria andLockStartetimeGreaterThanOrEqualTo(Date value) {
-            addCriterion("lock_startetime >=", value, "lockStartetime");
+        public Criteria andSafeTypeGreaterThanOrEqualTo(String value) {
+            addCriterion("safe_type >=", value, "safeType");
             return (Criteria) this;
         }
 
-        public Criteria andLockStartetimeLessThan(Date value) {
-            addCriterion("lock_startetime <", value, "lockStartetime");
+        public Criteria andSafeTypeLessThan(String value) {
+            addCriterion("safe_type <", value, "safeType");
             return (Criteria) this;
         }
 
-        public Criteria andLockStartetimeLessThanOrEqualTo(Date value) {
-            addCriterion("lock_startetime <=", value, "lockStartetime");
+        public Criteria andSafeTypeLessThanOrEqualTo(String value) {
+            addCriterion("safe_type <=", value, "safeType");
             return (Criteria) this;
         }
 
-        public Criteria andLockStartetimeIn(List<Date> values) {
-            addCriterion("lock_startetime in", values, "lockStartetime");
+        public Criteria andSafeTypeLike(String value) {
+            addCriterion("safe_type like", value, "safeType");
             return (Criteria) this;
         }
 
-        public Criteria andLockStartetimeNotIn(List<Date> values) {
-            addCriterion("lock_startetime not in", values, "lockStartetime");
+        public Criteria andSafeTypeNotLike(String value) {
+            addCriterion("safe_type not like", value, "safeType");
             return (Criteria) this;
         }
 
-        public Criteria andLockStartetimeBetween(Date value1, Date value2) {
-            addCriterion("lock_startetime between", value1, value2, "lockStartetime");
+        public Criteria andSafeTypeIn(List<String> values) {
+            addCriterion("safe_type in", values, "safeType");
             return (Criteria) this;
         }
 
-        public Criteria andLockStartetimeNotBetween(Date value1, Date value2) {
-            addCriterion("lock_startetime not between", value1, value2, "lockStartetime");
+        public Criteria andSafeTypeNotIn(List<String> values) {
+            addCriterion("safe_type not in", values, "safeType");
             return (Criteria) this;
         }
 
-        public Criteria andLockEndtimeIsNull() {
-            addCriterion("lock_endtime is null");
+        public Criteria andSafeTypeBetween(String value1, String value2) {
+            addCriterion("safe_type between", value1, value2, "safeType");
             return (Criteria) this;
         }
 
-        public Criteria andLockEndtimeIsNotNull() {
-            addCriterion("lock_endtime is not null");
+        public Criteria andSafeTypeNotBetween(String value1, String value2) {
+            addCriterion("safe_type not between", value1, value2, "safeType");
             return (Criteria) this;
         }
 
-        public Criteria andLockEndtimeEqualTo(Date value) {
-            addCriterion("lock_endtime =", value, "lockEndtime");
+        public Criteria andTypeIsNull() {
+            addCriterion("type is null");
             return (Criteria) this;
         }
 
-        public Criteria andLockEndtimeNotEqualTo(Date value) {
-            addCriterion("lock_endtime <>", value, "lockEndtime");
+        public Criteria andTypeIsNotNull() {
+            addCriterion("type is not null");
             return (Criteria) this;
         }
 
-        public Criteria andLockEndtimeGreaterThan(Date value) {
-            addCriterion("lock_endtime >", value, "lockEndtime");
+        public Criteria andTypeEqualTo(String value) {
+            addCriterion("type =", value, "type");
             return (Criteria) this;
         }
 
-        public Criteria andLockEndtimeGreaterThanOrEqualTo(Date value) {
-            addCriterion("lock_endtime >=", value, "lockEndtime");
+        public Criteria andTypeNotEqualTo(String value) {
+            addCriterion("type <>", value, "type");
             return (Criteria) this;
         }
 
-        public Criteria andLockEndtimeLessThan(Date value) {
-            addCriterion("lock_endtime <", value, "lockEndtime");
+        public Criteria andTypeGreaterThan(String value) {
+            addCriterion("type >", value, "type");
             return (Criteria) this;
         }
 
-        public Criteria andLockEndtimeLessThanOrEqualTo(Date value) {
-            addCriterion("lock_endtime <=", value, "lockEndtime");
+        public Criteria andTypeGreaterThanOrEqualTo(String value) {
+            addCriterion("type >=", value, "type");
             return (Criteria) this;
         }
 
-        public Criteria andLockEndtimeIn(List<Date> values) {
-            addCriterion("lock_endtime in", values, "lockEndtime");
+        public Criteria andTypeLessThan(String value) {
+            addCriterion("type <", value, "type");
             return (Criteria) this;
         }
 
-        public Criteria andLockEndtimeNotIn(List<Date> values) {
-            addCriterion("lock_endtime not in", values, "lockEndtime");
+        public Criteria andTypeLessThanOrEqualTo(String value) {
+            addCriterion("type <=", value, "type");
             return (Criteria) this;
         }
 
-        public Criteria andLockEndtimeBetween(Date value1, Date value2) {
-            addCriterion("lock_endtime between", value1, value2, "lockEndtime");
+        public Criteria andTypeLike(String value) {
+            addCriterion("type like", value, "type");
             return (Criteria) this;
         }
 
-        public Criteria andLockEndtimeNotBetween(Date value1, Date value2) {
-            addCriterion("lock_endtime not between", value1, value2, "lockEndtime");
+        public Criteria andTypeNotLike(String value) {
+            addCriterion("type not like", value, "type");
+            return (Criteria) this;
+        }
+
+        public Criteria andTypeIn(List<String> values) {
+            addCriterion("type in", values, "type");
+            return (Criteria) this;
+        }
+
+        public Criteria andTypeNotIn(List<String> values) {
+            addCriterion("type not in", values, "type");
+            return (Criteria) this;
+        }
+
+        public Criteria andTypeBetween(String value1, String value2) {
+            addCriterion("type between", value1, value2, "type");
+            return (Criteria) this;
+        }
+
+        public Criteria andTypeNotBetween(String value1, String value2) {
+            addCriterion("type not between", value1, value2, "type");
             return (Criteria) this;
         }
 

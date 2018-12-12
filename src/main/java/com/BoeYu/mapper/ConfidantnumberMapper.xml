@@ -213,7 +213,7 @@
   select
   count(1)
   from confidantnumber
-  where fk_child_id=#{0} and phone={1}
+  where fk_child_id=#{0} and phone=#{1}
   </select>
 
   <update id="updateById" parameterType="com.BoeYu.pojo.Confidantnumber">
@@ -228,4 +228,9 @@
     from confidantnumber
     where fk_child_id = #{0}
   </select>
+
+  <delete id="deleteChild">
+    delete from confidantnumber
+    where  fk_child_id = #{0}
+  </delete>
 </mapper>

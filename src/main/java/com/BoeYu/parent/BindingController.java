@@ -51,6 +51,30 @@ public class BindingController {
         return resultUti;
     }
 
+    @RequestMapping("/RelieveBinding")
+    @ResponseBody
+    public ResultUtil RelieveBinding(String token, String android){
+        ResultUtil resultUti = new ResultUtil();
+        if(CheckToken(token)==false){
+            resultUti.setCode(1);
+            resultUti.setMsg("登录身份过期请重新登录!");
+            return resultUti;
+        }
+        Customer customer=GetCustomer(token);
+        Child child = new Child();
+        child.setAndroid(android);
+        child.setFkCustomerId(customer.getPhone());
+        int flag = childService.deleteChild(child);
+        if (flag==0){
+            resultUti.setCode(0);
+            resultUti.setMsg("解除绑定成功");
+        }else if (flag==1){
+            resultUti.setCode(1);
+            resultUti.setMsg("解除绑定失败");
+        }
+        return resultUti;
+    }
+
     public boolean CheckToken(String token){
         boolean check = true;
         int flag = customerService.selectToken(token);
@@ -64,4 +88,5 @@ public class BindingController {
         Customer customer = customerService.GetCustomerByToken(token);
         return customer;
     }
+
 }

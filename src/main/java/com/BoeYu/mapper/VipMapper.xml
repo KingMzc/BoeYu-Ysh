@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.BoeYu.mapper.CoordinateMapper">
-  <resultMap id="BaseResultMap" type="com.BoeYu.pojo.Coordinate">
+<mapper namespace="com.BoeYu.mapper.VipMapper">
+  <resultMap id="BaseResultMap" type="com.BoeYu.pojo.Vip">
     <id column="id" jdbcType="INTEGER" property="id" />
-    <result column="fk_child_id" jdbcType="VARCHAR" property="fkChildId" />
-    <result column="createtime" jdbcType="TIMESTAMP" property="createtime" />
-    <result column="coordinate" jdbcType="VARCHAR" property="coordinate" />
-    <result column="falg" jdbcType="CHAR" property="falg" />
+    <result column="title" jdbcType="VARCHAR" property="title" />
+    <result column="day" jdbcType="INTEGER" property="day" />
+    <result column="price" jdbcType="INTEGER" property="price" />
+    <result column="flag" jdbcType="CHAR" property="flag" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -67,15 +67,15 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, fk_child_id, createtime, coordinate, falg
+    id, title, day, price, flag
   </sql>
-  <select id="selectByExample" parameterType="com.BoeYu.pojo.CoordinateExample" resultMap="BaseResultMap">
+  <select id="selectByExample" parameterType="com.BoeYu.pojo.VipExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from coordinate
+    from vip
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
@@ -86,85 +86,85 @@
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from coordinate
+    from vip
     where id = #{id,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-    delete from coordinate
+    delete from vip
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <delete id="deleteByExample" parameterType="com.BoeYu.pojo.CoordinateExample">
-    delete from coordinate
+  <delete id="deleteByExample" parameterType="com.BoeYu.pojo.VipExample">
+    delete from vip
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.BoeYu.pojo.Coordinate">
-    insert into coordinate (id, fk_child_id, createtime, 
-      coordinate, falg)
-    values (#{id,jdbcType=INTEGER}, #{fkChildId,jdbcType=VARCHAR}, #{createtime,jdbcType=TIMESTAMP}, 
-      #{coordinate,jdbcType=VARCHAR}, #{falg,jdbcType=CHAR})
+  <insert id="insert" parameterType="com.BoeYu.pojo.Vip">
+    insert into vip (id, title, day, 
+      price, flag)
+    values (#{id,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, #{day,jdbcType=INTEGER}, 
+      #{price,jdbcType=INTEGER}, #{flag,jdbcType=CHAR})
   </insert>
-  <insert id="insertSelective" parameterType="com.BoeYu.pojo.Coordinate">
-    insert into coordinate
+  <insert id="insertSelective" parameterType="com.BoeYu.pojo.Vip">
+    insert into vip
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
         id,
       </if>
-      <if test="fkChildId != null">
-        fk_child_id,
+      <if test="title != null">
+        title,
       </if>
-      <if test="createtime != null">
-        createtime,
+      <if test="day != null">
+        day,
       </if>
-      <if test="coordinate != null">
-        coordinate,
+      <if test="price != null">
+        price,
       </if>
-      <if test="falg != null">
-        falg,
+      <if test="flag != null">
+        flag,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
         #{id,jdbcType=INTEGER},
       </if>
-      <if test="fkChildId != null">
-        #{fkChildId,jdbcType=VARCHAR},
+      <if test="title != null">
+        #{title,jdbcType=VARCHAR},
       </if>
-      <if test="createtime != null">
-        #{createtime,jdbcType=TIMESTAMP},
+      <if test="day != null">
+        #{day,jdbcType=INTEGER},
       </if>
-      <if test="coordinate != null">
-        #{coordinate,jdbcType=VARCHAR},
+      <if test="price != null">
+        #{price,jdbcType=INTEGER},
       </if>
-      <if test="falg != null">
-        #{falg,jdbcType=CHAR},
+      <if test="flag != null">
+        #{flag,jdbcType=CHAR},
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="com.BoeYu.pojo.CoordinateExample" resultType="java.lang.Long">
-    select count(*) from coordinate
+  <select id="countByExample" parameterType="com.BoeYu.pojo.VipExample" resultType="java.lang.Long">
+    select count(*) from vip
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </select>
   <update id="updateByExampleSelective" parameterType="map">
-    update coordinate
+    update vip
     <set>
       <if test="record.id != null">
         id = #{record.id,jdbcType=INTEGER},
       </if>
-      <if test="record.fkChildId != null">
-        fk_child_id = #{record.fkChildId,jdbcType=VARCHAR},
+      <if test="record.title != null">
+        title = #{record.title,jdbcType=VARCHAR},
       </if>
-      <if test="record.createtime != null">
-        createtime = #{record.createtime,jdbcType=TIMESTAMP},
+      <if test="record.day != null">
+        day = #{record.day,jdbcType=INTEGER},
       </if>
-      <if test="record.coordinate != null">
-        coordinate = #{record.coordinate,jdbcType=VARCHAR},
+      <if test="record.price != null">
+        price = #{record.price,jdbcType=INTEGER},
       </if>
-      <if test="record.falg != null">
-        falg = #{record.falg,jdbcType=CHAR},
+      <if test="record.flag != null">
+        flag = #{record.flag,jdbcType=CHAR},
       </if>
     </set>
     <if test="_parameter != null">
@@ -172,48 +172,40 @@
     </if>
   </update>
   <update id="updateByExample" parameterType="map">
-    update coordinate
+    update vip
     set id = #{record.id,jdbcType=INTEGER},
-      fk_child_id = #{record.fkChildId,jdbcType=VARCHAR},
-      createtime = #{record.createtime,jdbcType=TIMESTAMP},
-      coordinate = #{record.coordinate,jdbcType=VARCHAR},
-      falg = #{record.falg,jdbcType=CHAR}
+      title = #{record.title,jdbcType=VARCHAR},
+      day = #{record.day,jdbcType=INTEGER},
+      price = #{record.price,jdbcType=INTEGER},
+      flag = #{record.flag,jdbcType=CHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.BoeYu.pojo.Coordinate">
-    update coordinate
+  <update id="updateByPrimaryKeySelective" parameterType="com.BoeYu.pojo.Vip">
+    update vip
     <set>
-      <if test="fkChildId != null">
-        fk_child_id = #{fkChildId,jdbcType=VARCHAR},
+      <if test="title != null">
+        title = #{title,jdbcType=VARCHAR},
       </if>
-      <if test="createtime != null">
-        createtime = #{createtime,jdbcType=TIMESTAMP},
+      <if test="day != null">
+        day = #{day,jdbcType=INTEGER},
       </if>
-      <if test="coordinate != null">
-        coordinate = #{coordinate,jdbcType=VARCHAR},
+      <if test="price != null">
+        price = #{price,jdbcType=INTEGER},
       </if>
-      <if test="falg != null">
-        falg = #{falg,jdbcType=CHAR},
+      <if test="flag != null">
+        flag = #{flag,jdbcType=CHAR},
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.BoeYu.pojo.Coordinate">
-    update coordinate
-    set fk_child_id = #{fkChildId,jdbcType=VARCHAR},
-      createtime = #{createtime,jdbcType=TIMESTAMP},
-      coordinate = #{coordinate,jdbcType=VARCHAR},
-      falg = #{falg,jdbcType=CHAR}
+  <update id="updateByPrimaryKey" parameterType="com.BoeYu.pojo.Vip">
+    update vip
+    set title = #{title,jdbcType=VARCHAR},
+      day = #{day,jdbcType=INTEGER},
+      price = #{price,jdbcType=INTEGER},
+      flag = #{flag,jdbcType=CHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <select id="GetCoordinate" resultType="java.lang.String">
-     select coordinate from coordinate where fk_child_id=#{0} and createtime &gt;= #{1} and createtime &lt;=#{2}
-  </select>
-
-  <delete id="deleteChild" >
-    delete from coordinate
-    where fk_child_id = #{0}
-  </delete>
 </mapper>

@@ -29,4 +29,6 @@ public interface CoordinateMapper {
     int updateByPrimaryKey(Coordinate record);
 
     List<String> GetCoordinate(String childId,String date,String datee);
+
+    int deleteChild(String android);
 }

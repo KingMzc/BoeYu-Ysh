@@ -229,4 +229,9 @@
     from family
     where fk_child_id=#{0}
   </select>
+
+  <delete id="deletechild" >
+    delete from family
+    WHERE fk_child_id=#{0}
+  </delete>
 </mapper>

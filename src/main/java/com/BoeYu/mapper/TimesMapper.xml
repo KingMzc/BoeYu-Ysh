@@ -325,4 +325,36 @@
     startetime, endtime
     from times where fk_child_id=#{0} and type='3'
   </select>
+
+  <delete id="deleteRemindTime">
+    delete from times
+    where fk_child_id=#{0} and type='3'
+  </delete>
+
+  <select id="CheckRegion"  resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from times where fk_child_id=#{0} and week=#{1} and type='4'
+  </select>
+
+  <select id="GetRegionTime"  resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from times where fk_child_id=#{0} and type='4'
+  </select>
+
+  <delete id="deletechild" >
+    delete from times
+    WHERE fk_child_id=#{0}
+  </delete>
+
+  <update id="updateRegionTime" parameterType="com.BoeYu.pojo.Times">
+    update times
+    set week = #{week,jdbcType=CHAR},
+      startetime = #{startetime,jdbcType=VARCHAR},
+      endtime = #{endtime,jdbcType=VARCHAR},
+      times = #{times,jdbcType=VARCHAR},
+      flag = #{flag,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
 </mapper>

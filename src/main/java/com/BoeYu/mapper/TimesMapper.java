@@ -43,4 +43,15 @@ public interface TimesMapper {
     int updateRemindTime(Times record);
 
     List<Times> GetEyeRemindTime(String childId);
+
+    int deleteRemindTime(String childId);
+
+    List<Times> CheckRegion(String childId,String week);
+
+    List<Times> GetRegionTime(String childId);
+
+    int deletechild(String android);
+
+    int updateRegionTime(Times record);
+
 }

@@ -1,8 +1,6 @@
 package com.BoeYu.service;
 
-import com.BoeYu.pojo.Child;
-import com.BoeYu.pojo.Customer;
-import com.BoeYu.pojo.UserSearch;
+import com.BoeYu.pojo.*;
 import com.BoeYu.util.ResultUtil;
 
 import java.util.List;
@@ -45,5 +43,12 @@ public interface CustomerService {
     int updateConfidantnumber(String id,String name,String phone);
 
     int updateVipTime(Customer customer);
+
+    List<Vip> GetVipList();
+
+    Vip selectByPrimaryKey(Integer id);
+
+    int addFeedback (Feedback feedback);
+
 
 }

@@ -2,6 +2,7 @@ package com.BoeYu.mapper;
 
 import com.BoeYu.pojo.Child;
 import com.BoeYu.pojo.ChildExample;
+import com.BoeYu.pojo.ChildKey;
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
@@ -10,7 +11,7 @@ public interface ChildMapper {
 
     int deleteByExample(ChildExample example);
 
-    int deleteByPrimaryKey(Integer id);
+    int deleteByPrimaryKey(ChildKey key);
 
     int insert(Child record);
 
@@ -19,8 +20,6 @@ public interface ChildMapper {
     List<Child> selectByExample(ChildExample example);
 
     Child selectByPrimaryKey(Integer id);
-
-    Child selectByAndroid(String android);
 
     int updateByExampleSelective(@Param("record") Child record, @Param("example") ChildExample example);
 
@@ -54,5 +53,8 @@ public interface ChildMapper {
 
     int CheckCustomerBinding(String phone);
 
+    Child selectByAndroid(String android);
+
+    int deleteChild(String android);
 
 }
