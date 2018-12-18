@@ -28,7 +28,7 @@ public class ChatChildController {
     private ChatService chatService;
     @Autowired
     private ChildService childService;
-    @RequestMapping(value = "/cunreadMsg")
+    @RequestMapping(value = "/CunreadMsg")
     @ResponseBody
     public ResultUtil cunreadMsg(String android,String sendId){
         ResultUtil resultUti = new ResultUtil();
@@ -45,7 +45,7 @@ public class ChatChildController {
         }
     }
 
-    @RequestMapping(value = "/cshow")
+    @RequestMapping(value = "/Cshow")
     @ResponseBody
     public String cshowVoice( String fileName,HttpServletResponse response) {
         FileInputStream fis = null;
@@ -73,7 +73,7 @@ public class ChatChildController {
         return "ok";
     }
 
-    @RequestMapping(value = "/cupload", produces = MediaType.APPLICATION_JSON_VALUE + ";charset=utf-8")
+    @RequestMapping(value = "/Cupload", produces = MediaType.APPLICATION_JSON_VALUE + ";charset=utf-8")
     @ResponseBody
     public ResultUtil cuploadFile(String type,String android, String toid, MultipartFile file, HttpServletRequest req) {
         if (file == null) {

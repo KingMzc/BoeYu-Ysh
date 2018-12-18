@@ -1,6 +1,8 @@
 package com.BoeYu.service.impl;
 
+import com.BoeYu.mapper.ApplicationTimesMapper;
 import com.BoeYu.mapper.TimesMapper;
+import com.BoeYu.pojo.ApplicationTimes;
 import com.BoeYu.pojo.Times;
 import com.BoeYu.service.TimeService;
 import com.BoeYu.util.DateUtil;
@@ -15,6 +17,8 @@ import java.util.*;
 public class TimeServiceImpl implements TimeService {
     @Autowired
     private TimesMapper timesMapper;
+    @Autowired
+    private ApplicationTimesMapper applicationTimesMapper;
     @Override
     public int addTime(String starte, String end, String time, String childId, String week, String type, String flag) {
         Times times = new Times();
@@ -207,5 +211,30 @@ public class TimeServiceImpl implements TimeService {
     @Override
     public int deleteRegionTime(String timeId) {
         return timesMapper.deleteByPrimaryKey(Integer.valueOf(timeId));
+    }
+
+    @Override
+    public int selectAppLockTime(String childId, String week) {
+        return applicationTimesMapper.selectAppLockTime(childId,week);
+    }
+
+    @Override
+    public int updateAppLockTime(ApplicationTimes applicationTimes) {
+        return applicationTimesMapper.updateAppLockTime(applicationTimes);
+    }
+
+    @Override
+    public int addAppLockTime(ApplicationTimes applicationTimes) {
+        return applicationTimesMapper.insert(applicationTimes);
+    }
+
+    @Override
+    public List<ApplicationTimes> ShowLockTimep(String childId) {
+        return applicationTimesMapper.ShowLockTimep(childId);
+    }
+
+    @Override
+    public List<ApplicationTimes> ShowLockTimeChild(String childId,String week) {
+        return applicationTimesMapper.ShowLockTimeChild(childId,week);
     }
 }

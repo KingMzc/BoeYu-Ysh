@@ -5,6 +5,7 @@ import javax.websocket.*;
 import javax.websocket.server.PathParam;
 import javax.websocket.server.ServerEndpoint;
 import java.io.IOException;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -72,8 +73,8 @@ public class WebSocket {
      */
     @OnError
     public void onError(Session session, Throwable error){
-        System.out.println("发生错误");
-        error.printStackTrace();
+        System.out.println("发生错误"+ new Date());
+        //error.printStackTrace();
     }
     /**
      * 这个方法与上面几个方法不一样。没有用注解，是根据自己需要添加的方法。

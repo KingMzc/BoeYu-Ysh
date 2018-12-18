@@ -2,6 +2,7 @@ package com.BoeYu.parent;
 
 import com.BoeYu.pojo.Child;
 import com.BoeYu.pojo.Customer;
+import com.BoeYu.service.ChildService;
 import com.BoeYu.service.CustomerService;
 import com.BoeYu.util.ResultUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +20,8 @@ import java.util.regex.Pattern;
 public class LoginController {
     @Autowired
     private CustomerService customerService;
+    @Autowired
+    private ChildService childService;
     /**
      *@参数  [request, phone, wxid, password]
      *@返回值  com.BoeYu.util.ResultUtil
@@ -68,7 +71,7 @@ public class LoginController {
             return resultUti;
         }
         Customer customer = GetCustomer(token);
-        List<Child> list = customerService.GetChild(customer.getId().toString());
+        List<Child> list = customerService.GetChild(customer.getPhone());
         if(list.size()>0){
             resultUti.setCode(0);
             resultUti.setMsg("查询成功");
@@ -77,6 +80,28 @@ public class LoginController {
             resultUti.setMsg("暂无数据");
         }
         resultUti.setData(list);
+        return resultUti;
+    }
+
+    @RequestMapping("/GetChildInfo")
+    @ResponseBody
+    public ResultUtil GetChildInfo(String token){
+        ResultUtil resultUti=new ResultUtil();
+        if(CheckToken(token)==false){
+            resultUti.setCode(1);
+            resultUti.setMsg("登录身份过期请重新登录！");
+            return resultUti;
+        }
+        Customer customer = GetCustomer(token);
+        Child child =childService.GetChildByAndroid(customer.getFkFamilyId());
+        if(child!=null){
+            resultUti.setCode(0);
+            resultUti.setMsg("查询成功");
+        }else{
+            resultUti.setCode(1);
+            resultUti.setMsg("暂无数据");
+        }
+        resultUti.setData(child);
         return resultUti;
     }
 
@@ -110,7 +135,7 @@ public class LoginController {
             return resultUti;
         }
         Customer customer = GetCustomer(token);
-        if(customerService.CheckChildIsCustomer(customer.getId().toString(),childId)<=0){
+        if(customerService.CheckChildIsCustomer(customer.getPhone(),childId)<=0){
             resultUti.setCode(1);
             resultUti.setMsg("没有权限绑定这个孩子!");
             return resultUti;

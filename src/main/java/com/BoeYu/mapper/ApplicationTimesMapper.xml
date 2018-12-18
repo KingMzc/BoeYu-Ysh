@@ -1,0 +1,254 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.BoeYu.mapper.ApplicationTimesMapper">
+  <resultMap id="BaseResultMap" type="com.BoeYu.pojo.ApplicationTimes">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="week" jdbcType="VARCHAR" property="week" />
+    <result column="fk_application_id" jdbcType="VARCHAR" property="fkApplicationId" />
+    <result column="times" jdbcType="VARCHAR" property="times" />
+    <result column="flag" jdbcType="CHAR" property="flag" />
+    <result column="type" jdbcType="VARCHAR" property="type" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, week, fk_application_id, times, flag, type
+  </sql>
+  <select id="selectByExample" parameterType="com.BoeYu.pojo.ApplicationTimesExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from application_times
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from application_times
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from application_times
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.BoeYu.pojo.ApplicationTimesExample">
+    delete from application_times
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.BoeYu.pojo.ApplicationTimes">
+    insert into application_times (id, week, fk_application_id, 
+      times, flag, type)
+    values (#{id,jdbcType=INTEGER}, #{week,jdbcType=VARCHAR}, #{fkApplicationId,jdbcType=VARCHAR}, 
+      #{times,jdbcType=VARCHAR}, #{flag,jdbcType=CHAR}, #{type,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.BoeYu.pojo.ApplicationTimes">
+    insert into application_times
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="week != null">
+        week,
+      </if>
+      <if test="fkApplicationId != null">
+        fk_application_id,
+      </if>
+      <if test="times != null">
+        times,
+      </if>
+      <if test="flag != null">
+        flag,
+      </if>
+      <if test="type != null">
+        type,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="week != null">
+        #{week,jdbcType=VARCHAR},
+      </if>
+      <if test="fkApplicationId != null">
+        #{fkApplicationId,jdbcType=VARCHAR},
+      </if>
+      <if test="times != null">
+        #{times,jdbcType=VARCHAR},
+      </if>
+      <if test="flag != null">
+        #{flag,jdbcType=CHAR},
+      </if>
+      <if test="type != null">
+        #{type,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.BoeYu.pojo.ApplicationTimesExample" resultType="java.lang.Long">
+    select count(*) from application_times
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update application_times
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.week != null">
+        week = #{record.week,jdbcType=VARCHAR},
+      </if>
+      <if test="record.fkApplicationId != null">
+        fk_application_id = #{record.fkApplicationId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.times != null">
+        times = #{record.times,jdbcType=VARCHAR},
+      </if>
+      <if test="record.flag != null">
+        flag = #{record.flag,jdbcType=CHAR},
+      </if>
+      <if test="record.type != null">
+        type = #{record.type,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update application_times
+    set id = #{record.id,jdbcType=INTEGER},
+      week = #{record.week,jdbcType=VARCHAR},
+      fk_application_id = #{record.fkApplicationId,jdbcType=VARCHAR},
+      times = #{record.times,jdbcType=VARCHAR},
+      flag = #{record.flag,jdbcType=CHAR},
+      type = #{record.type,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.BoeYu.pojo.ApplicationTimes">
+    update application_times
+    <set>
+      <if test="week != null">
+        week = #{week,jdbcType=VARCHAR},
+      </if>
+      <if test="fkApplicationId != null">
+        fk_application_id = #{fkApplicationId,jdbcType=VARCHAR},
+      </if>
+      <if test="times != null">
+        times = #{times,jdbcType=VARCHAR},
+      </if>
+      <if test="flag != null">
+        flag = #{flag,jdbcType=CHAR},
+      </if>
+      <if test="type != null">
+        type = #{type,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.BoeYu.pojo.ApplicationTimes">
+    update application_times
+    set week = #{week,jdbcType=VARCHAR},
+      fk_application_id = #{fkApplicationId,jdbcType=VARCHAR},
+      times = #{times,jdbcType=VARCHAR},
+      flag = #{flag,jdbcType=CHAR},
+      type = #{type,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+  <select id="selectAppLockTime"  resultType="java.lang.Integer">
+    select
+    count(1)
+    from application_times
+    where fk_application_id=#{0} and week=#{1}
+  </select>
+  <update id="updateAppLockTime" parameterType="com.BoeYu.pojo.ApplicationTimes">
+    update application_times
+    set
+      times = #{times,jdbcType=VARCHAR}
+    where week = #{week,jdbcType=VARCHAR} and fk_application_id = #{fkApplicationId,jdbcType=VARCHAR}
+  </update>
+
+  <select id="ShowLockTime"  resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from application_times
+    where fk_application_id = #{0}
+  </select>
+
+  <select id="ShowLockTimeChild"  resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from application_times
+    where fk_application_id = #{0} and week = #{1}
+  </select>
+
+</mapper>

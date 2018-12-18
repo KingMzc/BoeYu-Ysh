@@ -201,7 +201,7 @@ public class DateUtil {
         if (seconds > 0) showtime += seconds + "秒";
         return showtime;
     }
-
+//获取当前星期
     public static String dateToWeekday(Date changeDate) throws Exception {
         String[] weekdays = { "7", "1", "2", "3", "4", "5", "6" };
         if(changeDate == null) {
@@ -211,6 +211,15 @@ public class DateUtil {
         cal.setTime(changeDate);
         int numOfWeek = cal.get(Calendar.DAY_OF_WEEK) - 1;
         return weekdays[numOfWeek];
+    }
+
+    //
+    public static String week(){
+        String str[]={"7","1","2","3","4","5","6"};//字符串数组
+        Calendar rightNow=Calendar.getInstance();
+        int day=rightNow.get(rightNow.DAY_OF_WEEK);//获取时间
+        String xx=str[day-1];
+        return xx;
     }
 //  获取时间的 小时
     public static int datehour(Date date) throws Exception {

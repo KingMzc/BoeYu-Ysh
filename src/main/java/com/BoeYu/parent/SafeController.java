@@ -48,7 +48,7 @@ public class SafeController {
             return resultUti;
         }
 
-        if(customerService.CheckChildIsCustomer(customer.getId().toString(),customer.getFkFamilyId())<=0){
+        if(customerService.CheckChildIsCustomer(customer.getPhone(),customer.getFkFamilyId())<=0){
             resultUti.setCode(1);
             resultUti.setMsg("没有权限设置这个孩子的"+md+"!");
             return resultUti;
@@ -143,12 +143,12 @@ public class SafeController {
             resultUti.setMsg("没有找到这个孩子！");
             return resultUti;
         }
-        if(customerService.CheckChildIsCustomer(customer.getId().toString(),customer.getFkFamilyId())<=0){
+        if(customerService.CheckChildIsCustomer(customer.getPhone(),customer.getFkFamilyId())<=0){
             resultUti.setCode(1);
             resultUti.setMsg("没有权限设置这个孩子的"+md+"!");
             return resultUti;
         }
-        int flag = childService.updateFlag(Integer.valueOf(customer.getFkFamilyId()),type);
+        int flag = childService.updateFlag(customer.getFkFamilyId(),type);
         if(flag>0){
             resultUti.setCode(0);
             resultUti.setMsg(md+"启用成功");
@@ -156,6 +156,28 @@ public class SafeController {
         }else{
             resultUti.setCode(1);
             resultUti.setMsg(md+"启用失败");
+            return resultUti;
+        }
+    }
+
+    @RequestMapping("/Region")
+    @ResponseBody
+    public ResultUtil Region(String token){
+        ResultUtil resultUti=new ResultUtil();
+        if(CheckToken(token)==false){
+            resultUti.setCode(1);
+            resultUti.setMsg("登录身份过期请重新登录! ");
+            return resultUti;
+        }
+        Customer customer = GetCustomer(token);
+        int flag = 0;
+        if (flag>0){
+            resultUti.setCode(0);
+            resultUti.setMsg("删除成功");
+            return resultUti;
+        }else{
+            resultUti.setCode(1);
+            resultUti.setMsg("删除失败");
             return resultUti;
         }
     }

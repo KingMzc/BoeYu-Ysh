@@ -4,31 +4,39 @@ import java.awt.Dimension;
 import java.awt.Graphics2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.io.*;
+import java.util.*;
 
 import javax.imageio.ImageIO;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.*;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
 
 
+import org.apache.commons.collections4.MapUtils;
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang.StringUtils;
 import org.apache.poi.hslf.extractor.PowerPointExtractor;
 import org.apache.poi.hslf.usermodel.HSLFSlide;
 import org.apache.poi.hslf.usermodel.HSLFSlideShow;
 import org.apache.poi.hslf.usermodel.HSLFTextParagraph;
 import org.apache.poi.hslf.usermodel.HSLFTextRun;
+import org.apache.poi.hwpf.HWPFDocument;
+import org.apache.poi.hwpf.converter.PicturesManager;
+import org.apache.poi.hwpf.converter.WordToHtmlConverter;
+import org.apache.poi.hwpf.usermodel.Picture;
+import org.apache.poi.hwpf.usermodel.PictureType;
 import org.apache.poi.ooxml.POIXMLDocument;
 import org.apache.poi.openxml4j.exceptions.OpenXML4JException;
 import org.apache.poi.xslf.extractor.XSLFPowerPointExtractor;
 import org.apache.poi.xslf.usermodel.XMLSlideShow;
 import org.apache.poi.xslf.usermodel.XSLFSlide;
+
+import org.apache.poi.xwpf.converter.pdf.PdfConverter;
+import org.apache.poi.xwpf.converter.pdf.PdfOptions;
+import org.apache.poi.xwpf.usermodel.*;
 import org.apache.xmlbeans.XmlException;
 import org.openxmlformats.schemas.drawingml.x2006.main.CTRegularTextRun;
 import org.openxmlformats.schemas.drawingml.x2006.main.CTTextBody;
@@ -38,6 +46,7 @@ import org.openxmlformats.schemas.drawingml.x2006.main.CTTextParagraph;
 import org.openxmlformats.schemas.presentationml.x2006.main.CTGroupShape;
 import org.openxmlformats.schemas.presentationml.x2006.main.CTShape;
 import org.openxmlformats.schemas.presentationml.x2006.main.CTSlide;
+import org.w3c.dom.Document;
 
 public class PPTUtil {
     /**
@@ -376,34 +385,127 @@ public class PPTUtil {
         return null;
     }
 
+//word 转换 html  乱码
+    public static Map<String,String> wordtohtml() throws IOException, ParserConfigurationException, TransformerException {
+        final String path = "C:\\Users\\Admin\\Desktop\\";
+        final String file = "八年级上册1.6物质的分离同步练习1.doc";
+        InputStream input = new FileInputStream(path + file);
 
+        HWPFDocument wordDocument = new HWPFDocument(input);
+        WordToHtmlConverter wordToHtmlConverter = new WordToHtmlConverter(
+                DocumentBuilderFactory.newInstance().newDocumentBuilder()
+                        .newDocument());
+        wordToHtmlConverter.setPicturesManager(new PicturesManager() {
+            public String savePicture(byte[] content, PictureType pictureType,
+                                      String suggestedName, float widthInches, float heightInches) {
+                return suggestedName;
+            }
+        });
+        wordToHtmlConverter.processDocument(wordDocument);
+        List pics = wordDocument.getPicturesTable().getAllPictures();
+        if (pics != null) {
+            for (int i = 0; i < pics.size(); i++) {
+                Picture pic = (Picture) pics.get(i);
+                try {
+                    pic.writeImageContent(new FileOutputStream(path
+                            + pic.suggestFullFileName()));
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        Document htmlDocument = wordToHtmlConverter.getDocument();
+        ByteArrayOutputStream outStream = new ByteArrayOutputStream();
+        DOMSource domSource = new DOMSource(htmlDocument);
+        StreamResult streamResult = new StreamResult(outStream);
+        TransformerFactory tf = TransformerFactory.newInstance();
+        Transformer serializer = tf.newTransformer();
+        serializer.setOutputProperty(OutputKeys.ENCODING, "utf-8");
+        serializer.setOutputProperty(OutputKeys.INDENT, "yes");
+        serializer.setOutputProperty(OutputKeys.METHOD, "html");
+        serializer.transform(domSource, streamResult);
+        outStream.close();
+        String content = new String(outStream.toByteArray());
+        String filename = "111.html";
+        FileUtils.writeStringToFile(new File(path, filename), content, "utf-8");
+        Map<String,String> map = new HashMap<String,String>();
+        map.put("filename",filename);
+        return map;
+    }
 
-    public static void main(String[] args) {
-		/*
-		 //PPT调用示例
-//		Map<String,Object> map=	ConverPPTFileToImageUtil.converPPTtoImage("E:\\ppt\\oracle SQL语法大全(第一课).ppt", "E:\\ppt\\pptimg\\", "jpg");
-		//PPTX调用示例
-		Map<String,Object> map=ConverPPTFileToImageUtil.converPPTXtoImage("E:\\ppt\\PMS2.0界面设计培训-20130507.pptx", "E:\\ppt\\pptimg\\", "jpg");
-		boolean converReturnResult=(Boolean) map.get("converReturnResult");
-		System.out.println("converReturnResult:"+converReturnResult);
-		if(converReturnResult){//如果全部转换成功,则为true;如果有一张转换失败,则为fasle
-			@SuppressWarnings("unchecked")
-			List<String> imgNames=(List<String>) map.get("imgNames");
-			for (String imgName : imgNames) {
-				System.out.println(imgName);
-			}
+    //
+    public static Map<String,String> wordtopdf() throws IOException, ParserConfigurationException, TransformerException {
+        String filepath = "C:\\Users\\Admin\\Desktop\\熊熊守护接口文档.docx";
+        String outpath = "C:\\Users\\Admin\\Desktop\\熊熊守护接口文档.pdf";
 
-		}*/
-//		String content=readppt200Text("E:\\ppt\\oracle SQL语法大全(第一课).ppt");
-//		String content=readPPT2007("E:\\ppt\\7第七讲(13-14).pptx");
-        //String content=readPPTX2007Text("C:\\Users\\Admin\\Desktop\\空白演示.pptx");
-        //System.out.println("1111111111111111111"+content);
-
-        Map<String,Object> map =converPPTtoImage("C:/Users/Admin/Desktop/xxx.ppt","C:/Users/Admin/Desktop/DOME/","jpg");
-        System.out.println("......................."+map.get("converReturnResult"));
+        InputStream source;
+        OutputStream target;
+        try {
+            source = new FileInputStream(filepath);
+            target = new FileOutputStream(outpath);
+            Map<String, String> params = new HashMap<String, String>();
+            PdfOptions options = PdfOptions.create();
+            wordConverterToPdf(source, target, options, params);
+        } catch (FileNotFoundException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        Map<String,String> map = new HashMap<String,String>();
+        map.put("filename",outpath);
+        return map;
     }
 
 
+    /**
+     * 将word文档， 转换成pdf, 中间替换掉变量
+     * @param source 源为word文档， 必须为docx文档
+     * @param target 目标输出
+     * @param params 需要替换的变量
+     * @throws Exception
+     */
+    public static void wordConverterToPdf(InputStream source,
+                                          OutputStream target, Map<String, String> params) throws Exception {
+        wordConverterToPdf(source, target, null, params);
+    }
 
+    /**
+     * 将word文档， 转换成pdf, 中间替换掉变量
+     * @param source 源为word文档， 必须为docx文档
+     * @param target 目标输出
+     * @param params 需要替换的变量
+     * @param options PdfOptions.create().fontEncoding( "windows-1250" ) 或者其他
+     * @throws Exception
+     */
+    public static void wordConverterToPdf(InputStream source, OutputStream target,
+                                          PdfOptions options,
+                                          Map<String, String> params) throws Exception {
+        XWPFDocument doc = new XWPFDocument(source);
+        paragraphReplace(doc.getParagraphs(), params);
+        for (XWPFTable table : doc.getTables()) {
+            for (XWPFTableRow row : table.getRows()) {
+                for (XWPFTableCell cell : row.getTableCells()) {
+                    paragraphReplace(cell.getParagraphs(), params);
+                }
+            }
+        }
+        PdfConverter.getInstance().convert(doc, target, options);
+    }
+
+    /** 替换段落中内容 */
+    private static void paragraphReplace(List<XWPFParagraph> paragraphs, Map<String, String> params) {
+        if (MapUtils.isNotEmpty(params)) {
+            for (XWPFParagraph p : paragraphs){
+                for (XWPFRun r : p.getRuns()){
+                    String content = r.getText(r.getTextPosition());
+                    if(StringUtils.isNotEmpty(content) && params.containsKey(content)) {
+                        r.setText(params.get(content), 0);
+                    }
+                }
+            }
+        }
+    }
 
 }

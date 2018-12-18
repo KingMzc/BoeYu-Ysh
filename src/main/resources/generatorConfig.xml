@@ -56,6 +56,10 @@
 		<table schema="" tableName="family"></table>-->
 		<!--<table schema="" tableName="safe_url"></table>-->
 		<!--<table schema="" tableName="Confidantnumber"></table>-->
-		<table schema="" tableName="app_record"></table>
+		<!--<table schema="" tableName="app_record"></table>-->
+		<!--<table schema="" tableName="application"></table>-->
+		<!--<table schema="" tableName="application_times"></table>-->
+		<!--<table schema="" tableName="region"></table>-->
+		<table schema="" tableName="region_time"></table>
 	</context>
 </generatorConfiguration>

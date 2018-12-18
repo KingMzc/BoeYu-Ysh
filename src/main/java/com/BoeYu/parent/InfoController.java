@@ -10,12 +10,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.ws.rs.PathParam;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("Api/parent")
@@ -98,7 +102,7 @@ public class InfoController {
 
     @RequestMapping("/UpdateChildYears")
     @ResponseBody
-    public ResultUtil UpdateChildYears(String token, Date years) {
+    public ResultUtil UpdateChildYears(String token, String years) throws ParseException {
         ResultUtil resultUti = new ResultUtil();
         if(CheckToken(token)==false){
             resultUti.setCode(1);
@@ -107,8 +111,32 @@ public class InfoController {
         }
         Customer customer=GetCustomer(token);
         Child child =childService.selectByAndroid(customer.getFkFamilyId());
-        child.setYears(years);
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        child.setYears(sdf.parse(years));
         int flag = childService.updateYears(child);
+        if (flag>0){
+            resultUti.setCode(0);
+            resultUti.setMsg("修改成功");
+        }else {
+            resultUti.setCode(1);
+            resultUti.setMsg("修改失败");
+        }
+        return resultUti;
+    }
+
+    @RequestMapping("/UpdateChildGrade")
+    @ResponseBody
+    public ResultUtil UpdateChildGrade(String token, String grade) throws ParseException {
+        ResultUtil resultUti = new ResultUtil();
+        if(CheckToken(token)==false){
+            resultUti.setCode(1);
+            resultUti.setMsg("登录身份过期请重新登录!");
+            return resultUti;
+        }
+        Customer customer=GetCustomer(token);
+        Child child =childService.selectByAndroid(customer.getFkFamilyId());
+        child.setGrade(grade);
+        int flag = childService.updateGrade(child);
         if (flag>0){
             resultUti.setCode(0);
             resultUti.setMsg("修改成功");
@@ -131,8 +159,8 @@ public class InfoController {
         String sdate=date+" 00:00:00";
         String edate=date+" 23:59:59";
         Customer customer=GetCustomer(token);
-        Child child =childService.selectByPrimaryKey(Integer.valueOf(customer.getFkFamilyId()));
-        List<String> list =customerService.getcoordinate(child.getId().toString(),sdate,edate);
+        //Child child =childService.selectByPrimaryKey(Integer.valueOf(customer.getFkFamilyId()));
+        List<String> list =customerService.getcoordinate(customer.getFkFamilyId(),sdate,edate);
         if (list.size()>0){
             resultUti.setCode(0);
             resultUti.setMsg("查询成功");
@@ -447,8 +475,30 @@ public class InfoController {
         return resultUti;
     }
 
-
-
+    @RequestMapping(value = "/GetEyeRemindTime", method = { RequestMethod.GET, RequestMethod.POST })
+    @ResponseBody
+    public ResultUtil GetEyeRemindTime(String token) {
+        ResultUtil resultUti = new ResultUtil();
+        if(CheckToken(token)==false){
+            resultUti.setCode(1);
+            resultUti.setMsg("登录身份过期请重新登录!");
+            return resultUti;
+        }
+        Customer customer = GetCustomer(token);
+        Child child =childService.GetChildByAndroid(customer.getFkFamilyId());
+        Map<String,String> map = timeService.GetEyeRemindTime(child.getId().toString());
+        if(map.size()>0){
+            resultUti.setCode(0);
+            resultUti.setMsg("查询成功");
+            resultUti.setData(map);
+            return resultUti;
+        }else{
+            resultUti.setCode(1);
+            resultUti.setMsg("暂无数据");
+            resultUti.setData(map);
+            return resultUti;
+        }
+    }
 
     public Customer GetCustomer(String token){
         Customer customer = customerService.GetCustomerByToken(token);
@@ -463,6 +513,4 @@ public class InfoController {
         }
         return check;
     }
-
-
 }

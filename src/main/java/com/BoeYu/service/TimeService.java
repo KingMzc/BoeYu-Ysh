@@ -1,5 +1,6 @@
 package com.BoeYu.service;
 
+import com.BoeYu.pojo.ApplicationTimes;
 import com.BoeYu.pojo.Times;
 import org.omg.CORBA.Object;
 
@@ -40,5 +41,15 @@ public interface TimeService {
     List<Times> GetRegionTime(String childId);
 
     int deleteRegionTime(String timeId);
+
+    int selectAppLockTime(String childId,String week);
+
+    int updateAppLockTime(ApplicationTimes applicationTimes);
+
+    int addAppLockTime(ApplicationTimes applicationTimes);
+
+    List<ApplicationTimes> ShowLockTimep(String childId);
+
+    List<ApplicationTimes> ShowLockTimeChild(String childId,String week);
 
 }

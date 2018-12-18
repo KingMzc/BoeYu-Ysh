@@ -9,6 +9,8 @@ import java.util.Map;
 import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.TransformerException;
 
 import com.BoeYu.annotation.SysLog;
 import com.BoeYu.pojo.*;
@@ -56,7 +58,10 @@ public class AdminController {
 		return "page/websocket/index";
 	}
 	@RequestMapping("/testpptx")
-	public String testpptx(HttpServletRequest req) {
+	public String testpptx(HttpServletRequest req) throws ParserConfigurationException, TransformerException, IOException {
+		Map<String,String> map = new HashMap<String,String>();
+		//map=PPTUtil.wordtopdf();
+		//System.out.println(".........................."+map.get("filename"));
 		return "page/websocket/pptx";
 	}
 

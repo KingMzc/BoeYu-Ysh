@@ -1,5 +1,6 @@
 package com.BoeYu.service;
 
+import com.BoeYu.pojo.Application;
 import com.BoeYu.pojo.Child;
 import com.BoeYu.pojo.Confidantnumber;
 
@@ -22,7 +23,9 @@ public interface ChildService {
 
     int updateYears(Child child);
 
-    int updateFlag(Integer id ,String flag);
+    int updateGrade(Child child);
+
+    int updateFlag(String id ,String flag);
 
     Child selectByPrimaryKey(Integer id);
 
@@ -38,6 +41,12 @@ public interface ChildService {
 
     int deleteChild(Child child);
 
+    int addApplication(Application application);
 
+    int selectApplication(String android,String applicationId);
+
+    int updateApplication(Application application);
+
+    int deleteApplication(String android,String applicationId);
 
 }

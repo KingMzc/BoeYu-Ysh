@@ -1,5 +1,6 @@
 package com.BoeYu.util;
 
+import java.io.File;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -66,4 +67,15 @@ public class MyUtil {
 		String endStr =String.format("%03d", end);
 		return UUID.randomUUID().toString().replace("-", "")+endStr;
 	}
+
+	public static boolean deleteFile(String filePath, String fileName){
+		boolean delete_flag = false;
+		File file = new File(filePath + fileName);
+		if (file.exists() && file.isFile() && file.delete())
+			delete_flag = true;
+		else
+			delete_flag = false;
+		return delete_flag;
+	}
+
 }

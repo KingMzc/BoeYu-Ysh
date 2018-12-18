@@ -3,6 +3,7 @@ package com.BoeYu.service.impl;
 import com.BoeYu.mapper.*;
 import com.BoeYu.pojo.*;
 import com.BoeYu.service.CustomerService;
+import com.BoeYu.util.DateUtil;
 import com.BoeYu.util.MyUtil;
 import com.BoeYu.util.ResultUtil;
 import com.github.pagehelper.PageHelper;
@@ -31,7 +32,8 @@ public class CustomerServiceImpl implements CustomerService {
     private VipMapper vipMapper;
     @Autowired
     private FeedbackMapper feedbackMapper;
-
+    @Autowired
+    private ApplicationMapper applicationMapper;
     @Override
     public ResultUtil selCustomer(Integer page, Integer limit, UserSearch search) {
         PageHelper.startPage(page, limit);
@@ -197,5 +199,37 @@ public class CustomerServiceImpl implements CustomerService {
     public int addFeedback(Feedback feedback) {
         return feedbackMapper.insert(feedback);
     }
+
+    @Override
+    public int updateLockTime(Application application) {
+        return applicationMapper.updateLockTime(application);
+    }
+
+    @Override
+    public int updateAppType(Application application) {
+        return applicationMapper.updateAppType(application);
+    }
+
+    @Override
+    public int updateLockApp(Application application) {
+        return applicationMapper.updateLockApp(application);
+    }
+
+    @Override
+    public List<Application> selectApplication(String android) {
+        return applicationMapper.selectApplicationtype(android);
+    }
+
+    @Override
+    public List<ApplicationTime> selectApplicationTime(String android) {
+         String week= DateUtil.week();
+         return applicationMapper.selectApplicationTime(android,week);
+    }
+
+    @Override
+    public List<ApplicationTime> selectApplicationTimes(String android) {
+        return applicationMapper.selectApplicationTimes(android);
+    }
+
 
 }

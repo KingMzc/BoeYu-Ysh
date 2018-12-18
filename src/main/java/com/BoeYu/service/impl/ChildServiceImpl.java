@@ -29,6 +29,8 @@ public class ChildServiceImpl implements ChildService {
     private ChatMapper chatMapper;
     @Autowired
     private TimesMapper timesMapper;
+    @Autowired
+    private ApplicationMapper applicationMapper;
     @Override
     public Map<String,Object> GetChild(String android){
         Map<String, Object> map =new HashMap<String, Object>();
@@ -69,7 +71,11 @@ public class ChildServiceImpl implements ChildService {
     }
 
     @Override
-    public int updateFlag(Integer id ,String flag) {
+    public int updateGrade(Child child) {
+        return childMapper.updateGrade(child);}
+
+    @Override
+    public int updateFlag(String id ,String flag) {
         return childMapper.updateFlag(id,flag);
     }
 
@@ -149,5 +155,23 @@ public class ChildServiceImpl implements ChildService {
         return flag;
     }
 
+    @Override
+    public int addApplication(Application application) {
+        return applicationMapper.insert(application);
+    }
 
+    @Override
+    public int selectApplication(String android, String applicationId) {
+        return applicationMapper.selectApplication(android,applicationId);
+    }
+
+    @Override
+    public int updateApplication(Application application) {
+        return applicationMapper.updateApplication(application);
+    }
+
+    @Override
+    public int deleteApplication(String android, String applicationId) {
+        return applicationMapper.deleteApplication(android,applicationId);
+    }
 }

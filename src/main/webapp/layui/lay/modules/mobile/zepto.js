@@ -687,7 +687,7 @@ layui.define(function(exports){
            this[0].value)
       }
     },
-    offset: function(coordinates){
+    offset: function(s){
       if (coordinates) return this.each(function(index){
         var $this = $(this),
             coords = funcArg(this, coordinates, index, $this.offset()),

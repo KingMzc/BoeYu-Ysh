@@ -50,5 +50,15 @@ public interface CustomerService {
 
     int addFeedback (Feedback feedback);
 
+    int updateLockTime(Application application);
 
+    int updateAppType(Application application);
+
+    int updateLockApp(Application application);
+
+    List<Application> selectApplication(String android);
+
+    List<ApplicationTime> selectApplicationTime(String android);
+
+    List<ApplicationTime> selectApplicationTimes(String android);
 }

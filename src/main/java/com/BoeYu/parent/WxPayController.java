@@ -24,7 +24,7 @@ public class WxPayController {
     private CustomerService customerService;
     @RequestMapping("/WxPay")
     @ResponseBody
-    public ResultUtil SelectSafeChild(String token,String orderNo,String openid){
+    public ResultUtil WxPay(String token,String orderNo,String openid){
         System.out.println("........................-"+orderNo);
         System.out.println("........................+"+openid);
         ResultUtil resultUti=new ResultUtil();

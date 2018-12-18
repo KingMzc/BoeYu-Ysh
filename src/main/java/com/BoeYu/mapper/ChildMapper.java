@@ -49,7 +49,9 @@ public interface ChildMapper {
 
     int updateYears(Child record);
 
-    int updateFlag(Integer id,String flag);
+    int updateGrade(Child child);
+
+    int updateFlag(String id,String flag);
 
     int CheckCustomerBinding(String phone);
 

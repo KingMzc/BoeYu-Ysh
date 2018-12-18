@@ -1,8 +1,6 @@
 package com.BoeYu.parent;
 
-import com.BoeYu.pojo.AppRecord;
-import com.BoeYu.pojo.Customer;
-import com.BoeYu.pojo.Times;
+import com.BoeYu.pojo.*;
 import com.BoeYu.service.AppTypeService;
 import com.BoeYu.service.CustomerService;
 import com.BoeYu.service.TimeService;
@@ -23,78 +21,200 @@ public class LockController {
     private CustomerService customerService;
     @Autowired
     private AppTypeService appTypeService;
+    /**
+     * 设置锁屏时间
+     *@参数  [token, times, android, week]
+     *@返回值  com.BoeYu.util.ResultUtil
+     *@创建人  KingRoc
+     *@创建时间  2018/12/15
+     */
     @RequestMapping("/SetLockTime")
     @ResponseBody
-    public ResultUtil LockChild( String token,String times,String childId,String week,String type,String flag){
+    public ResultUtil LockChildTime( String token,String times,String android,String week){
         ResultUtil resultUti=new ResultUtil();
         if(CheckToken(token)==false){
             resultUti.setCode(1);
             resultUti.setMsg("登录身份过期请重新登录!");
             return resultUti;
         }
-        int check = timeService.CheckWeek(childId,week);
-        Times time =timeService.GetTimes(childId,week);
-        List<Integer> list = GetTimes(times);
-        int xhcs = 0;
-        int crcs = 0;
-        if(check>0){
-            for (int i = 0; i < list.size(); i++) {
-                if(i==0){
-                    xhcs++;
-                    int bz = timeService.updateTime(time.getId(),list.get(i).toString(),(list.get(i+1)+1)+"",times,childId,week,type,flag);
-                    crcs = crcs+bz;
-                }else if(i==1){
-                }else if(i%2==0){
-                    xhcs++;
-                    int bz =timeService.updateTime(time.getId(),list.get(i).toString(),(list.get(i+1)+1)+"",times,childId,week,type,flag);
-                    crcs = crcs+bz;
-                }
+        ApplicationTimes applicationTimes = new ApplicationTimes();
+        applicationTimes.setFkApplicationId(android);
+        applicationTimes.setTimes(times);
+        applicationTimes.setWeek(week);
+        applicationTimes.setFlag("1");
+        if(timeService.selectAppLockTime(android,week)>0){
+            if(timeService.updateAppLockTime(applicationTimes)>0){
+                resultUti.setMsg("锁屏时间修改成功");
+                resultUti.setCode(0);
+            }else{
+                resultUti.setMsg("锁屏时间修改失败");
+                resultUti.setCode(1);
             }
         }else{
-            for (int i = 0; i < list.size(); i++) {
-                if(i==0){
-                    xhcs++;
-                    // System.out.println(list.get(i) + "-"+(list.get(i+1)+1));
-                    int bz = timeService.addTime(list.get(i).toString(),(list.get(i+1)+1)+"",times,childId,week,type,flag);
-                    crcs = crcs+bz;
-                }else if(i==1){
-                }else if(i%2==0){
-                    xhcs++;
-                    // System.out.println(list.get(i) + "-"+(list.get(i+1)+1));
-                    int bz =timeService.addTime(list.get(i).toString(),(list.get(i+1)+1)+"",times,childId,week,type,flag);
-                    crcs = crcs+bz;
-                }
+            if(timeService.addAppLockTime(applicationTimes)>0){
+                resultUti.setMsg("锁屏时间设置成功");
+                resultUti.setCode(0);
+            }else{
+                resultUti.setMsg("锁屏时间设置失败");
+                resultUti.setCode(1);
             }
-        }
-        if(xhcs==crcs){
-            resultUti.setCode(0);
-            resultUti.setMsg("设置成功！");
-        }else{
-            resultUti.setCode(1);
-            resultUti.setMsg("设置失败！");
         }
         return resultUti;
     }
-    @RequestMapping("/ShowLockTime")
+    /**
+     * 设置应用的时间
+     *@参数  [token, times, id, week]
+     *@返回值  com.BoeYu.util.ResultUtil
+     *@创建人  KingRoc
+     *@创建时间  2018/12/15
+     */
+    @RequestMapping("/SetApplicationTime")
     @ResponseBody
-    public ResultUtil ShowLockTime( String token,String childId,String week,String type,String flag) {
+    public ResultUtil SetApplicationTime( String token,String times,String id,String week){
+        ResultUtil resultUti=new ResultUtil();
+        if(CheckToken(token)==false){
+            resultUti.setCode(1);
+            resultUti.setMsg("登录身份过期请重新登录!");
+            return resultUti;
+        }
+        ApplicationTimes applicationTimes = new ApplicationTimes();
+        applicationTimes.setFkApplicationId(id);
+        applicationTimes.setTimes(times);
+        applicationTimes.setWeek(week);
+        applicationTimes.setFlag("0");
+        if(timeService.selectAppLockTime(id,week)>0){
+            if(timeService.updateAppLockTime(applicationTimes)>0){
+                resultUti.setMsg("锁屏时间修改成功");
+                resultUti.setCode(0);
+            }else{
+                resultUti.setMsg("锁屏时间修改失败");
+                resultUti.setCode(1);
+            }
+        }else{
+            if(timeService.addAppLockTime(applicationTimes)>0){
+                resultUti.setMsg("锁屏时间设置成功");
+                resultUti.setCode(0);
+            }else{
+                resultUti.setMsg("锁屏时间设置失败");
+                resultUti.setCode(1);
+            }
+        }
+        return resultUti;
+    }
+    /**
+     * 设置应用的状态
+     *@参数  [token, android, appId, applicationType]
+     *@返回值  com.BoeYu.util.ResultUtil
+     *@创建人  KingRoc
+     *@创建时间  2018/12/14
+     */
+    @RequestMapping("/SetAppType")
+    @ResponseBody
+    public ResultUtil updateAppType( String token,String android,String id,String applicationType){
+        ResultUtil resultUti=new ResultUtil();
+        if(CheckToken(token)==false){
+            resultUti.setCode(1);
+            resultUti.setMsg("登录身份过期请重新登录!");
+            return resultUti;
+        }
+        Application application = new Application();
+        application.setFkChildId(android);
+        application.setApplicationId(id);
+        application.setApplicationType(applicationType);
+        if(customerService.updateAppType(application)>0){
+            resultUti.setMsg("设置成功");
+            resultUti.setCode(0);
+        }else{
+            resultUti.setMsg("设置失败");
+            resultUti.setCode(1);
+        }
+        return resultUti;
+    }
+    /**
+     * 设置锁屏应用
+     *@参数  [token, android, appId, lockType]
+     *@返回值  com.BoeYu.util.ResultUtil
+     *@创建人  KingRoc
+     *@创建时间  2018/12/14
+     */
+    @RequestMapping("/SetLockApp")
+    @ResponseBody
+    public ResultUtil updateLockApp( String token,String android,String id,String lockType){
+        ResultUtil resultUti=new ResultUtil();
+        if(CheckToken(token)==false){
+            resultUti.setCode(1);
+            resultUti.setMsg("登录身份过期请重新登录!");
+            return resultUti;
+        }
+        Application application = new Application();
+        application.setFkChildId(android);
+        application.setApplicationId(id);
+        application.setLockType(lockType);
+        if(customerService.updateLockApp(application)>0){
+            resultUti.setMsg("设置成功");
+            resultUti.setCode(0);
+        }else{
+            resultUti.setMsg("设置失败");
+            resultUti.setCode(1);
+        }
+        return resultUti;
+    }
+
+    /**
+     * 家长端获取应用列表和锁定时间
+     *@参数  [token, android]
+     *@返回值  com.BoeYu.util.ResultUtil
+     *@创建人  KingRoc
+     *@创建时间  2018/12/14
+     */
+    @RequestMapping("/ShowApplication")
+    @ResponseBody
+    public ResultUtil ShowApplication( String token,String android) {
         ResultUtil resultUti = new ResultUtil();
         if(CheckToken(token)==false){
             resultUti.setCode(1);
             resultUti.setMsg("登录身份过期请重新登录!");
             return resultUti;
         }
-        String times = timeService.ShowLockTime(childId,week,type,flag);
-        if(times!=""||times!=null){
+        List<ApplicationTime> list =customerService.selectApplicationTimes(android);
+        if(list.size()>0){
             resultUti.setCode(0);
             resultUti.setMsg("查询成功");
-            resultUti.setData(times);
+            resultUti.setData(list);
         }else{
             resultUti.setCode(1);
             resultUti.setMsg("暂无数据");
         }
         return resultUti;
     }
+    /**
+     * 家长获取孩子的锁屏时间
+     *@参数  [token, android]
+     *@返回值  com.BoeYu.util.ResultUtil
+     *@创建人  KingRoc
+     *@创建时间  2018/12/15
+     */
+    @RequestMapping("/ShowLockTimeParent")
+    @ResponseBody
+    public ResultUtil ShowLockTimeParent( String token,String android) {
+        ResultUtil resultUti = new ResultUtil();
+        if(CheckToken(token)==false){
+            resultUti.setCode(1);
+            resultUti.setMsg("登录身份过期请重新登录!");
+            return resultUti;
+        }
+        List<ApplicationTimes> list =timeService.ShowLockTimep(android);
+        if(list.size()>0){
+            resultUti.setCode(0);
+            resultUti.setMsg("查询成功");
+            resultUti.setData(list);
+        }else{
+            resultUti.setCode(1);
+            resultUti.setMsg("暂无数据");
+        }
+        return resultUti;
+    }
+
 
     @RequestMapping("/EyeRemind")
     @ResponseBody
