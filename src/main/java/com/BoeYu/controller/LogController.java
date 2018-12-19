@@ -2,6 +2,7 @@ package com.BoeYu.controller;
 
 import com.BoeYu.pojo.UserSearch;
 import com.BoeYu.service.LogService;
+import com.BoeYu.util.DateUtil;
 import com.BoeYu.util.MyUtil;
 import com.BoeYu.util.ResultUtil;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -36,12 +37,9 @@ public class LogController {
 	}
 	/*public static void main(String[] args)
 	{
-		Boolean xx = MyUtil.deleteFile("D:\\upload\\","b422b5b29e3f4da9a1d7e87c850fdda97250.jpg");
-if(xx==true){
-	System.out.println("删除成功");
-}else{
 
-}
+		System.out.println("..............."+ DateUtil.pdycsjcd("01:00","02:00","03:59","04:01"));
+
 
 	}*/
 

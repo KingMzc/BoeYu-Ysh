@@ -62,7 +62,7 @@ public class WebSocket {
         if(send>0){
             map.get(ss[0]).sendMessage(ss[1]);
         }else{
-            map.get(uid).sendMessage("对方没有在线，发送失败！");
+            //map.get(uid).sendMessage("对方没有在线，发送失败！");
         }
 
     }
@@ -81,7 +81,13 @@ public class WebSocket {
      * @param message
      * @throws IOException
      */
-    public void sendMessage(String message) throws IOException{
+    public static void sendmsg(String id,String message) throws IOException {
+        if(map.get(id)!=null){
+            map.get(id).sendMessage(message);
+        }
+    }
+
+    public  void sendMessage(String message) throws IOException{
         this.session.getBasicRemote().sendText(message);
         //this.session.getAsyncRemote().sendText(message);
     }

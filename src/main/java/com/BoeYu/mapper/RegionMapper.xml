@@ -9,6 +9,15 @@
     <result column="createtime" jdbcType="TIMESTAMP" property="createtime" />
     <result column="name" jdbcType="VARCHAR" property="name" />
   </resultMap>
+
+  <resultMap id="RegionTimes" type="com.BoeYu.pojo.RegionTimes">
+    <result column="mater" jdbcType="VARCHAR" property="mater" />
+    <result column="coordinate" jdbcType="VARCHAR" property="coordinate" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="week" jdbcType="VARCHAR" property="week" />
+    <result column="startTime" jdbcType="VARCHAR" property="starttime" />
+    <result column="endTime" jdbcType="VARCHAR" property="endtime" />
+  </resultMap>
   <sql id="Example_Where_Clause">
     <where>
       <foreach collection="oredCriteria" item="criteria" separator="or">
@@ -225,4 +234,58 @@
       name = #{name,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
+
+  <select id="CheckRegion" resultType="java.lang.Integer">
+    select
+    count(1)
+    from region
+    where fk_child_id = #{0}
+  </select>
+
+  <insert id="addRegion" parameterType="com.BoeYu.pojo.Region" useGeneratedKeys="true" keyProperty="id">
+    insert into region (id, fk_child_id, mater,
+      coordinate, createtime, name
+      )
+    values (#{id,jdbcType=INTEGER}, #{fkChildId,jdbcType=VARCHAR}, #{mater,jdbcType=VARCHAR},
+      #{coordinate,jdbcType=VARCHAR}, #{createtime,jdbcType=TIMESTAMP}, #{name,jdbcType=VARCHAR}
+      )
+  </insert>
+
+  <delete id="deleteRegion" parameterType="java.lang.String">
+    delete from region
+    where fk_child_id = #{0}
+  </delete>
+
+  <update id="UpdateRegionCoordinate" parameterType="com.BoeYu.pojo.Region">
+    update region
+    set
+      coordinate = #{coordinate,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="UpdateRegionMater" parameterType="com.BoeYu.pojo.Region">
+    update region
+    set
+      mater = #{mater,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="UpdateRegionName" parameterType="com.BoeYu.pojo.Region">
+    update region
+    set
+      name = #{name,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+  <select id="selectRegionBychildId"  resultMap="RegionTimes">
+    select
+     mater,coordinate,name,week,startTime,endTime
+    from region r left join region_time t on r.id = t.fk_region_id
+    where r.fk_child_id = #{0}  and t.week=#{1}
+  </select>
+
+  <select id="SelectRegions"  resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from region
+    where fk_child_id = #{0}
+  </select>
 </mapper>

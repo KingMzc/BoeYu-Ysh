@@ -252,7 +252,7 @@
     select
     <include refid="Base_Column_List" />
     from chat
-    where to_id=#{0} and send_id=#{1} and chattype='3' order by create_time desc
+    where to_id=#{0} and send_id=#{1} and chattype='3' order by create_time desc limit 1
   </select>
 
   <delete id="deleteChild" >

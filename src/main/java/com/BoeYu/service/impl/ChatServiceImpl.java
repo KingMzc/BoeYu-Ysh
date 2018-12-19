@@ -23,7 +23,7 @@ public class ChatServiceImpl implements ChatService {
     }
 
     @Override
-    public List<Chat> GetReadImg(String toid, String sendid) {
+    public Chat GetReadImg(String toid, String sendid) {
         return chatMapper.selectReadImg(toid,sendid);
     }
 

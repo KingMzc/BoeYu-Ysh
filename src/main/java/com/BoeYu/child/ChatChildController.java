@@ -82,11 +82,11 @@ public class ChatChildController {
         Child child = GetChild(android);
         Date date = new Date();
         Chat chat = new Chat();
-        String fileSub = file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf("."))
+        /*String fileSub = file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf("."))
                 .toLowerCase();
-        if (".jpg".equals(fileSub) || ".jpeg".equals(fileSub) || ".png".equals(fileSub) || ".gif".equals(fileSub)||".mp3".equals(fileSub)) {
+        if (".jpg".equals(fileSub) || ".jpeg".equals(fileSub) || ".png".equals(fileSub) || ".gif".equals(fileSub)||".mp3".equals(fileSub)) {*/
             Random d = new Random();
-            String img = UUID.randomUUID().toString().replace("-", "") + d.nextInt(10000) + "" + fileSub;
+            String img = UUID.randomUUID().toString().replace("-", "") + d.nextInt(10000) + ".jpg" ;
             try {
                 chat.setChattype(type);
                 File f=new File(GlobalUtil.getValue("upfile.path"));
@@ -100,7 +100,7 @@ public class ChatChildController {
                 e.printStackTrace();
             }
             chat.setChatMsg(img);
-            chat.setSendId(child.getId().toString());
+            chat.setSendId(child.getAndroid());
             chat.setToId(toid);
             chat.setCreateTime(date);
             if (type.equals("3")){
@@ -110,9 +110,9 @@ public class ChatChildController {
             }
             chatService.addChat(chat);
             return ResultUtil.ok();
-        } else {
+       /* } else {
             return ResultUtil.error("文件格式不支持,请重新选择！");
-        }
+        }*/
     }
 
     public Child GetChild(String android){

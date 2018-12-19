@@ -383,9 +383,9 @@
 
   <update id="LockChild" parameterType="com.BoeYu.pojo.Child">
     update child
-    set name =
+    set
       child_type = #{childType,jdbcType=CHAR}
-    where id = #{id,jdbcType=INTEGER}
+    where android = #{android,jdbcType=VARCHAR}
   </update>
   <select id="GetChildByPhone" resultMap="BaseResultMap">
     select

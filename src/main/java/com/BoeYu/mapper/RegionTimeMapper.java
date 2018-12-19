@@ -27,4 +27,10 @@ public interface RegionTimeMapper {
     int updateByPrimaryKeySelective(RegionTime record);
 
     int updateByPrimaryKey(RegionTime record);
+
+    int UpdateRegionTimes(RegionTime record);
+
+    int deleteRegionTimes(String  record);
+
+    List<RegionTime> SelectRegionTime(String regionId);
 }

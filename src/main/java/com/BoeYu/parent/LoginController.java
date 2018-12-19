@@ -1,5 +1,6 @@
 package com.BoeYu.parent;
 
+import com.BoeYu.controller.WebSocket;
 import com.BoeYu.pojo.Child;
 import com.BoeYu.pojo.Customer;
 import com.BoeYu.service.ChildService;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
@@ -55,7 +57,7 @@ public class LoginController {
             return resultUti; 
         }
         Customer customer = (Customer)map.get("customer");
-        request.getSession().setAttribute("customerid",customer.getId());
+        request.getSession().setAttribute("customerid",customer.getPhone());
         resultUti.setCode(0);
         resultUti.setMsg("登录成功");
         resultUti.setData(map);
@@ -154,7 +156,7 @@ public class LoginController {
     }
     @RequestMapping("/LockChild")
     @ResponseBody
-    public ResultUtil LockChild(String token,String childId,String type){
+    public ResultUtil LockChild(String token,String childId,String type) throws IOException {
         ResultUtil resultUti=new ResultUtil();
         if(CheckToken(token)==false){
             resultUti.setCode(1);
@@ -167,22 +169,31 @@ public class LoginController {
             return resultUti;
         }
         Customer customer = GetCustomer(token);
-        if(customerService.CheckChildIsCustomer(customer.getId().toString(),childId)<=0){
+        if(customerService.CheckChildIsCustomer(customer.getPhone(),childId)<=0){
             resultUti.setCode(1);
             resultUti.setMsg("没有权限锁屏这个孩子!");
             return resultUti;
         }
         Child child = new Child();
         child.setChildType(type);
-        child.setId(Integer.valueOf(childId));
+        child.setAndroid(childId);
         int flag = customerService.LockChild(child);
         if(flag>0){
+            WebSocket.sendmsg(childId,"LockScreen:"+type);
             resultUti.setCode(0);
-            resultUti.setMsg("锁屏成功");
+            if (type.equals("1")){
+                resultUti.setMsg("锁屏成功");
+            }else{
+                resultUti.setMsg("解锁成功");
+            }
             return resultUti;
         }else{
             resultUti.setCode(1);
-            resultUti.setMsg("锁屏失败");
+            if (type.equals("1")){
+                resultUti.setMsg("锁屏失败");
+            }else{
+                resultUti.setMsg("解锁失败");
+            }
             return resultUti;
         }
     }

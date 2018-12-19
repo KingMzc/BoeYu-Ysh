@@ -18,9 +18,11 @@
     <hr/>
     <button onclick="closeWebSocket()">关闭WebSocket连接</button>
     <hr/>
-    <div id="message"></div>
+    <div id="message">
+        <img id="imgInit" src="" />
+    </div>
 </body>
-
+<script type="text/javascript" src="${ctx }/js/jquery-1.9.1.min.js"></script>
 <script type="text/javascript">
     var websocket = null;
     //判断当前浏览器是否支持WebSocket
@@ -53,7 +55,18 @@
     };
     //将消息显示在网页上
     function setMessageInnerHTML(innerHTML) {
+        $.ajax({
+            type: "get",
+            url: "http://localhost:8080/Api/parent/readImg?token=00ebb809a913f9572332cb0afa8ee2c3&toId=f61e077460b769d8",
+            success:function(data){
+                var arry=data.data;
+                var adres="http://localhost:8080/Api/parent/show?token=00ebb809a913f9572332cb0afa8ee2c3&fileName="+arry;
+                document.getElementById('imgInit').src = adres
+            }
+        });
+
         document.getElementById('message').innerHTML += innerHTML + '<br/>';
+
     }
     //关闭WebSocket连接
     function closeWebSocket() {

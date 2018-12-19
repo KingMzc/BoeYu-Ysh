@@ -9,5 +9,5 @@ public interface ChatService {
 
     List<Chat> GetUnreadMsg(String toid,String sendid);
 
-    List<Chat> GetReadImg(String toid,String sendid);
+    Chat GetReadImg(String toid,String sendid);
 }

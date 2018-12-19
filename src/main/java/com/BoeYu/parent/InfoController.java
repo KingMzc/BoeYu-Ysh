@@ -421,7 +421,7 @@ public class InfoController {
         return resultUti;
     }
 
-    @RequestMapping("/addRegionTime")
+    /*@RequestMapping("/addRegionTime")
     @ResponseBody
     public ResultUtil addRegionTime(String token,String meter,String startTime,String endTime,String week,String name,String timeId) {
         ResultUtil resultUti = new ResultUtil();
@@ -473,7 +473,7 @@ public class InfoController {
         }
 
         return resultUti;
-    }
+    }*/
 
     @RequestMapping(value = "/GetEyeRemindTime", method = { RequestMethod.GET, RequestMethod.POST })
     @ResponseBody

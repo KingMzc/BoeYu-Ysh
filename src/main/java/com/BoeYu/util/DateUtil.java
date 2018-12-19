@@ -221,12 +221,39 @@ public class DateUtil {
         String xx=str[day-1];
         return xx;
     }
+    //
+    public static String datehms(Date date){
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String dateNowStr = sdf.format(date);
+        String hfm = dateNowStr.substring(11,19);
+        return hfm;
+    }
 //  获取时间的 小时
     public static int datehour(Date date) throws Exception {
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         int hour=Integer.valueOf(df.format(date).substring(11,13));
         return hour;
     }
+ // 判断时间 十分表的大小 前者打 true
+ public static boolean compTime(String s1,String s2){
+     try {
+         if (s1.indexOf(":")<0||s1.indexOf(":")<0) {
+             System.out.println("格式不正确");
+         }else{
+             String[]array1 = s1.split(":");
+             int total1 = Integer.valueOf(array1[0])*3600+Integer.valueOf(array1[1])*60+Integer.valueOf(array1[2]);
+             String[]array2 = s2.split(":");
+             int total2 = Integer.valueOf(array2[0])*3600+Integer.valueOf(array2[1])*60+Integer.valueOf(array2[2]);
+             return total1-total2>0?true:false;
+         }
+     } catch (NumberFormatException e) {
+         // TODO Auto-generated catch block
+         return true;
+     }
+     return false;
+
+ }
+
 //判断时间区间是不是重复
     public static boolean pdycsjcd(String time,String time1,String time2,String time3){
         int res=time.compareTo(time2);

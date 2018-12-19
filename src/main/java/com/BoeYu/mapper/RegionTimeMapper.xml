@@ -225,4 +225,23 @@
       endTime = #{endtime,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  <update id="UpdateRegionTimes" parameterType="com.BoeYu.pojo.RegionTime">
+    update region_time
+    set
+      startTime = #{starttime,jdbcType=VARCHAR},
+      endTime = #{endtime,jdbcType=VARCHAR}
+    where fk_region_id = #{fkRegionId,jdbcType=VARCHAR} and week = #{week,jdbcType=VARCHAR}
+  </update>
+
+  <delete id="deleteRegionTimes" parameterType="java.lang.Integer">
+    delete from region_time
+    where fk_region_id = #{0}
+  </delete>
+
+  <select id="SelectRegionTime" parameterType="com.BoeYu.pojo.RegionTimeExample" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from region_time where
+    fk_region_id = #{0}
+  </select>
 </mapper>

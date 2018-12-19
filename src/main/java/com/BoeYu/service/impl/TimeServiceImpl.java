@@ -1,8 +1,12 @@
 package com.BoeYu.service.impl;
 
 import com.BoeYu.mapper.ApplicationTimesMapper;
+import com.BoeYu.mapper.RegionMapper;
+import com.BoeYu.mapper.RegionTimeMapper;
 import com.BoeYu.mapper.TimesMapper;
 import com.BoeYu.pojo.ApplicationTimes;
+import com.BoeYu.pojo.Region;
+import com.BoeYu.pojo.RegionTimes;
 import com.BoeYu.pojo.Times;
 import com.BoeYu.service.TimeService;
 import com.BoeYu.util.DateUtil;
@@ -19,6 +23,10 @@ public class TimeServiceImpl implements TimeService {
     private TimesMapper timesMapper;
     @Autowired
     private ApplicationTimesMapper applicationTimesMapper;
+    @Autowired
+    private RegionMapper regionMapper;
+    @Autowired
+    private RegionTimeMapper regionTimeMapper;
     @Override
     public int addTime(String starte, String end, String time, String childId, String week, String type, String flag) {
         Times times = new Times();
@@ -153,10 +161,49 @@ public class TimeServiceImpl implements TimeService {
 
     @Override
     public int CheckRegion(String android, String coordinate) {
-        int flag=0;
         String week = "";
-        int hour=0;
+        int flag=0;
+        String Regioncoordinate = "";
         String mater="";
+        int hav=0;
+        try {
+             week = DateUtil.dateToWeekday(new Date());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        List<RegionTimes> list =regionMapper.selectRegionBychildId(android,week);
+        String nowtime=DateUtil.datehms(new Date());
+        for (int i=0;i<list.size();i++){
+            if (list.get(i).getStarttime().equals("")||list.get(i).getEndtime().equals("")){
+            }else{
+                String starttime = list.get(i).getStarttime()+":00";
+                String endtime = list.get(i).getEndtime()+":00";
+                if(DateUtil.compTime(nowtime,starttime)==true&&DateUtil.compTime(endtime,nowtime)==true){
+                    Regioncoordinate=list.get(i).getCoordinate();
+                    mater=list.get(i).getMater();
+                    hav++;
+                }
+                break;
+            }
+        }
+        if (hav>0){
+            String [] coordinateyzb = coordinate.split(",");
+            String [] coordinateezb = Regioncoordinate.split(",");
+            double jlmater = MapUtil.getDistance(
+                    Double.parseDouble(coordinateyzb[0]),
+                    Double.parseDouble(coordinateyzb[1]),
+                    Double.parseDouble(coordinateezb[0]),
+                    Double.parseDouble(coordinateezb[1]));
+            if (Integer.valueOf(mater)<jlmater){
+                System.out.println("孩子已经跑了~~报警开始~~~~~~~");
+                flag=1;
+            }
+        }
+        //旧方法
+        /*int flag=0;
+
+        int hour=0;*/
+        /*String mater="";
         String Regioncoordinate = "";
         int hav=0;
         try {
@@ -199,7 +246,7 @@ public class TimeServiceImpl implements TimeService {
                     }
                 }
             }
-        }
+        }*/
         return flag;
     }
 

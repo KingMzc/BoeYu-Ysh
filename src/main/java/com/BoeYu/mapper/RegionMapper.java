@@ -3,6 +3,8 @@ package com.BoeYu.mapper;
 import com.BoeYu.pojo.Region;
 import com.BoeYu.pojo.RegionExample;
 import java.util.List;
+
+import com.BoeYu.pojo.RegionTimes;
 import org.apache.ibatis.annotations.Param;
 
 public interface RegionMapper {
@@ -27,4 +29,20 @@ public interface RegionMapper {
     int updateByPrimaryKeySelective(Region record);
 
     int updateByPrimaryKey(Region record);
+
+    int CheckRegion(String childId);
+
+    int addRegion(Region record);
+
+    int deleteRegion(String childId);
+
+    int UpdateRegionCoordinate(Region record);
+
+    int UpdateRegionMater(Region record);
+
+    int UpdateRegionName(Region record);
+
+    List<RegionTimes> selectRegionBychildId(String childId,String week);
+
+    List<Region> SelectRegions(String childId);
 }

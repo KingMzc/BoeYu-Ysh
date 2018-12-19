@@ -1,5 +1,6 @@
 package com.BoeYu.parent;
 
+import com.BoeYu.controller.WebSocket;
 import com.BoeYu.pojo.Chat;
 import com.BoeYu.pojo.Customer;
 import com.BoeYu.service.ChatService;
@@ -139,11 +140,11 @@ public class ChatController {
             resultUti.setMsg("登录身份过期请重新登录!");
             return resultUti;
         }
-        List<Chat> list=chatService.GetReadImg(GetCustomer(token).getId().toString(),toId);
-        if(list.size()>0){
+        Chat chat=chatService.GetReadImg(GetCustomer(token).getPhone(),toId);
+        if(chat!=null){
             resultUti.setCode(0);
             resultUti.setMsg("查询成功!");
-            resultUti.setData(list);
+            resultUti.setData(chat.getChatMsg());
             return resultUti;
         }else{
             resultUti.setCode(1);
@@ -151,6 +152,23 @@ public class ChatController {
             return resultUti;
         }
     }
+
+    @RequestMapping(value = "/Screenshot")
+    @ResponseBody
+    public ResultUtil Screenshot(String token,String toId) throws IOException {
+        ResultUtil resultUti=new ResultUtil();
+        if(CheckToken(token)==false){
+            resultUti.setCode(1);
+            resultUti.setMsg("登录身份过期请重新登录!");
+            return resultUti;
+        }
+        Customer customer = GetCustomer(token);
+        WebSocket.sendmsg(toId,"Screenshot:"+customer.getPhone());
+        resultUti.setCode(0);
+        resultUti.setMsg("远程截图");
+        return resultUti;
+    }
+
     @RequestMapping("/shangchuan")
     @ResponseBody
     public void banneradd(@RequestParam("file") CommonsMultipartFile f, HttpServletResponse resp, HttpServletRequest req) throws IOException {

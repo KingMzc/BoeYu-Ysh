@@ -70,7 +70,6 @@ public class WxPayController {
         data.put("notify_url","http://wxpay.wxutil.com/pub_v2/pay/notify.v2.php");
         data.put("trade_type", "JSAPI");
         data.put("openid",openid);
-
         String UTF8 = "UTF-8";
         String reqBody = WXPayUtil.generateSignedXml(data,"BoeyuYshXiongXiong3611OK2018YESW");
         URL httpUrl = new URL("https://api.mch.weixin.qq.com/pay/unifiedorder");
