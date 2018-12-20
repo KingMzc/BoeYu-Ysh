@@ -46,7 +46,7 @@ public class LockChildController {
             resultUti.setData(list);
             return resultUti;
         }else{
-            resultUti.setCode(1);
+            resultUti.setCode(0);
             resultUti.setMsg("暂无数据");
             return resultUti;
         }
@@ -69,7 +69,7 @@ public class LockChildController {
             resultUti.setData(list);
             return resultUti;
         }else{
-            resultUti.setCode(1);
+            resultUti.setCode(0);
             resultUti.setMsg("暂无数据");
             return resultUti;
         }
@@ -87,7 +87,7 @@ public class LockChildController {
             resultUti.setData(map);
             return resultUti;
         }else{
-            resultUti.setCode(1);
+            resultUti.setCode(0);
             resultUti.setMsg("暂无数据");
             resultUti.setData(map);
             return resultUti;

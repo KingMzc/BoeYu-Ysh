@@ -182,7 +182,7 @@ public class LockController {
             resultUti.setMsg("查询成功");
             resultUti.setData(list);
         }else{
-            resultUti.setCode(1);
+            resultUti.setCode(0);
             resultUti.setMsg("暂无数据");
         }
         return resultUti;
@@ -209,7 +209,7 @@ public class LockController {
             resultUti.setMsg("查询成功");
             resultUti.setData(list);
         }else{
-            resultUti.setCode(1);
+            resultUti.setCode(0);
             resultUti.setMsg("暂无数据");
         }
         return resultUti;
@@ -290,7 +290,7 @@ public class LockController {
             resultUti.setData(list);
             return resultUti;
         }else{
-            resultUti.setCode(1);
+            resultUti.setCode(0);
             resultUti.setMsg("暂无数据");
             return resultUti;
         }

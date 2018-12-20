@@ -131,6 +131,7 @@ public class ChatController {
             return resultUti;
         }
     }
+
     @RequestMapping(value = "/readImg")
     @ResponseBody
     public ResultUtil readImg(String token,String toId){

@@ -46,4 +46,6 @@ public interface CustomerMapper {
 
     int updateName(Customer record);
 
+    int updatepassword(Customer record);
+
 }

@@ -1,6 +1,9 @@
 package com.BoeYu.controller;
 
 
+import com.BoeYu.pojo.RealTimeCoordinates;
+
+import javax.servlet.http.HttpServletRequest;
 import javax.websocket.*;
 import javax.websocket.server.PathParam;
 import javax.websocket.server.ServerEndpoint;
@@ -50,21 +53,26 @@ public class WebSocket {
      */
     @OnMessage
     public void onMessage(String data,@PathParam("uid")String uid) throws IOException {
-        //群发消息
-        Set<String> set = map.keySet(); //取出所有的key值
-        String[] ss = data.split("-");
-        int send=0;
-        for (String key:set) {
-            if(ss[0].equals(key)){
-                send++;
+        if(data.contains("Coordinate")){
+            String[] qq = data.split(":");
+            /*String[] ww = qq[1].split("-");*/
+            RealTimeCoordinates.setmap(uid,qq[1]);
+        }else{
+            //群发消息
+            Set<String> set = map.keySet(); //取出所有的key值
+            String[] ss = data.split("-");
+            int send=0;
+            for (String key:set) {
+                if(ss[0].equals(key)){
+                    send++;
+                }
+            }
+            if(send>0){
+                map.get(ss[0]).sendMessage(ss[1]);
+            }else{
+                //map.get(uid).sendMessage("对方没有在线，发送失败！");
             }
         }
-        if(send>0){
-            map.get(ss[0]).sendMessage(ss[1]);
-        }else{
-            //map.get(uid).sendMessage("对方没有在线，发送失败！");
-        }
-
     }
     /**
      * 发生错误时调用
@@ -73,7 +81,7 @@ public class WebSocket {
      */
     @OnError
     public void onError(Session session, Throwable error){
-        System.out.println("发生错误"+ new Date());
+        System.out.println("websocket"+ new Date());
         //error.printStackTrace();
     }
     /**
@@ -81,10 +89,15 @@ public class WebSocket {
      * @param message
      * @throws IOException
      */
-    public static void sendmsg(String id,String message) throws IOException {
+    public static int sendmsg(String id,String message) throws IOException {
+        int flag = 0;
         if(map.get(id)!=null){
-            map.get(id).sendMessage(message);
+            if(map.get(id).session.isOpen()==true){
+                map.get(id).sendMessage(message);
+                flag++;
+            }
         }
+        return flag;
     }
 
     public  void sendMessage(String message) throws IOException{

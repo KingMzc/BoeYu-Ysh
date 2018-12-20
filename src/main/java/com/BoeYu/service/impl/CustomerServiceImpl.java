@@ -97,6 +97,11 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
+    public int addCustomer(Customer customer) {
+        return customerMapper.insert(customer);
+    }
+
+    @Override
     public int selectPhone(String phone) {
         return customerMapper.selectPhone(phone);
     }
@@ -135,6 +140,11 @@ public class CustomerServiceImpl implements CustomerService {
     public int updateName(Customer customer) {
 
         return customerMapper.updateName(customer);
+    }
+
+    @Override
+    public int updatepassword(Customer customer) {
+        return customerMapper.updatepassword(customer);
     }
 
     @Override

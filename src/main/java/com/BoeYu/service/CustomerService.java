@@ -14,6 +14,8 @@ public interface CustomerService {
 
      Map<String,Object> loginInfo(String phone,String wxid,String mm);
 
+     int addCustomer(Customer customer);
+
      int selectPhone(String phone);
 
      int selectToken(String token);
@@ -27,6 +29,8 @@ public interface CustomerService {
      int updateChild(Customer customer);
 
      int updateName(Customer customer);
+
+    int updatepassword(Customer customer);
 
      int CheckChild(String childId);
 

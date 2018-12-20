@@ -1,5 +1,6 @@
 package com.BoeYu.parent;
 
+import com.BoeYu.controller.WebSocket;
 import com.BoeYu.pojo.*;
 import com.BoeYu.service.ChildService;
 import com.BoeYu.service.CustomerService;
@@ -14,12 +15,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.ws.rs.PathParam;
+import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Controller
 @RequestMapping("Api/parent")
@@ -149,7 +148,7 @@ public class InfoController {
 
     @RequestMapping("/ShowCoordinate")
     @ResponseBody
-    public ResultUtil ShowCoordinate(String token, String date) {
+    public ResultUtil ShowCoordinate(String token, String date){
         ResultUtil resultUti = new ResultUtil();
         if(CheckToken(token)==false){
             resultUti.setCode(1);
@@ -171,9 +170,66 @@ public class InfoController {
         }
         return resultUti;
     }
+
+    /**
+     * 向安卓发送指令 上传孩子坐标
+     *@参数  [token]
+     *@返回值  com.BoeYu.util.ResultUtil
+     *@创建人  KingRoc
+     *@创建时间  2018/12/20
+     */
+    @RequestMapping("/SendCoordinate")
+    @ResponseBody
+    public ResultUtil SendCoordinate(String token) throws IOException {
+        ResultUtil resultUti = new ResultUtil();
+        if(CheckToken(token)==false){
+            resultUti.setCode(1);
+            resultUti.setMsg("登录身份过期请重新登录!");
+            return resultUti;
+        }
+        Customer customer=GetCustomer(token);
+        int flag = WebSocket.sendmsg(customer.getFkFamilyId(),"Coordinate");
+        if (flag>0){
+            resultUti.setCode(0);
+            resultUti.setMsg("发送成功");
+        }else {
+            resultUti.setCode(1);
+            resultUti.setMsg("发送失败");
+        }
+        return resultUti;
+    }
+    /**
+     * 获取孩子坐标
+     *@参数  [token]
+     *@返回值  com.BoeYu.util.ResultUtil
+     *@创建人  KingRoc
+     *@创建时间  2018/12/20
+     */
+    @RequestMapping("/GetCoordinate")
+    @ResponseBody
+    public ResultUtil GetCoordinate(String token) throws IOException {
+        ResultUtil resultUti = new ResultUtil();
+        if(CheckToken(token)==false){
+            resultUti.setCode(1);
+            resultUti.setMsg("登录身份过期请重新登录!");
+            return resultUti;
+        }
+        Customer customer=GetCustomer(token);
+        Map<String,String> map = RealTimeCoordinates.getmap();
+        if (map==null||map.get(customer.getFkFamilyId()).equals("")){
+            resultUti.setCode(0);
+            resultUti.setMsg("暂无数据");
+        }else {
+            resultUti.setCode(0);
+            resultUti.setMsg("查询成功");
+            resultUti.setData(map.get(customer.getFkFamilyId()));
+        }
+        return resultUti;
+    }
+
     @RequestMapping("/addConfidantnumber")
     @ResponseBody
-    public ResultUtil addConfidantnumber(String token, String name,String phone) {
+    public ResultUtil addConfidantnumber(String token, String name,String phone) throws IOException {
         ResultUtil resultUti = new ResultUtil();
         if(CheckToken(token)==false){
             resultUti.setCode(1);
@@ -198,6 +254,7 @@ public class InfoController {
         }
         int flag = customerService.addConfidantnumber(customer.getFkFamilyId(),name,phone);
         if (flag>0){
+            WebSocket.sendmsg(customer.getFkFamilyId(),"FamilyNumber");
             resultUti.setCode(0);
             resultUti.setMsg("亲情号码添加成功");
         }else {
@@ -208,7 +265,7 @@ public class InfoController {
     }
     @RequestMapping("/updateConfidantnumber")
     @ResponseBody
-    public ResultUtil updateConfidantnumber(String token,String name,String phone,String id) {
+    public ResultUtil updateConfidantnumber(String token,String name,String phone,String id) throws IOException {
         ResultUtil resultUti = new ResultUtil();
         if(CheckToken(token)==false){
             resultUti.setCode(1);
@@ -231,8 +288,10 @@ public class InfoController {
             resultUti.setMsg("手机号码不能为空!");
             return resultUti;
         }
+        Customer customer=GetCustomer(token);
         int flag = customerService.updateConfidantnumber(id,name,phone);
         if (flag>0){
+            WebSocket.sendmsg(customer.getFkFamilyId(),"FamilyNumber");
             resultUti.setCode(0);
             resultUti.setMsg("亲情号码修改成功");
             return resultUti;
@@ -259,7 +318,7 @@ public class InfoController {
             resultUti.setMsg("查询成功");
             resultUti.setData(list);
         }else{
-            resultUti.setCode(1);
+            resultUti.setCode(0);
             resultUti.setMsg("暂无数据");
         }
         return resultUti;
@@ -353,7 +412,7 @@ public class InfoController {
             resultUti.setMsg("查询成功");
             resultUti.setData(vip);
         }else{
-            resultUti.setCode(1);
+            resultUti.setCode(0);
             resultUti.setMsg("暂无数据");
         }
         return resultUti;
@@ -395,7 +454,7 @@ public class InfoController {
             resultUti.setData(times);
             resultUti.setCode(0);
         }else{
-            resultUti.setCode(1);
+            resultUti.setCode(0);
             resultUti.setMsg("暂无数据");
         }
         return resultUti;
@@ -493,7 +552,7 @@ public class InfoController {
             resultUti.setData(map);
             return resultUti;
         }else{
-            resultUti.setCode(1);
+            resultUti.setCode(0);
             resultUti.setMsg("暂无数据");
             resultUti.setData(map);
             return resultUti;

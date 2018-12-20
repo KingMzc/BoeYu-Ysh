@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
@@ -25,6 +26,58 @@ public class LoginController {
     @Autowired
     private ChildService childService;
     /**
+     * 用户注册~~~~~
+     *@参数  [phone, wxid, nickname, sex, yanzhengma]
+     *@返回值  com.BoeYu.util.ResultUtil
+     *@创建人  KingRoc
+     *@创建时间  2018/12/19
+     */
+    @RequestMapping("/Register")
+    @ResponseBody
+    public ResultUtil Register(String phone,String wxid,String nickname,String sex,String yanzhengma){
+        ResultUtil resultUti=new ResultUtil();
+        Customer customer = new Customer();
+        customer.setPhone(phone);
+        customer.setWxid(wxid);
+        customer.setNickname(nickname);
+        customer.setSex(sex);
+        customer.setCreateTime(new Date());
+        int flagp= customerService.selectPhone(customer.getPhone());
+        if(flagp>0){
+            resultUti.setCode(1);
+            resultUti.setMsg("手机号码已经注册");
+            return resultUti;
+        }
+        int flag = customerService.addCustomer(customer);
+        if (flag>0){
+            resultUti.setCode(0);
+            resultUti.setMsg("注册成功");
+        }else{
+            resultUti.setCode(1);
+            resultUti.setMsg("注册失败");
+        }
+        return resultUti;
+    }
+
+    @RequestMapping("/Setpassword")
+    @ResponseBody
+    public ResultUtil Setpassword(String phone,String password){
+        ResultUtil resultUti=new ResultUtil();
+        Customer customer = new Customer();
+        customer.setPhone(phone);
+        customer.setPassword(password);
+        int flag = customerService.addCustomer(customer);
+        if (flag>0){
+            resultUti.setCode(0);
+            resultUti.setMsg("密码设置成功");
+        }else{
+            resultUti.setCode(1);
+            resultUti.setMsg("密码设置失败");
+        }
+        return resultUti;
+    }
+
+    /**
      *@参数  [request, phone, wxid, password]
      *@返回值  com.BoeYu.util.ResultUtil
      *@创建人  KingRoc
@@ -32,7 +85,7 @@ public class LoginController {
      */
     @RequestMapping("/login")
     @ResponseBody
-    public ResultUtil Login(HttpServletRequest request,String phone, String wxid , String password){
+    public ResultUtil Login(HttpServletRequest request,String phone,String wxid,String password){
         ResultUtil resultUti=new ResultUtil();
         if (phone==null||phone==""){
             resultUti.setCode(1);
@@ -54,7 +107,7 @@ public class LoginController {
         if (map.get("customer").equals(0)){
             resultUti.setCode(1);
             resultUti.setMsg("登录错误,登录身份过期请重新登录！");
-            return resultUti; 
+            return resultUti;
         }
         Customer customer = (Customer)map.get("customer");
         request.getSession().setAttribute("customerid",customer.getPhone());
@@ -63,6 +116,8 @@ public class LoginController {
         resultUti.setData(map);
         return resultUti;
     }
+
+
     @RequestMapping("/Getchilds")
     @ResponseBody
     public ResultUtil Getchilds(String token){
@@ -78,7 +133,7 @@ public class LoginController {
             resultUti.setCode(0);
             resultUti.setMsg("查询成功");
         }else{
-            resultUti.setCode(1);
+            resultUti.setCode(0);
             resultUti.setMsg("暂无数据");
         }
         resultUti.setData(list);
@@ -100,7 +155,7 @@ public class LoginController {
             resultUti.setCode(0);
             resultUti.setMsg("查询成功");
         }else{
-            resultUti.setCode(1);
+            resultUti.setCode(0);
             resultUti.setMsg("暂无数据");
         }
         resultUti.setData(child);

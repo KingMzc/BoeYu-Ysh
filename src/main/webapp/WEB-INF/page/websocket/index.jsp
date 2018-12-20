@@ -57,16 +57,14 @@
     function setMessageInnerHTML(innerHTML) {
         $.ajax({
             type: "get",
-            url: "http://localhost:8080/Api/parent/readImg?token=00ebb809a913f9572332cb0afa8ee2c3&toId=f61e077460b769d8",
+            url: "http://localhost:8080/Api/parent/readImg?token=6605f86a82bc8795229d1a6547bdd105&toId=f61e077460b769d8",
             success:function(data){
                 var arry=data.data;
-                var adres="http://localhost:8080/Api/parent/show?token=00ebb809a913f9572332cb0afa8ee2c3&fileName="+arry;
+                var adres="http://localhost:8080/Api/parent/show?token=6605f86a82bc8795229d1a6547bdd105&fileName="+arry;
                 document.getElementById('imgInit').src = adres
             }
         });
-
         document.getElementById('message').innerHTML += innerHTML + '<br/>';
-
     }
     //关闭WebSocket连接
     function closeWebSocket() {

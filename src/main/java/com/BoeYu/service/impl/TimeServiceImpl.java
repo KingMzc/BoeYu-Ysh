@@ -160,7 +160,7 @@ public class TimeServiceImpl implements TimeService {
     }
 
     @Override
-    public int CheckRegion(String android, String coordinate) {
+    public int CheckRegion(String android, String coordinate){
         String week = "";
         int flag=0;
         String Regioncoordinate = "";
@@ -189,14 +189,16 @@ public class TimeServiceImpl implements TimeService {
         if (hav>0){
             String [] coordinateyzb = coordinate.split(",");
             String [] coordinateezb = Regioncoordinate.split(",");
-            double jlmater = MapUtil.getDistance(
-                    Double.parseDouble(coordinateyzb[0]),
-                    Double.parseDouble(coordinateyzb[1]),
-                    Double.parseDouble(coordinateezb[0]),
-                    Double.parseDouble(coordinateezb[1]));
-            if (Integer.valueOf(mater)<jlmater){
-                System.out.println("孩子已经跑了~~报警开始~~~~~~~");
-                flag=1;
+            if (coordinateyzb[0].length()==coordinateezb[0].length()&&coordinateyzb[1].length()==coordinateezb[1].length()){
+                double jlmater = MapUtil.getDistance(
+                        Double.parseDouble(coordinateyzb[0]),
+                        Double.parseDouble(coordinateyzb[1]),
+                        Double.parseDouble(coordinateezb[0]),
+                        Double.parseDouble(coordinateezb[1]));
+                if (Integer.valueOf(mater)<jlmater){
+                    System.out.println("孩子已经跑了~~报警开始~~~~~~~");
+                    flag=1;
+                }
             }
         }
         //旧方法

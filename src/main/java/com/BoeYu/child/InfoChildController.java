@@ -68,13 +68,13 @@ public class InfoChildController {
     public ResultUtil SelectConfidantnumber(String android) {
         ResultUtil resultUti = new ResultUtil();
         Child child =GetChild(android);
-        List<Confidantnumber> list =childService.SelectConfidantnumber(child.getId().toString());
+        List<Confidantnumber> list =childService.SelectConfidantnumber(android);
         if(list.size()>0){
             resultUti.setCode(0);
             resultUti.setMsg("查询成功");
             resultUti.setData(list);
         }else{
-            resultUti.setCode(1);
+            resultUti.setCode(0);
             resultUti.setMsg("暂无数据");
         }
         return resultUti;
@@ -102,7 +102,7 @@ public class InfoChildController {
             resultUti.setData(list);
             return resultUti;
         }else{
-            resultUti.setCode(1);
+            resultUti.setCode(0);
             resultUti.setMsg("暂无数据");
             return resultUti;
         }
@@ -124,7 +124,7 @@ public class InfoChildController {
             resultUti.setMsg("查询成功");
             resultUti.setData(list);
         }else{
-            resultUti.setCode(1);
+            resultUti.setCode(0);
             resultUti.setMsg("暂无数据");
         }
         return resultUti;

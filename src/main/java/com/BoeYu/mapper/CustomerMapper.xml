@@ -431,6 +431,13 @@
     where phone = #{phone,jdbcType=VARCHAR}
   </update>
 
+  <update id="updatepassword" parameterType="com.BoeYu.pojo.Customer">
+    update customer
+    set
+      password = #{password,jdbcType=VARCHAR}
+    where phone = #{phone,jdbcType=VARCHAR}
+  </update>
+
   <update id="updateVipTime" parameterType="com.BoeYu.pojo.Customer">
     update customer
     set
