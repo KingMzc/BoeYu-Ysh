@@ -2,12 +2,22 @@ package com.BoeYu.pojo;
 
 public class UserSearch {
 	private String nickname;
+	private String partnerId ;
 	private String sex;
 	private String status;
 	private String vip;
 	private String createTimeStart;
 	private String createTimeEnd;
 	private String operation;
+
+	public String getPartnerId() {
+		return partnerId;
+	}
+
+	public void setPartnerId(String partnerId) {
+		this.partnerId = partnerId;
+	}
+
 	public String getNickname() {
 		return nickname;
 	}

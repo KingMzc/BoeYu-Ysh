@@ -3,16 +3,18 @@ package com.BoeYu.mapper;
 import com.BoeYu.pojo.Region;
 import com.BoeYu.pojo.RegionExample;
 import java.util.List;
-
 import com.BoeYu.pojo.RegionTimes;
 import org.apache.ibatis.annotations.Param;
 
 public interface RegionMapper {
+
     long countByExample(RegionExample example);
 
     int deleteByExample(RegionExample example);
 
     int deleteByPrimaryKey(Integer id);
+
+    int delete(String id);
 
     int insert(Region record);
 

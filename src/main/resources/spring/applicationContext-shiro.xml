@@ -44,6 +44,9 @@ http://www.springframework.org/schema/tx/spring-tx.xsd">
 				/sys/getMenus=anon
 				/sys/login=anon
 				/sys/index=anon
+				/sys/partner=anon
+				/partner/**=anon
+				/page/**=anon
 				/sys/test=anon
 				/druid/**=anon
 				/account/**=anon

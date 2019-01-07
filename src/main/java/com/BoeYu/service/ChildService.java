@@ -25,6 +25,8 @@ public interface ChildService {
 
     int updateGrade(Child child);
 
+    int updateType(Child child);
+
     int updateFlag(String id ,String flag);
 
     Child selectByPrimaryKey(Integer id);
@@ -48,5 +50,7 @@ public interface ChildService {
     int updateApplication(Application application);
 
     int deleteApplication(String android,String applicationId);
+
+    int addApplicationRecord(String applicationId,String time,String recordTime);
 
 }

@@ -34,9 +34,12 @@ public class LoginController {
      */
     @RequestMapping("/Register")
     @ResponseBody
-    public ResultUtil Register(String phone,String wxid,String nickname,String sex,String yanzhengma){
+    public ResultUtil Register(String partnerId,String phone,String wxid,String nickname,String sex,String yanzhengma){
         ResultUtil resultUti=new ResultUtil();
         Customer customer = new Customer();
+        if(partnerId!=null||partnerId!=""){
+            customer.setPartnerId(partnerId);
+        }
         customer.setPhone(phone);
         customer.setWxid(wxid);
         customer.setNickname(nickname);

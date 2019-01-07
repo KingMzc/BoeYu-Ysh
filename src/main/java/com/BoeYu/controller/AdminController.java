@@ -1,7 +1,9 @@
 package com.BoeYu.controller;
 
 import java.awt.image.BufferedImage;
-import java.io.IOException;
+import java.io.*;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -17,6 +19,7 @@ import com.BoeYu.pojo.*;
 import com.BoeYu.service.LogService;
 import com.BoeYu.util.*;
 
+import net.sf.json.JSONObject;
 import org.apache.commons.lang.StringUtils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
@@ -30,10 +33,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import com.google.code.kaptcha.Producer;
 import com.BoeYu.service.AdminService;
@@ -47,9 +47,10 @@ public class AdminController {
     private Producer captchaProducer = null;
 	@Autowired
 	private LogService logServiceImpl;
-	
+
 	@RequestMapping("/main")
 	public String main() {
+
 		return "page/main";
 	}
 	@RequestMapping("/test")
@@ -57,15 +58,15 @@ public class AdminController {
 		req.setAttribute("customerid",req.getSession().getAttribute("customerid"));
 		return "page/websocket/index";
 	}
-	@RequestMapping("/testpptx")
+	/*@RequestMapping("/testpptx")
 	public String testpptx(HttpServletRequest req) throws ParserConfigurationException, TransformerException, IOException {
 		Map<String,String> map = new HashMap<String,String>();
 		//map=PPTUtil.wordtopdf();
 		//System.out.println(".........................."+map.get("filename"));
 		return "page/websocket/pptx";
-	}
+	}*/
 
-	@RequestMapping("/testppt")
+	/*@RequestMapping("/testppt")
 	public String testppt(HttpServletRequest req,String fname) {
 		String url=fname;
 		String iurl="C:/Users/Admin/Desktop/DOME/";
@@ -83,13 +84,31 @@ public class AdminController {
 			req.setAttribute("imgNames", "解析失败");
 		}
 		return "page/websocket/ppt";
-	}
+	}*/
 	@RequestMapping("/index")
 	public String index(HttpServletRequest req) {
 		TbAdmin admin = (TbAdmin)SecurityUtils.getSubject().getPrincipal();
 		req.setAttribute("admin", admin);
+		req.setAttribute("flag", admin.getFlag());
 		return "redirect:/index.jsp";
 	}
+
+	@RequestMapping(value = "/checkflag", method = { RequestMethod.GET, RequestMethod.POST })
+	@ResponseBody
+	public ResultUtil register(HttpServletRequest req) {
+		ResultUtil resultUti = new ResultUtil();
+		TbAdmin admin = (TbAdmin)SecurityUtils.getSubject().getPrincipal();
+		if(admin!=null){
+			resultUti.setCode(0);
+			resultUti.setData(admin.getFlag());
+		}
+		return resultUti;
+	}
+	/*@RequestMapping("/partner")
+	public String partner(HttpServletRequest req) {
+		return "partner";
+	}
+*/
 	@RequestMapping("/refuse")
 	public String refuse() {
 		return "refuse";
@@ -127,6 +146,7 @@ public class AdminController {
 			req.getSession().setAttribute("username", username);
 			req.getSession().setAttribute("password", password);
 			req.getSession().setAttribute("cstoken", tok.substring(0,10));*/
+			req.getSession().setAttribute("username", username);
 		}catch (UnknownAccountException e) {
 			return ResultUtil.error(e.getMessage());
 		}catch (IncorrectCredentialsException e) {
@@ -258,6 +278,7 @@ public class AdminController {
 	@RequiresPermissions("sys:role:list")
 	@ResponseBody
 	public ResultUtil getRoleList(Integer page,Integer limit) {
+
 		return adminServiceImpl.selRoles(page, limit);
 	}
 

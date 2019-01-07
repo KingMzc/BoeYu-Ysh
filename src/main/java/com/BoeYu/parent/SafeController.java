@@ -244,13 +244,13 @@ public class SafeController {
         }
         int flag = safeUrlService.deleteRegionByID(regionId);
         if (flag>0){
-            if(safeUrlService.deleteRegionTime(regionId)>0){
+            /*if(safeUrlService.deleteRegionTime(regionId)>0){*/
                 resultUti.setCode(0);
                 resultUti.setMsg("删除成功");
-            }else{
+            /*}else{
                 resultUti.setCode(1);
                 resultUti.setMsg("删除失败");
-            }
+            }*/
         }else{
                 resultUti.setCode(1);
                 resultUti.setMsg("删除失败");
@@ -405,17 +405,26 @@ public class SafeController {
             resultUti.setMsg("登录身份过期请重新登录! ");
             return resultUti;
         }
+        if(DateUtil.compTime(endTime+":00",startTime+":00")==false){
+            resultUti.setCode(1);
+            resultUti.setMsg("结束时间必须大于开始时间！");
+            return resultUti;
+        }
         boolean time=true;
         List<RegionTimes> list = safeUrlService.SelectRegionBychildId(android,week);
         if (list.size()>0){
             for(int i=0;i<list.size();i++){
-                if (list.get(i).getStarttime().equals("")||list.get(i).getEndtime().equals("")){
+                if (list.get(i).getId().equals(regionId)){
+
                 }else{
-                    if (DateUtil.pdycsjcd(startTime,endTime,list.get(i).getStarttime(),list.get(i).getEndtime())==true){
-                        time=true;
+                    if (list.get(i).getStarttime().equals("")||list.get(i).getEndtime().equals("")){
                     }else{
-                        time=false;
-                        break;
+                        if (DateUtil.pdycsjcd(startTime,endTime,list.get(i).getStarttime(),list.get(i).getEndtime())==true){
+                            time=true;
+                        }else{
+                            time=false;
+                            break;
+                        }
                     }
                 }
             }

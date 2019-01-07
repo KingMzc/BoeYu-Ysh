@@ -7,6 +7,7 @@
           <element id="module-output" name="BoeyYu-Ysh" />
         </element>
         <element id="directory" name="lib">
+          <element id="library" level="project" name="Maven: org:jaudiotagger:2.0.1" />
           <element id="library" level="project" name="Maven: org.apache.poi:poi-ooxml:4.0.1" />
           <element id="library" level="project" name="Maven: org.apache.poi:poi:4.0.1" />
           <element id="library" level="project" name="Maven: org.apache.commons:commons-collections4:4.2" />

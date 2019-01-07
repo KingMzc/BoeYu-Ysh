@@ -33,6 +33,192 @@ public class ChatController {
     @Autowired
     private ChatService chatService;
 
+
+    @RequestMapping(value = "/UpdateIsreadMsg")
+    @ResponseBody
+    public ResultUtil UpdateIsreadMsg(String token,String sendId){
+        ResultUtil resultUti = new ResultUtil();
+        if(CheckToken(token)==false){
+            resultUti.setCode(1);
+            resultUti.setMsg("登录身份过期请重新登录!");
+            return resultUti;
+        }
+        Customer customer = GetCustomer(token);
+        int flag=chatService.UpdateIsreadMsg(sendId,customer.getPhone());
+        if (flag>0){
+            resultUti.setCode(0);
+            resultUti.setMsg("修改成功!");
+            return resultUti;
+        }else{
+            resultUti.setCode(1);
+            resultUti.setMsg("修改失败!");
+            return resultUti;
+        }
+    }
+
+    /**
+     * 获取未读消息条数
+     *@参数  [token, toId]
+     *@返回值  com.BoeYu.util.ResultUtil
+     *@创建人  KingRoc
+     *@创建时间  2019/1/4
+     */
+    @RequestMapping(value = "/ParentGetUnChatNumber")
+    @ResponseBody
+    public ResultUtil ParentGetUnChatNumber(String token,String sendId) throws IOException {
+        ResultUtil resultUti=new ResultUtil();
+        if(CheckToken(token)==false){
+            resultUti.setCode(1);
+            resultUti.setMsg("登录身份过期请重新登录!");
+            return resultUti;
+        }
+        Customer customer = GetCustomer(token);
+        int flag =chatService.GetUnChatNumber(customer.getPhone(),sendId);
+
+            resultUti.setCode(0);
+            resultUti.setMsg("查询成功");
+            resultUti.setData(flag);
+        return resultUti;
+    }
+    /**
+     * 实时获取未读消息
+     *@参数  [token, toId]
+     *@返回值  com.BoeYu.util.ResultUtil
+     *@创建人  KingRoc
+     *@创建时间  2019/1/4
+     */
+    @RequestMapping(value = "/ParentGetUnChat")
+    @ResponseBody
+    public ResultUtil ParentGetUnChat(String token,String sendId) throws IOException {
+        ResultUtil resultUti=new ResultUtil();
+        if(CheckToken(token)==false){
+            resultUti.setCode(1);
+            resultUti.setMsg("登录身份过期请重新登录!");
+            return resultUti;
+        }
+        Customer customer = GetCustomer(token);
+        List<Chat> list =chatService.GetUnChat(sendId,customer.getPhone());
+        if(list.size()>0){
+            resultUti.setCode(0);
+            resultUti.setMsg("查询成功");
+            resultUti.setData(list);
+        }else{
+            resultUti.setCode(0);
+            resultUti.setMsg("暂无数据");
+        }
+        return resultUti;
+    }
+
+    /**
+     * 家长端获取消息类表
+     *@参数  [token, toId, pageSize, page]
+     *@返回值  com.BoeYu.util.ResultUtil
+     *@创建人  KingRoc
+     *@创建时间  2018/12/28
+     */
+    @RequestMapping(value = "/ParentGetChatList")
+    @ResponseBody
+    public ResultUtil ParentGetChatList(String token,String toId,String pageSize,String page) throws IOException {
+        ResultUtil resultUti=new ResultUtil();
+        if(CheckToken(token)==false){
+            resultUti.setCode(1);
+            resultUti.setMsg("登录身份过期请重新登录!");
+            return resultUti;
+        }
+        Customer customer = GetCustomer(token);
+        List<Chat> list =chatService.ParentGetChatList(customer.getPhone(),toId,pageSize,page);
+        if(list.size()>0){
+            resultUti.setCode(0);
+            resultUti.setData(list);
+            resultUti.setMsg("查询成功");
+        }else{
+            resultUti.setCode(0);
+            resultUti.setMsg("暂无数据");
+        }
+        return resultUti;
+    }
+
+    @RequestMapping(value = "/ParentChat", produces = MediaType.APPLICATION_JSON_VALUE + ";charset=utf-8")
+    @ResponseBody
+    public ResultUtil ParentChat(String tflag,String token,String type,String toId, String message ,MultipartFile file, HttpServletRequest req) throws IOException {
+        ResultUtil resultUti = new ResultUtil();
+        if(CheckToken(token)==false){
+            resultUti.setCode(1);
+            resultUti.setMsg("登录身份过期请重新登录!");
+            return resultUti;
+        }
+        Customer customer = GetCustomer(token);
+        Date date = new Date();
+        Chat chat = new Chat();
+        Random d = new Random();
+        chat.setSendId(customer.getPhone());
+        chat.setToId(toId);
+        chat.setCreateTime(date);
+        chat.setIsread("0");
+        chat.setChattype(type);
+        if (type.equals("0")){
+            if (file == null) {
+                resultUti.setCode(1);
+                resultUti.setMsg("文件不能为空！");
+                return resultUti;
+            }
+            String img = UUID.randomUUID().toString().replace("-", "") + d.nextInt(10000) + ".jpg" ;
+            try {
+                chat.setChattype(type);
+                File f=new File(GlobalUtil.getValue("upfile.path"));
+                if(!f.exists()){
+                    f.mkdirs();
+                }
+                file.transferTo(new File(f, img));
+            } catch (IllegalStateException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            chat.setChatMsg(img);
+        }else if (type.equals("1")){
+            if (file == null) {
+                resultUti.setCode(1);
+                resultUti.setMsg("文件不能为空！");
+                return resultUti;
+            }
+            String img = UUID.randomUUID().toString().replace("-", "") + d.nextInt(10000) + ".mp3" ;
+            try {
+                chat.setTflag(tflag);
+                chat.setChattype(type);
+                File f=new File(GlobalUtil.getValue("upfile.path"));
+                if(!f.exists()){
+                    f.mkdirs();
+                }
+                file.transferTo(new File(f, img));
+            } catch (IllegalStateException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            chat.setChatMsg(img);
+        }else{
+            if (message == null) {
+                resultUti.setCode(1);
+                resultUti.setMsg("消息不能为空！");
+                return resultUti;
+            }
+            chat.setChatMsg(message);
+        }
+        int flag= chatService.addChat(chat);
+        if(flag>0){
+            WebSocket.sendmsg(toId,"NewMessage:"+customer.getPhone());
+            resultUti.setCode(0);
+            resultUti.setMsg("发送成功");
+            resultUti.setData(new Date());
+        }else{
+            resultUti.setCode(1);
+            resultUti.setMsg("发送失败");
+        }
+        return resultUti;
+
+    }
+
     @RequestMapping(value = "/upload", produces = MediaType.APPLICATION_JSON_VALUE + ";charset=utf-8")
     @ResponseBody
     public ResultUtil uploadFile(String type,String token,String toid,@RequestParam("file") MultipartFile file, HttpServletRequest req) {
@@ -91,7 +277,7 @@ public class ChatController {
             //图片的本地全路径
             fis = new FileInputStream(GlobalUtil.getValue("upfile.path")+"/"+ fileName);
             os = response.getOutputStream();
-            System.out.println("上传文件");
+            //System.out.println("上传文件");
             int count = 0;
             byte[] buffer = new byte[1024 * 8];
             while ((count = fis.read(buffer)) != -1) {
@@ -112,14 +298,14 @@ public class ChatController {
 
     @RequestMapping(value = "/unreadMsg")
     @ResponseBody
-    public ResultUtil unreadMsg(String token,String toId){
+    public ResultUtil unreadMsg(String token,String sendId){
         ResultUtil resultUti=new ResultUtil();
         if(CheckToken(token)==false){
             resultUti.setCode(1);
             resultUti.setMsg("登录身份过期请重新登录!");
             return resultUti;
         }
-        List<Chat> list=chatService.GetUnreadMsg(toId,GetCustomer(token).getId().toString());
+        List<Chat> list=chatService.GetUnreadMsg(GetCustomer(token).getPhone(),sendId);
         if(list.size()>0){
             resultUti.setCode(0);
             resultUti.setMsg("查询成功!");
@@ -153,7 +339,13 @@ public class ChatController {
             return resultUti;
         }
     }
-
+    /**
+     * 发送远程截图指令
+     *@参数  [token, toId]
+     *@返回值  com.BoeYu.util.ResultUtil
+     *@创建人  KingRoc
+     *@创建时间  2018/12/26
+     */
     @RequestMapping(value = "/Screenshot")
     @ResponseBody
     public ResultUtil Screenshot(String token,String toId) throws IOException {
@@ -167,6 +359,28 @@ public class ChatController {
         WebSocket.sendmsg(toId,"Screenshot:"+customer.getPhone());
         resultUti.setCode(0);
         resultUti.setMsg("远程截图");
+        return resultUti;
+    }
+
+    @RequestMapping(value = "/FastStart")
+    @ResponseBody
+    public ResultUtil FastStart(String token,String toId,String applicationId) throws IOException {
+        ResultUtil resultUti=new ResultUtil();
+        if(CheckToken(token)==false){
+            resultUti.setCode(1);
+            resultUti.setMsg("登录身份过期请重新登录!");
+            return resultUti;
+        }
+        Customer customer = GetCustomer(token);
+        int flag = WebSocket.sendmsg(toId,"FastStart:"+applicationId);
+        if(flag>0){
+            resultUti.setCode(0);
+            resultUti.setMsg("启动成功");
+        }else{
+            resultUti.setCode(1);
+            resultUti.setMsg("启动失败");
+        }
+
         return resultUti;
     }
 

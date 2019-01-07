@@ -26,7 +26,7 @@ public interface TimeService {
 
     int CheckRemindTime(String childId);
 
-    int updateRemindTime(long id,String remindtime,String resttime);
+    int updateRemindTime(long id,String remindtime,String resttime,String type);
 
     Times GetRemindTime(String childId);
 
@@ -51,5 +51,7 @@ public interface TimeService {
     List<ApplicationTimes> ShowLockTimep(String childId);
 
     List<ApplicationTimes> ShowLockTimeChild(String childId,String week);
+
+    int updateAppLockTimeFlag(String childId,String flag);
 
 }

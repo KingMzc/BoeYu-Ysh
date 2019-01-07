@@ -119,6 +119,10 @@ public class CustomRealm extends AuthorizingRealm {
 		if (admins.get(0).getRoleId() == null || admins.get(0).getRoleId() == 0) {
 			throw new UnknownAccountException("账号未分配角色!");
 		}
+		// 账号没有通过审核
+		/*if (admins.get(0).getFlag() == null || Integer.valueOf(admins.get(0).getFlag())>1) {
+			throw new UnknownAccountException("账号未通过审核!");
+		}*/
 
 		SimpleAuthenticationInfo info = new SimpleAuthenticationInfo(admins.get(0), password, getName());
 		return info;

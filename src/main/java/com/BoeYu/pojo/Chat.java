@@ -17,6 +17,16 @@ public class Chat {
 
     private String isread;
 
+    private String tflag;
+
+    public String getTflag() {
+        return tflag;
+    }
+
+    public void setTflag(String tflag) {
+        this.tflag = tflag;
+    }
+
     public Integer getId() {
         return id;
     }

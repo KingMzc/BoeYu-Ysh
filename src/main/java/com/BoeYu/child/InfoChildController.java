@@ -229,6 +229,21 @@ public class InfoChildController {
     }
 
 
+    @RequestMapping(value = "/SetApplicationRecord", method = { RequestMethod.GET, RequestMethod.POST })
+    @ResponseBody
+    public ResultUtil SetApplicationRecord(String android,String applicationId,String time,String recordTime) {
+        ResultUtil resultUti = new ResultUtil();
+        int flag = childService.addApplicationRecord(applicationId,time,recordTime);
+        if(flag>0){
+            resultUti.setCode(0);
+            resultUti.setMsg("上传成功");
+        }else{
+            resultUti.setCode(1);
+            resultUti.setMsg("上传失败");
+        }
+        return resultUti;
+    }
+
     public Child GetChild(String android){
         Child child =childService.GetChildByAndroid(android);
         return child;

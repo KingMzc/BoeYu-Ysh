@@ -590,6 +590,11 @@ public class CustomerExample {
             return (Criteria) this;
         }
 
+        public Criteria andPartnerIdEqualTo(String value) {
+            addCriterion("partnerId =", value, "partnerId");
+            return (Criteria) this;
+        }
+
         public Criteria andStatusNotEqualTo(String value) {
             addCriterion("status <>", value, "status");
             return (Criteria) this;

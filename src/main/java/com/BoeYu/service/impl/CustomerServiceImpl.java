@@ -47,6 +47,10 @@ public class CustomerServiceImpl implements CustomerService {
             //注意：模糊查询需要进行拼接”%“  如下，不进行拼接是不能完成查询的哦。
             criteria.andNicknameLike("%"+search.getNickname()+"%");
         }
+        if(search.getPartnerId()!=null&&!"".equals(search.getPartnerId())){
+            //注意：模糊查询需要进行拼接”%“  如下，不进行拼接是不能完成查询的哦。
+            criteria.andPartnerIdEqualTo(search.getPartnerId());
+        }
         if(search.getSex()!=null&&!"-1".equals(search.getSex())){
             criteria.andSexEqualTo(search.getSex());
         }
@@ -62,8 +66,11 @@ public class CustomerServiceImpl implements CustomerService {
         if(search.getCreateTimeEnd()!=null&&!"".equals(search.getCreateTimeEnd())){
             criteria.andCreateTimeLessThanOrEqualTo(MyUtil.getDateByString(search.getCreateTimeEnd()));
         }
-
         List<Customer> customer = customerMapper.selectByExample(example);
+
+        for(int i=0;i<customer.size();i++){
+            customer.get(i).setMoney(customerMapper.GetMoney(customer.get(i).getPhone()));
+        }
         PageInfo<Customer> pageInfo = new PageInfo<Customer>(customer);
         ResultUtil resultUtil = new ResultUtil();
         resultUtil.setCode(0);
@@ -89,6 +96,10 @@ public class CustomerServiceImpl implements CustomerService {
         /*List<Child> list = childMapper.selectByCustomerId(customer.getId().toString());*/
         String token= DigestUtils.md5DigestAsHex((new Date().getTime()+""+phone+wxid).getBytes());
         customer.setToken(token);
+        if(customer.getVipTime().compareTo(new Date())<0){
+            customer.setVip("0");
+            customerMapper.updateVip(customer);
+        }
         customerMapper.updateToken(customer);
         map.put("customer",customer);
         /*map.put("ChildList",list);*/
@@ -140,6 +151,11 @@ public class CustomerServiceImpl implements CustomerService {
     public int updateName(Customer customer) {
 
         return customerMapper.updateName(customer);
+    }
+
+    @Override
+    public int updateVip(Customer customer) {
+        return customerMapper.updateVip(customer);
     }
 
     @Override
@@ -239,6 +255,21 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     public List<ApplicationTime> selectApplicationTimes(String android) {
         return applicationMapper.selectApplicationTimes(android);
+    }
+
+    @Override
+    public List<Application> selectApplicationTimeStart(String android) {
+        return applicationMapper.selectApplicationTimeStart(android);
+    }
+
+    @Override
+    public List<AppRecordt> selectApplicationRecord(String android) {
+        return applicationMapper.selectApplicationRecord(android);
+    }
+
+    @Override
+    public String Getpassword(String phone) {
+        return customerMapper.Getpassword(phone);
     }
 
 

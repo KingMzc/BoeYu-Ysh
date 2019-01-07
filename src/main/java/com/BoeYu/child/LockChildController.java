@@ -75,12 +75,29 @@ public class LockChildController {
         }
     }*/
 
+    @RequestMapping(value = "/SetChildType", method = { RequestMethod.GET, RequestMethod.POST })
+    @ResponseBody
+    public ResultUtil SetChildType(String android,String type) {
+        ResultUtil resultUti = new ResultUtil();
+        Child child = new Child();
+        child.setAndroid(android);
+        child.setChildType(type);
+        if(childService.updateType(child)>0){
+            resultUti.setCode(0);
+            resultUti.setMsg("修改成功");
+        }else{
+            resultUti.setCode(1);
+            resultUti.setMsg("修改失败");
+        }
+        return resultUti;
+    }
+
     @RequestMapping(value = "/GetEyeRemindTime", method = { RequestMethod.GET, RequestMethod.POST })
     @ResponseBody
     public ResultUtil GetEyeRemindTime(String android) {
         ResultUtil resultUti = new ResultUtil();
-        Child child =childService.GetChildByAndroid(android);
-        Map<String,String> map = timeService.GetEyeRemindTime(child.getId().toString());
+        //Child child =childService.GetChildByAndroid(android);
+        Map<String,String> map = timeService.GetEyeRemindTime(android);
         if(map.size()>0){
             resultUti.setCode(0);
             resultUti.setMsg("查询成功");

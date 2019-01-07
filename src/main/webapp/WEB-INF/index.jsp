@@ -78,8 +78,8 @@
 				  </li>
 				</ul>
 				<div class="layui-tab-content clildFrame">
-					<div class="layui-tab-item layui-show" id="showflag">
-						<iframe id="myframe" src="${ctx }/sys/main"></iframe>
+					<div class="layui-tab-item layui-show">
+						<iframe src="${ctx }/sys/main"></iframe>
 					</div>
 				</div>
 			</div>
@@ -93,48 +93,15 @@
 	<script type="text/javascript" src="${ctx }/js/leftNav.js"></script>
 	<script type="text/javascript" src="${ctx }/js/index.js"></script>
 	<script type="text/javascript" src="${ctx }/js/jquery-1.9.1.min.js"></script>
+
+	<input id="ceshi" value="${flag}" type="hidden">
 	<script>
-		var flag=0;
+
         $(document).ready(function(){
-            $.ajax({
-                type: "POST",
-                url: ctx+"/sys/checkflag",
-                async: false,
-                success: function (result) {
-                    flag=result.data;
-                    if(result.data>1){
-                        checkflag();
-					}
-                }
-            });
-            if(flag>0){
-                document.getElementById("myframe").src="${ctx }/partner/customerList"
-			}
+            var flag =document.getElementById("ceshi").value;
+            console.log("----------------------------------"+flag);
         });
-     function checkflag() {
-    layui.use('layer', function(){ //独立版的layer无需执行这一句
-        var $ = layui.jquery, layer = layui.layer; //独立版的layer无需执行这一句
-    layer.open({
-        type: 1
-        ,title: false //不显示标题栏
-        ,closeBtn: false
-        ,area: '300px;'
-        ,shade: 0.8
-        ,id: 'LAY_layuipro' //设定一个id，防止重复弹出
-        ,btn: ['退出','测试']
-        ,btnAlign: 'c'
-        ,moveType: 1 //拖拽模式，0或者1
-        ,content: '<div style="padding: 50px; line-height: 22px; background-color: #393D49; color: #fff; font-weight: 300;">你知道吗？亲！<br>你的账号还未通过后台的审核，如需帮助<br><br>请联系我们<br><br>联系方式是：哈哈哈</div>'
-        ,success: function(layero){
-            var btn = layero.find('.layui-layer-btn');
-            btn.find('.layui-layer-btn0').attr({
-                href: '${ctx }/sys/loginOut'
-                ,target: '${ctx }/sys/loginOut'
-            });
-        }
-    });
-	})
-}
+
 
 	</script>
 </body>

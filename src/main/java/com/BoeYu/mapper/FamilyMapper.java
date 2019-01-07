@@ -20,6 +20,8 @@ public interface FamilyMapper {
 
     List<String> GetchildId(@Param("customerid") String customerid);
 
+    List<Family> GetChatList(String android);
+
     Family selectByPrimaryKey(Integer id);
 
     int updateByExampleSelective(@Param("record") Family record, @Param("example") FamilyExample example);

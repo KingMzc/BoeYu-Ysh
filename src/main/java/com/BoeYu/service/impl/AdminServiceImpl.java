@@ -83,7 +83,33 @@ public class AdminServiceImpl implements AdminService {
 	public ResultUtil selAdmins(Integer page, Integer limit) {
 		PageHelper.startPage(page, limit);
 		TbAdminExample example = new TbAdminExample();
+        TbAdminExample.Criteria criteria = example.createCriteria();
+        criteria.andFlagEqualTo("0");
 		List<TbAdmin> list = tbAdminMapper.selectByExample(example);
+		// 将roleName写进TbAdmin
+		for (TbAdmin tbAdmin : list) {
+			// tbAdmin.setRoleName();selpAdmins
+			List<TbRoles> roles = selRoles();
+			for (TbRoles tbRole : roles) {
+				if (tbRole.getRoleId() == tbAdmin.getRoleId()) {
+					tbAdmin.setRoleName(tbRole.getRoleName());
+				}
+			}
+		}
+		PageInfo<TbAdmin> pageInfo = new PageInfo<TbAdmin>(list);
+		ResultUtil resultUtil = new ResultUtil();
+		resultUtil.setCode(0);
+		resultUtil.setCount(pageInfo.getTotal());
+		resultUtil.setData(pageInfo.getList());
+		return resultUtil;
+	}
+
+	@Override
+	public ResultUtil selpAdmins(Integer page, Integer limit) {
+		PageHelper.startPage(page, limit);
+		TbAdminExample example = new TbAdminExample();
+
+		List<TbAdmin> list = tbAdminMapper.selectpByExample(example);
 		// 将roleName写进TbAdmin
 		for (TbAdmin tbAdmin : list) {
 			// tbAdmin.setRoleName();
@@ -383,6 +409,17 @@ public class AdminServiceImpl implements AdminService {
 	@Override
 	public void updateToken(TbAdmin admin) {
 		tbAdminMapper.updateToken(admin);
+	}
+
+	@Override
+	public int checkphone(String phone) {
+		return tbAdminMapper.checkphone(phone);
+	}
+
+	@Override
+	public int addPartnerAdmin(TbAdmin admin) {
+		admin.setPassword(DigestUtils.md5DigestAsHex(admin.getPassword().getBytes()));
+		return tbAdminMapper.insert(admin);
 	}
 
 	@Override

@@ -316,13 +316,14 @@
     set
       startetime = #{startetime,jdbcType=VARCHAR},
       endtime = #{endtime,jdbcType=VARCHAR},
-      times = #{times,jdbcType=VARCHAR}
+      times = #{times,jdbcType=VARCHAR},
+      flag = #{flag,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
 
   <select id="GetEyeRemindTime"  resultMap="BaseResultMap">
     select
-    startetime, endtime
+    startetime,endtime,flag
     from times where fk_child_id=#{0} and type='3'
   </select>
 

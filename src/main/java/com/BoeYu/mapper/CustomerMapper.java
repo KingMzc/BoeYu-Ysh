@@ -36,6 +36,8 @@ public interface CustomerMapper {
 
     int updateToken(Customer record);
 
+    int updateVip(Customer record);
+
     int updateChild(Customer record);
 
     int updateVipTime(Customer record);
@@ -47,5 +49,9 @@ public interface CustomerMapper {
     int updateName(Customer record);
 
     int updatepassword(Customer record);
+
+    String Getpassword(String phone);
+
+    String GetMoney(String phone);
 
 }

@@ -234,4 +234,11 @@
     delete from family
     WHERE fk_child_id=#{0}
   </delete>
+
+  <select id="GetChatList" parameterType="com.BoeYu.pojo.FamilyExample" resultMap="BaseResultMap">
+    select
+    fk_customer_id, fk_child_id,flag
+    from family
+    where fk_child_id=#{0}
+  </select>
 </mapper>

@@ -85,6 +85,7 @@ public class TimeServiceImpl implements TimeService {
         if(list.size()>0){
             map.put("RemindTime",list.get(0).getStartetime());
             map.put("RestTime",list.get(0).getEndtime());
+            map.put("type",list.get(0).getFlag());
         }
         return map;
     }
@@ -104,7 +105,7 @@ public class TimeServiceImpl implements TimeService {
         times.setEndtime(resttime);
         times.setWeek("0");
         times.setType("3");
-        times.setFlag("REMIND");
+        times.setFlag("0");
         times.setCreateTime(date);
         return timesMapper.insert(times);
     }
@@ -115,11 +116,12 @@ public class TimeServiceImpl implements TimeService {
     }
 
     @Override
-    public int updateRemindTime(long id, String remindtime, String resttime) {
+    public int updateRemindTime(long id, String remindtime, String resttime,String type) {
         Times times = new Times();
         times.setTimes(remindtime+","+resttime);
         times.setStartetime(remindtime);
         times.setEndtime(resttime);
+        times.setFlag(type);
         times.setId((int) id);
         return timesMapper.updateRemindTime(times);
     }
@@ -285,5 +287,10 @@ public class TimeServiceImpl implements TimeService {
     @Override
     public List<ApplicationTimes> ShowLockTimeChild(String childId,String week) {
         return applicationTimesMapper.ShowLockTimeChild(childId,week);
+    }
+
+    @Override
+    public int updateAppLockTimeFlag(String childId, String flag) {
+        return applicationTimesMapper.updateAppLockTimeFlag(childId,flag);
     }
 }

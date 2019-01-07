@@ -35,6 +35,26 @@ public class Customer {
 
     private String password;
 
+    private String partnerId;
+
+    private String money;
+
+    public String getMoney() {
+        return money;
+    }
+
+    public void setMoney(String money) {
+        this.money = money;
+    }
+
+    public String getPartnerId() {
+        return partnerId;
+    }
+
+    public void setPartnerId(String partnerId) {
+        this.partnerId = partnerId;
+    }
+
     public Long getId() {
         return id;
     }

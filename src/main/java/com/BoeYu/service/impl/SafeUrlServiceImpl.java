@@ -128,7 +128,6 @@ public class SafeUrlServiceImpl implements SafeUrlService {
         for (int i=1;i<=7;i++){
             regionTime.setWeek(String.valueOf(i));
             if (regionTimeMapper.insert(regionTime)>0){
-            }else{
                 flag++;
             }
         }
@@ -137,7 +136,7 @@ public class SafeUrlServiceImpl implements SafeUrlService {
 
     @Override
     public int deleteRegionByID(String regionId) {
-        return regionMapper.deleteByPrimaryKey(Integer.valueOf(regionId));
+        return regionMapper.delete(regionId);
     }
 
     @Override

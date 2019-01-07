@@ -18,6 +18,7 @@
     <result column="token" jdbcType="VARCHAR" property="token" />
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
     <result column="password" jdbcType="VARCHAR" property="password" />
+    <result column="partnerId" jdbcType="VARCHAR" property="partnerId" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -126,13 +127,13 @@
       phone, status, create_time, 
       fk_img_id, vip, vip_time, 
       fk_family_id, token, update_time, 
-      password)
+      password,partnerId)
     values (#{id,jdbcType=BIGINT}, #{nickname,jdbcType=VARCHAR}, #{wxid,jdbcType=VARCHAR}, 
       #{sex,jdbcType=VARCHAR}, #{loginTime,jdbcType=TIMESTAMP}, #{message,jdbcType=VARCHAR}, 
       #{phone,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
       #{fkImgId,jdbcType=VARCHAR}, #{vip,jdbcType=VARCHAR}, #{vipTime,jdbcType=TIMESTAMP}, 
       #{fkFamilyId,jdbcType=VARCHAR}, #{token,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP}, 
-      #{password,jdbcType=VARCHAR})
+      #{password,jdbcType=VARCHAR},#{partnerId,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.BoeYu.pojo.Customer">
     insert into customer
@@ -445,10 +446,27 @@
     where phone = #{phone,jdbcType=VARCHAR}
   </update>
 
+  <update id="updateVip" parameterType="com.BoeYu.pojo.Customer">
+    update customer
+    set
+      vip = #{vip,jdbcType=VARCHAR}
+    where phone = #{phone,jdbcType=VARCHAR}
+  </update>
+
   <select id="GetCustomerByPhone"  resultMap="BaseResultMap">
     select
     <include refid="Base_Column_List" />
     from customer
     where phone = #{0}
+  </select>
+
+  <select id="Getpassword"  resultType="java.lang.String">
+    select
+    password
+    from customer where phone = #{0}
+  </select>
+
+  <select id="GetMoney"  resultType="java.lang.String">
+    select SUM(money) FROM  rechargelog  where fk_customer_id = #{0}
   </select>
 </mapper>

@@ -60,6 +60,7 @@
 		<!--<table schema="" tableName="application"></table>-->
 		<!--<table schema="" tableName="application_times"></table>-->
 		<!--<table schema="" tableName="region"></table>-->
-		<table schema="" tableName="region_time"></table>
+		<!--<table schema="" tableName="region_time"></table>-->
+		<table schema="" tableName="application_record"></table>
 	</context>
 </generatorConfiguration>

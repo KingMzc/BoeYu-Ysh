@@ -237,7 +237,7 @@
     where week = #{week,jdbcType=VARCHAR} and fk_application_id = #{fkApplicationId,jdbcType=VARCHAR}
   </update>
 
-  <select id="ShowLockTime"  resultMap="BaseResultMap">
+  <select id="ShowLockTimep"  resultMap="BaseResultMap">
     select
     <include refid="Base_Column_List" />
     from application_times
@@ -248,7 +248,13 @@
     select
     <include refid="Base_Column_List" />
     from application_times
-    where fk_application_id = #{0} and week = #{1}
+    where fk_application_id = #{0} and week = #{1} and flag='0'
   </select>
+  <update id="updateAppLockTimeFlag" >
+    update application_times
+    set
+      flag = #{1}
+    where  fk_application_id = #{0}
+  </update>
 
 </mapper>

@@ -36,4 +36,6 @@ public interface ApplicationTimesMapper {
 
     List<ApplicationTimes> ShowLockTimeChild(String childId,String week);
 
+    int updateAppLockTimeFlag(String childId, String flag);
+
 }

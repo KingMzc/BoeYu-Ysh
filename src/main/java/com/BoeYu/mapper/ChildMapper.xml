@@ -436,6 +436,14 @@
     where android = #{android,jdbcType=VARCHAR}
   </update>
 
+  <update id="updateType" parameterType="com.BoeYu.pojo.Child">
+    update child
+    set
+       child_type = #{childType,jdbcType=CHAR}
+    where android = #{android,jdbcType=VARCHAR}
+  </update>
+
+
   <update id="updateFlag">
     update child
     set

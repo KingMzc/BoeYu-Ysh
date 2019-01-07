@@ -51,6 +51,8 @@ public interface ChildMapper {
 
     int updateGrade(Child child);
 
+    int updateType(Child child);
+
     int updateFlag(String id,String flag);
 
     int CheckCustomerBinding(String phone);

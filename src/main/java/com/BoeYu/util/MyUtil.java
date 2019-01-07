@@ -1,6 +1,15 @@
 package com.BoeYu.util;
 
+import org.jaudiotagger.audio.AudioFileIO;
+import org.jaudiotagger.audio.exceptions.CannotReadException;
+import org.jaudiotagger.audio.exceptions.InvalidAudioFrameException;
+import org.jaudiotagger.audio.exceptions.ReadOnlyFileException;
+import org.jaudiotagger.audio.mp3.MP3AudioHeader;
+import org.jaudiotagger.audio.mp3.MP3File;
+import org.jaudiotagger.tag.TagException;
+
 import java.io.File;
+import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -76,6 +85,12 @@ public class MyUtil {
 		else
 			delete_flag = false;
 		return delete_flag;
+	}
+
+	public static int mp3time(File file) throws TagException, ReadOnlyFileException, CannotReadException, InvalidAudioFrameException, IOException {
+		MP3File f = (MP3File) AudioFileIO.read(file);
+		MP3AudioHeader audioHeader = (MP3AudioHeader)f.getAudioHeader();
+		return audioHeader.getTrackLength();
 	}
 
 }

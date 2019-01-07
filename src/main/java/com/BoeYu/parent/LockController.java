@@ -1,5 +1,6 @@
 package com.BoeYu.parent;
 
+import com.BoeYu.controller.WebSocket;
 import com.BoeYu.pojo.*;
 import com.BoeYu.service.AppTypeService;
 import com.BoeYu.service.CustomerService;
@@ -9,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,7 +33,7 @@ public class LockController {
      */
     @RequestMapping("/SetLockTime")
     @ResponseBody
-    public ResultUtil LockChildTime( String token,String times,String android,String week){
+    public ResultUtil LockChildTime( String token,String times,String android,String week) throws IOException {
         ResultUtil resultUti=new ResultUtil();
         if(CheckToken(token)==false){
             resultUti.setCode(1);
@@ -41,7 +44,7 @@ public class LockController {
         applicationTimes.setFkApplicationId(android);
         applicationTimes.setTimes(times);
         applicationTimes.setWeek(week);
-        applicationTimes.setFlag("1");
+        applicationTimes.setFlag("0");
         if(timeService.selectAppLockTime(android,week)>0){
             if(timeService.updateAppLockTime(applicationTimes)>0){
                 resultUti.setMsg("锁屏时间修改成功");
@@ -59,8 +62,74 @@ public class LockController {
                 resultUti.setCode(1);
             }
         }
+        WebSocket.sendmsg(android,"LockTime");
         return resultUti;
     }
+
+    /**
+     * 家长获取孩子的锁屏时间
+     *@参数  [token, android]
+     *@返回值  com.BoeYu.util.ResultUtil
+     *@创建人  KingRoc
+     *@创建时间  2018/12/15
+     */
+    @RequestMapping("/ShowLockTimeParent")
+    @ResponseBody
+    public ResultUtil ShowLockTimeParent( String token,String android) {
+        ResultUtil resultUti = new ResultUtil();
+        if(CheckToken(token)==false){
+            resultUti.setCode(1);
+            resultUti.setMsg("登录身份过期请重新登录!");
+            return resultUti;
+        }
+        List<ApplicationTimes> list =timeService.ShowLockTimep(android);
+        if(list.size()>0){
+            resultUti.setCode(0);
+            resultUti.setMsg("查询成功");
+            resultUti.setData(list);
+        }else{
+            resultUti.setCode(0);
+            resultUti.setMsg("暂无数据");
+        }
+        return resultUti;
+    }
+    /**
+     * 开启关闭锁屏时间
+     *@参数  [token, android, flag]
+     *@返回值  com.BoeYu.util.ResultUtil
+     *@创建人  KingRoc
+     *@创建时间  2018/12/25
+     */
+    @RequestMapping("/SetLockTimeFlag")
+    @ResponseBody
+    public ResultUtil SetLockTimeFlag( String token,String android,String flag) throws IOException {
+        ResultUtil resultUti=new ResultUtil();
+        if(CheckToken(token)==false){
+            resultUti.setCode(1);
+            resultUti.setMsg("登录身份过期请重新登录!");
+            return resultUti;
+        }
+        if(flag.equals("0")){
+            if(timeService.updateAppLockTimeFlag(android,flag)>0){
+                resultUti.setMsg("锁屏时间开启成功");
+                resultUti.setCode(0);
+            }else{
+                resultUti.setMsg("锁屏时间开启失败");
+                resultUti.setCode(1);
+            }
+        }else{
+            if(timeService.updateAppLockTimeFlag(android,flag)>0){
+                resultUti.setMsg("锁屏时间关闭成功");
+                resultUti.setCode(0);
+            }else{
+                resultUti.setMsg("锁屏时间关闭失败");
+                resultUti.setCode(1);
+            }
+        }
+        WebSocket.sendmsg(android,"LockTime");
+        return resultUti;
+    }
+
     /**
      * 设置应用的时间
      *@参数  [token, times, id, week]
@@ -187,38 +256,12 @@ public class LockController {
         }
         return resultUti;
     }
-    /**
-     * 家长获取孩子的锁屏时间
-     *@参数  [token, android]
-     *@返回值  com.BoeYu.util.ResultUtil
-     *@创建人  KingRoc
-     *@创建时间  2018/12/15
-     */
-    @RequestMapping("/ShowLockTimeParent")
-    @ResponseBody
-    public ResultUtil ShowLockTimeParent( String token,String android) {
-        ResultUtil resultUti = new ResultUtil();
-        if(CheckToken(token)==false){
-            resultUti.setCode(1);
-            resultUti.setMsg("登录身份过期请重新登录!");
-            return resultUti;
-        }
-        List<ApplicationTimes> list =timeService.ShowLockTimep(android);
-        if(list.size()>0){
-            resultUti.setCode(0);
-            resultUti.setMsg("查询成功");
-            resultUti.setData(list);
-        }else{
-            resultUti.setCode(0);
-            resultUti.setMsg("暂无数据");
-        }
-        return resultUti;
-    }
+
 
 
     @RequestMapping("/EyeRemind")
     @ResponseBody
-    public ResultUtil EyeRemind(String token,String remindtime,String resttime){
+    public ResultUtil EyeRemind(String token,String remindtime,String resttime,String type) throws IOException {
         ResultUtil resultUti = new ResultUtil();
         if(CheckToken(token)==false){
             resultUti.setCode(1);
@@ -228,8 +271,9 @@ public class LockController {
         Customer customer = GetCustomer(token);
         if(timeService.CheckRemindTime(customer.getFkFamilyId())>0){
             Times times = timeService.GetRemindTime(customer.getFkFamilyId());
-            int flag = timeService.updateRemindTime(times.getId(),remindtime,resttime);
+            int flag = timeService.updateRemindTime(times.getId(),remindtime,resttime,type);
             if(flag>0){
+                WebSocket.sendmsg(customer.getFkFamilyId(),"ScreenSaver");
                 resultUti.setCode(0);
                 resultUti.setMsg("护眼时间修改成功");
                 return resultUti;
@@ -241,6 +285,7 @@ public class LockController {
         }else{
             int flag = timeService.addRemindTime(customer.getFkFamilyId(),remindtime,resttime);
             if(flag>0){
+                WebSocket.sendmsg(customer.getFkFamilyId(),"ScreenSaver");
                 resultUti.setCode(0);
                 resultUti.setMsg("护眼时间添加成功");
                 return resultUti;

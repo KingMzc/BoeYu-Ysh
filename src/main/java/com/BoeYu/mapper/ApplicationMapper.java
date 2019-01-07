@@ -1,5 +1,6 @@
 package com.BoeYu.mapper;
 
+import com.BoeYu.pojo.AppRecordt;
 import com.BoeYu.pojo.Application;
 import com.BoeYu.pojo.ApplicationExample;
 import java.util.List;
@@ -47,4 +48,8 @@ public interface ApplicationMapper {
     List<ApplicationTime> selectApplicationTime(String android, String week);
 
     List<ApplicationTime> selectApplicationTimes(String android);
+
+    List<Application> selectApplicationTimeStart(String android);
+
+    List<AppRecordt> selectApplicationRecord (String android);
 }

@@ -20,7 +20,10 @@ public interface AdminService {
 	public List<TbRoles> selRoles();
 	
 	//获取所有管理员
-	public ResultUtil selAdmins(Integer page,Integer limit);
+	 ResultUtil selAdmins(Integer page,Integer limit);
+	//获取城市合伙人
+	ResultUtil selpAdmins(Integer page,Integer limit);
+
 	
 	//获取角色菜单
 	public List<Menu> selMenus(TbAdmin admin);
@@ -91,4 +94,8 @@ public interface AdminService {
 	public TbRoles getRole(TbRoles role);
 
 	void updateToken(TbAdmin admin);
+
+	int checkphone(String phone);
+
+	int addPartnerAdmin(TbAdmin admin);
 }

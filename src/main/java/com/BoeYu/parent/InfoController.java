@@ -29,6 +29,33 @@ public class InfoController {
     private ChildService childService;
     @Autowired
     private TimeService timeService;
+
+    @RequestMapping("/GetCustomerInfo")
+    @ResponseBody
+    public ResultUtil GetCustomerInfo(String token) {
+        ResultUtil resultUti = new ResultUtil();
+        if(CheckToken(token)==false){
+            resultUti.setCode(1);
+            resultUti.setMsg("登录身份过期请重新登录!");
+            return resultUti;
+        }
+        Customer customer=GetCustomer(token);
+        if(customer.getVipTime()!=null){
+        if(customer.getVipTime().compareTo(new Date())<0){
+            customer.setVip("0");
+            customerService.updateVip(customer);
+            resultUti.setMsg("vip已到期");
+        }else{
+            resultUti.setMsg("vip已登录");
+        }
+        }else{
+            resultUti.setMsg("普通用户已登录");
+        }
+            resultUti.setCode(0);
+            resultUti.setData(customer);
+        return resultUti;
+    }
+
     @RequestMapping("/UpdateName")
     @ResponseBody
     public ResultUtil UpdateName(String token, String name) {
@@ -544,8 +571,8 @@ public class InfoController {
             return resultUti;
         }
         Customer customer = GetCustomer(token);
-        Child child =childService.GetChildByAndroid(customer.getFkFamilyId());
-        Map<String,String> map = timeService.GetEyeRemindTime(child.getId().toString());
+        //Child child =childService.GetChildByAndroid(customer.getFkFamilyId());
+        Map<String,String> map = timeService.GetEyeRemindTime(customer.getFkFamilyId());
         if(map.size()>0){
             resultUti.setCode(0);
             resultUti.setMsg("查询成功");
@@ -557,6 +584,63 @@ public class InfoController {
             resultUti.setData(map);
             return resultUti;
         }
+    }
+    /**
+     * 家长获取孩子的使用记录
+     *@参数  [token]
+     *@返回值  com.BoeYu.util.ResultUtil
+     *@创建人  KingRoc
+     *@创建时间  2018/12/22
+     */
+    @RequestMapping(value = "/selectApplicationRecord", method = { RequestMethod.GET, RequestMethod.POST })
+    @ResponseBody
+    public ResultUtil selectApplicationRecord(String token) {
+        ResultUtil resultUti = new ResultUtil();
+        if(CheckToken(token)==false){
+            resultUti.setCode(1);
+            resultUti.setMsg("登录身份过期请重新登录!");
+            return resultUti;
+        }
+        Customer customer = GetCustomer(token);
+        List<AppRecordt> list= customerService.selectApplicationRecord(customer.getFkFamilyId());
+        if(list.size()>0){
+            resultUti.setCode(0);
+            resultUti.setMsg("查询成功");
+            resultUti.setData(list);
+            return resultUti;
+        }else{
+            resultUti.setCode(0);
+            resultUti.setMsg("暂无数据");
+            resultUti.setData(list);
+            return resultUti;
+        }
+    }
+    /**
+     * 快速启动应用列表
+     *@参数  [token, android]
+     *@返回值  com.BoeYu.util.ResultUtil
+     *@创建人  KingRoc
+     *@创建时间  2018/12/26
+     */
+    @RequestMapping("/ShowApplicationStart")
+    @ResponseBody
+    public ResultUtil ShowApplication( String token,String android) {
+        ResultUtil resultUti = new ResultUtil();
+        if(CheckToken(token)==false){
+            resultUti.setCode(1);
+            resultUti.setMsg("登录身份过期请重新登录!");
+            return resultUti;
+        }
+        List<Application> list =customerService.selectApplicationTimeStart(android);
+        if(list.size()>0){
+            resultUti.setCode(0);
+            resultUti.setMsg("查询成功");
+            resultUti.setData(list);
+        }else{
+            resultUti.setCode(0);
+            resultUti.setMsg("暂无数据");
+        }
+        return resultUti;
     }
 
     public Customer GetCustomer(String token){

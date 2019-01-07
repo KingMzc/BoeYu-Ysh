@@ -11,6 +11,7 @@
   </resultMap>
 
   <resultMap id="RegionTimes" type="com.BoeYu.pojo.RegionTimes">
+    <id column="id" jdbcType="INTEGER" property="id" />
     <result column="mater" jdbcType="VARCHAR" property="mater" />
     <result column="coordinate" jdbcType="VARCHAR" property="coordinate" />
     <result column="name" jdbcType="VARCHAR" property="name" />
@@ -102,6 +103,11 @@
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from region
     where id = #{id,jdbcType=INTEGER}
+  </delete>
+
+  <delete id="delete">
+    delete from region
+    where id = #{0}
   </delete>
   <delete id="deleteByExample" parameterType="com.BoeYu.pojo.RegionExample">
     delete from region
@@ -276,7 +282,7 @@
   </update>
 
   <select id="selectRegionBychildId"  resultMap="RegionTimes">
-    select
+    select r.id,
      mater,coordinate,name,week,startTime,endTime
     from region r left join region_time t on r.id = t.fk_region_id
     where r.fk_child_id = #{0}  and t.week=#{1}

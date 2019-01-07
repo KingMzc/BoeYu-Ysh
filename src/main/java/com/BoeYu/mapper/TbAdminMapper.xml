@@ -14,6 +14,8 @@
     <result column="phone" property="phone" jdbcType="VARCHAR" />
     <result column="role_id" property="roleId" jdbcType="BIGINT" />
     <result column="token" property="token" jdbcType="VARCHAR" />
+    <result column="codeImg" property="CodeImg" jdbcType="VARCHAR" />
+    <result column="flag" property="Flag" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -37,11 +39,14 @@
                     #{listItem}
                   </foreach>
                 </when>
+
               </choose>
+
             </foreach>
           </trim>
         </if>
       </foreach>
+
     </where>
   </sql>
   <sql id="Update_By_Example_Where_Clause" >
@@ -74,7 +79,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    id, username, password, salt, fullname, e_mail, sex, birthday, address, phone, role_id, token
+    id, username, password, salt, fullname, e_mail, sex, birthday, address, phone, role_id, token, flag
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.BoeYu.pojo.TbAdminExample" >
     select
@@ -85,10 +90,21 @@
     from tb_admin
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
+
     </if>
+      <if test="_parameter == null" >
+          where flag = 0
+      </if>
     <if test="orderByClause != null" >
       order by ${orderByClause}
     </if>
+  </select>
+
+  <select id="selectpByExample" resultMap="BaseResultMap"  >
+    select
+    *
+    from tb_admin
+      where flag > 0
   </select>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
     select 
@@ -106,15 +122,16 @@
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
+
   <insert id="insert" parameterType="com.BoeYu.pojo.TbAdmin" >
     insert into tb_admin (id, username, password, 
       salt, fullname, e_mail, 
       sex, birthday, address, 
-      phone, role_id)
+      phone, role_id,codeImg,flag)
     values (#{id,jdbcType=BIGINT}, #{username,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
       #{salt,jdbcType=VARCHAR}, #{fullname,jdbcType=VARCHAR}, #{eMail,jdbcType=VARCHAR}, 
       #{sex,jdbcType=VARCHAR}, #{birthday,jdbcType=DATE}, #{address,jdbcType=VARCHAR}, 
-      #{phone,jdbcType=VARCHAR}, #{roleId,jdbcType=BIGINT})
+      #{phone,jdbcType=VARCHAR}, #{roleId,jdbcType=BIGINT},#{codeImg,jdbcType=VARCHAR},#{flag,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.BoeYu.pojo.TbAdmin" >
     insert into tb_admin
@@ -286,21 +303,49 @@
       <if test="roleId != null" >
         role_id = #{roleId,jdbcType=BIGINT},
       </if>
+      <if test="flag != null" >
+        flag = #{flag,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.BoeYu.pojo.TbAdmin" >
     update tb_admin
-    set username = #{username,jdbcType=VARCHAR},
-      password = #{password,jdbcType=VARCHAR},
-      salt = #{salt,jdbcType=VARCHAR},
-      fullname = #{fullname,jdbcType=VARCHAR},
-      e_mail = #{eMail,jdbcType=VARCHAR},
-      sex = #{sex,jdbcType=VARCHAR},
-      birthday = #{birthday,jdbcType=DATE},
-      address = #{address,jdbcType=VARCHAR},
-      phone = #{phone,jdbcType=VARCHAR},
-      role_id = #{roleId,jdbcType=BIGINT}
+    <set >
+      <if test="username != null" >
+        username = #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null" >
+        password = #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="salt != null" >
+        salt = #{salt,jdbcType=VARCHAR},
+      </if>
+      <if test="fullname != null" >
+        fullname = #{fullname,jdbcType=VARCHAR},
+      </if>
+      <if test="eMail != null" >
+        e_mail = #{eMail,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null" >
+        sex = #{sex,jdbcType=VARCHAR},
+      </if>
+      <if test="birthday != null" >
+        birthday = #{birthday,jdbcType=DATE},
+      </if>
+      <if test="address != null" >
+        address = #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null" >
+        phone = #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="roleId != null" >
+        role_id = #{roleId,jdbcType=BIGINT},
+      </if>
+      <if test="flag != null" >
+        flag = #{flag,jdbcType=VARCHAR},
+      </if>
+    </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
 
@@ -316,5 +361,12 @@
     from tb_admin
     where username = #{username,jdbcType=VARCHAR}and
     password = #{password,jdbcType=VARCHAR}
+  </select>
+
+  <select id="checkphone" resultType="java.lang.Integer" >
+    select
+    count(1)
+    from  tb_admin
+    where username = #{0} or phone = #{0}
   </select>
 </mapper>

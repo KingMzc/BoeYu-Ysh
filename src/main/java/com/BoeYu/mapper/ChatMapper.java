@@ -33,4 +33,18 @@ public interface ChatMapper {
     Chat selectReadImg(String toid,String sendid);
 
     int deleteChild(String android);
+
+    int selectCountIsReadMsg(String toid,String sendid);
+
+    Chat selectlastIsReadMsg(String toid,String sendid);
+
+    List<Chat> ParentGetChatList(String sendId, String toId, int pageSize, int page);
+
+    List<Chat> ChildGetChatList(String sendId, String toId, int pageSize, int page);
+
+    int GetUnChatNumber(String sendId, String toId);
+
+    List<Chat> GetUnChat(String sendId, String toId);
+
+    int UpdateIsreadMsg(String sendId,String toId);
 }

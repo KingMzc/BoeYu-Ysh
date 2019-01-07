@@ -28,6 +28,13 @@
     <result column="week" jdbcType="VARCHAR" property="week" />
     <result column="times" jdbcType="VARCHAR" property="times" />
   </resultMap>
+
+  <resultMap id="ApplicationRecord" type="com.BoeYu.pojo.AppRecordt">
+    <result column="application_img" jdbcType="VARCHAR" property="applicationImg" />
+    <result column="application_name" jdbcType="VARCHAR" property="applicationName" />
+    <result column="time" jdbcType="VARCHAR" property="time" />
+    <result column="record_time" jdbcType="DATE" property="recordTime" />
+  </resultMap>
   <sql id="Example_Where_Clause">
     <where>
       <foreach collection="oredCriteria" item="criteria" separator="or">
@@ -373,4 +380,22 @@
     from application a left join application_times t on  a.id=t.fk_application_id
     where a.fk_child_id = #{0}
   </select>
+
+  <select id="selectApplicationTimeStart"  resultMap="BaseResultMap">
+    select
+      application_type, application_img,
+      fk_child_id, lock_type,
+      application_id, application_name,
+      app_updatetime
+    from application
+    where fk_child_id = #{0} and application_type='0'
+  </select>
+
+  <select id="selectApplicationRecord"  resultMap="ApplicationRecord">
+    select
+     a.application_img,a.application_name,r.time,r.record_time
+    from application a JOIN application_record r on a.id = r.fk_application_id
+    WHERE a.fk_child_id=#{0} and DATE_SUB(CURDATE(), INTERVAL 7 DAY) &lt; record_time ORDER BY record_time DESC
+  </select>
+
 </mapper>

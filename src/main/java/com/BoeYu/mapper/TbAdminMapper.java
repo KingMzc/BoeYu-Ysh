@@ -19,6 +19,8 @@ public interface TbAdminMapper {
 
     List<TbAdmin> selectByExample(TbAdminExample example);
 
+    List<TbAdmin> selectpByExample(TbAdminExample example);
+
     TbAdmin selectByPrimaryKey(Long id);
 
     TbAdmin selectGetId(TbAdmin record);
@@ -32,4 +34,6 @@ public interface TbAdminMapper {
     int updateByPrimaryKey(TbAdmin record);
 
     int updateToken(TbAdmin record);
+
+    int checkphone(String phone);
 }

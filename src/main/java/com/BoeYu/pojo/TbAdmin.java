@@ -27,6 +27,10 @@ public class TbAdmin {
 
     private String Token;
 
+    private String CodeImg;
+
+    private String Flag;
+
     public String getToken() {
         return Token;
     }
@@ -131,7 +135,23 @@ public class TbAdmin {
         this.roleId = roleId;
     }
 
-	@Override
+    public String getCodeImg() {
+        return CodeImg;
+    }
+
+    public void setCodeImg(String codeImg) {
+        CodeImg = codeImg;
+    }
+
+    public String getFlag() {
+        return Flag;
+    }
+
+    public void setFlag(String flag) {
+        Flag = flag;
+    }
+
+    @Override
 	public String toString() {
 		return "TbAdmin [id=" + id + ", username=" + username + ", password=" + password + ", salt=" + salt
 				+ ", fullname=" + fullname + ", eMail=" + eMail + ", sex=" + sex + ", birthday=" + birthday

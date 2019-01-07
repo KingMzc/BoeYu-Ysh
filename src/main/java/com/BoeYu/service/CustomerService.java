@@ -30,6 +30,8 @@ public interface CustomerService {
 
      int updateName(Customer customer);
 
+    int updateVip(Customer customer);
+
     int updatepassword(Customer customer);
 
      int CheckChild(String childId);
@@ -65,4 +67,10 @@ public interface CustomerService {
     List<ApplicationTime> selectApplicationTime(String android);
 
     List<ApplicationTime> selectApplicationTimes(String android);
+
+    List<Application> selectApplicationTimeStart(String android);
+
+    List<AppRecordt> selectApplicationRecord(String android);
+
+    String Getpassword(String phone);
 }
