@@ -3,10 +3,8 @@ package com.BoeYu.service.impl;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.BoeYu.mapper.AdminMenusMapper;
-import com.BoeYu.mapper.TbMenusMapper;
-import com.BoeYu.mapper.TbRolesMapper;
-import com.BoeYu.mapper.TbRolesMenusMapper;
+import com.BoeYu.mapper.*;
+import com.BoeYu.pojo.*;
 import com.BoeYu.service.AdminService;
 import com.BoeYu.util.ResultUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,18 +13,6 @@ import org.springframework.util.DigestUtils;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.BoeYu.mapper.TbAdminMapper;
-import com.BoeYu.pojo.Menu;
-import com.BoeYu.pojo.TbAdmin;
-import com.BoeYu.pojo.TbAdminExample;
-import com.BoeYu.pojo.TbMenus;
-import com.BoeYu.pojo.TbMenusExample;
-import com.BoeYu.pojo.TbRoles;
-import com.BoeYu.pojo.TbRolesExample;
-import com.BoeYu.pojo.TbRolesMenus;
-import com.BoeYu.pojo.TbRolesMenusExample;
-import com.BoeYu.pojo.TbRolesMenusKey;
-import com.BoeYu.pojo.XtreeData;
 
 @Service
 public class AdminServiceImpl implements AdminService {
@@ -47,6 +33,9 @@ public class AdminServiceImpl implements AdminService {
 
 	@Autowired
 	private TbMenusMapper tbMenusMapper;
+
+	@Autowired
+	private AccountMapper accountMapper;
 
 	/**
 	 * 管理员登陆
@@ -420,6 +409,11 @@ public class AdminServiceImpl implements AdminService {
 	public int addPartnerAdmin(TbAdmin admin) {
 		admin.setPassword(DigestUtils.md5DigestAsHex(admin.getPassword().getBytes()));
 		return tbAdminMapper.insert(admin);
+	}
+
+	@Override
+	public Account selectAccount(String id) {
+		return accountMapper.selectAccount(id);
 	}
 
 	@Override

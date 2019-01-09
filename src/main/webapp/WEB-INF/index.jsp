@@ -99,7 +99,7 @@
 
         $(document).ready(function(){
             var flag =document.getElementById("ceshi").value;
-            console.log("----------------------------------"+flag);
+
         });
 
 

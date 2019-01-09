@@ -107,8 +107,7 @@
     <include refid="Base_Column_List" />
     from customer
     where phone = #{phone,jdbcType=VARCHAR}
-    and wxid = #{phone,jdbcType=VARCHAR}
-    and password = #{password,jdbcType=VARCHAR}
+    and wxid = #{wxid,jdbcType=VARCHAR}
   </select>
 
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">

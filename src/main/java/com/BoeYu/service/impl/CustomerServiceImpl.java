@@ -47,6 +47,10 @@ public class CustomerServiceImpl implements CustomerService {
             //注意：模糊查询需要进行拼接”%“  如下，不进行拼接是不能完成查询的哦。
             criteria.andNicknameLike("%"+search.getNickname()+"%");
         }
+        if(search.getPhone()!=null&&!"".equals(search.getPhone())){
+            //注意：模糊查询需要进行拼接”%“  如下，不进行拼接是不能完成查询的哦。
+            criteria.andPhoneLike("%"+search.getPhone()+"%");
+        }
         if(search.getPartnerId()!=null&&!"".equals(search.getPartnerId())){
             //注意：模糊查询需要进行拼接”%“  如下，不进行拼接是不能完成查询的哦。
             criteria.andPartnerIdEqualTo(search.getPartnerId());
@@ -69,11 +73,16 @@ public class CustomerServiceImpl implements CustomerService {
         List<Customer> customer = customerMapper.selectByExample(example);
 
         for(int i=0;i<customer.size();i++){
-            customer.get(i).setMoney(customerMapper.GetMoney(customer.get(i).getPhone()));
+            if(customerMapper.GetMoney(customer.get(i).getPhone())==null||customerMapper.GetMoney(customer.get(i).getPhone()).equals("")){
+                customer.get(i).setMoney("0");
+            }else{
+                customer.get(i).setMoney(customerMapper.GetMoney(customer.get(i).getPhone()));
+            }
         }
         PageInfo<Customer> pageInfo = new PageInfo<Customer>(customer);
         ResultUtil resultUtil = new ResultUtil();
         resultUtil.setCode(0);
+        resultUtil.setMsg("哈哈哈");
         resultUtil.setCount(pageInfo.getTotal());
         resultUtil.setData(pageInfo.getList());
         return resultUtil;
@@ -85,24 +94,26 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public Map<String, Object> loginInfo(String phone, String wxid, String mm) {
+    public Map<String, Object> loginInfo(String phone, String wxid) {
         Map<String, Object> map =new HashMap<String, Object>();
-        Customer customer =customerMapper.selectByLogin(phone,wxid,mm);
+        Customer customer =customerMapper.selectByLogin(phone,wxid);
         if (customer==null){
             map.put("customer",0);
             return map;
         }
-         /*= familyMapper.selectByExample()*/
-        /*List<Child> list = childMapper.selectByCustomerId(customer.getId().toString());*/
         String token= DigestUtils.md5DigestAsHex((new Date().getTime()+""+phone+wxid).getBytes());
         customer.setToken(token);
-        if(customer.getVipTime().compareTo(new Date())<0){
+        if(customer.getVipTime()==null){
             customer.setVip("0");
             customerMapper.updateVip(customer);
+        }else{
+            if(customer.getVipTime().compareTo(new Date())<0){
+                customer.setVip("0");
+                customerMapper.updateVip(customer);
+            }
         }
         customerMapper.updateToken(customer);
         map.put("customer",customer);
-        /*map.put("ChildList",list);*/
         map.put("token",token);
         return map;
     }

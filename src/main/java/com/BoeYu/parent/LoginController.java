@@ -88,7 +88,7 @@ public class LoginController {
      */
     @RequestMapping("/login")
     @ResponseBody
-    public ResultUtil Login(HttpServletRequest request,String phone,String wxid,String password){
+    public ResultUtil Login(HttpServletRequest request,String partnerId,String phone,String wxid,String yanzhengma){
         ResultUtil resultUti=new ResultUtil();
         if (phone==null||phone==""){
             resultUti.setCode(1);
@@ -106,17 +106,50 @@ public class LoginController {
             resultUti.setMsg("微信号码为空！");
             return resultUti;
         }
-        Map<String,Object> map=customerService.loginInfo(phone,wxid,password);
-        if (map.get("customer").equals(0)){
-            resultUti.setCode(1);
-            resultUti.setMsg("登录错误,登录身份过期请重新登录！");
-            return resultUti;
+        Customer customer = new Customer();
+        if(partnerId==null){
+        }else{
+            if (!partnerId.equals("")){
+                customer.setPartnerId(partnerId);
+            }
         }
-        Customer customer = (Customer)map.get("customer");
-        request.getSession().setAttribute("customerid",customer.getPhone());
-        resultUti.setCode(0);
-        resultUti.setMsg("登录成功");
-        resultUti.setData(map);
+        customer.setPhone(phone);
+        customer.setWxid(wxid);
+        customer.setNickname("");
+        customer.setSex("");
+        customer.setCreateTime(new Date());
+        int flagp= customerService.selectPhone(customer.getPhone());
+        if(flagp>0){
+            Map<String,Object> map=customerService.loginInfo(phone,wxid);
+            if (map.get("customer").equals(0)){
+                resultUti.setCode(1);
+                resultUti.setMsg("登录错误,登录身份过期请重新登录！");
+                return resultUti;
+            }
+            customer = (Customer)map.get("customer");
+            request.getSession().setAttribute("customerid",customer.getPhone());
+            resultUti.setCode(0);
+            resultUti.setMsg("登录成功");
+            resultUti.setData(map);
+        }else{
+            int flag= customerService.addCustomer(customer);
+            if(flag>0){
+                Map<String,Object> map=customerService.loginInfo(phone,wxid);
+                if (map.get("customer").equals(0)){
+                    resultUti.setCode(1);
+                    resultUti.setMsg("登录错误,登录身份过期请重新登录！");
+                    return resultUti;
+                }
+                customer = (Customer)map.get("customer");
+                request.getSession().setAttribute("customerid",customer.getPhone());
+                resultUti.setCode(0);
+                resultUti.setMsg("登录成功");
+                resultUti.setData(map);
+            }else {
+                resultUti.setCode(1);
+                resultUti.setMsg("网络不稳定，请从新登陆！");
+            }
+        }
         return resultUti;
     }
 

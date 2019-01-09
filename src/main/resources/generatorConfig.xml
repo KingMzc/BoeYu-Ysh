@@ -61,6 +61,6 @@
 		<!--<table schema="" tableName="application_times"></table>-->
 		<!--<table schema="" tableName="region"></table>-->
 		<!--<table schema="" tableName="region_time"></table>-->
-		<table schema="" tableName="application_record"></table>
+		<table schema="" tableName="cashlog"></table>
 	</context>
 </generatorConfiguration>

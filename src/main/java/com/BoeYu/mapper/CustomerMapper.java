@@ -24,7 +24,7 @@ public interface CustomerMapper {
 
     Customer GetCustomerByPhone(String phone);
 
-    Customer selectByLogin(@Param("phone") String phone,@Param("wxid") String wxid,@Param("password") String password);
+    Customer selectByLogin(@Param("phone") String phone,@Param("wxid") String wxid);
 
     int updateByExampleSelective(@Param("record") Customer record, @Param("example") CustomerExample example);
 

@@ -3,11 +3,8 @@ package com.BoeYu.service;
 
 import java.util.List;
 
-import com.BoeYu.pojo.Menu;
-import com.BoeYu.pojo.TbMenus;
-import com.BoeYu.pojo.TbRoles;
+import com.BoeYu.pojo.*;
 import com.BoeYu.util.ResultUtil;
-import com.BoeYu.pojo.TbAdmin;
 
 public interface AdminService {
 	//登陆
@@ -98,4 +95,6 @@ public interface AdminService {
 	int checkphone(String phone);
 
 	int addPartnerAdmin(TbAdmin admin);
+
+	Account selectAccount(String id);
 }

@@ -29,26 +29,45 @@
 	<input type="hidden" id="adminId"
 		value="<shiro:principal property="id"/>" />
 	<blockquote class="layui-elem-quote list_search">
+			<form class="layui-form">
+		<div>
 			<div class="layui-inline">
-				<a class="layui-btn layui-btn-normal adminAdd_btn"><i
-					class="layui-icon">&#xe608;</i> 添加管理员</a>
+				<div class="layui-input-inline">
+					<input type="text" id="nickname" value="" placeholder="请输入昵称"
+						   class="layui-input search_input">
+				</div>
+				<div class="layui-input-inline">
+					<input type="text" id="phone" value="" placeholder="手机号码"
+						   class="layui-input search_input">
+				</div>
+				<div class="layui-input-inline layui-form">
+					<select name="sex" class="sex" id="sex">
+						<option value="-1">请选择性别</option>
+						<option value="1">男</option>
+						<option value="0">女</option>
+						<option value="2">保密</option>
+					</select>
+				</div>
+				<div class="layui-input-inline layui-form">
+					<select name="vip" class="vip" id="vip">
+						<option value="-1">请选择账户类型</option>
+						<option value="0">普通</option>
+						<option value="1">VIP</option>
+						<option value="2">异常</option>
+					</select>
+				</div>
+				<a class="layui-btn search_btn" lay-submit="" data-type="search" id="cx"
+				   lay-filter="search">查询</a>
+				<a class="layui-btn search_btn" lay-submit="" data-type="search" id="cz"
+				   lay-filter="search">重置</a>
 			</div>
-			<div class="layui-inline">
-				<a class="layui-btn layui-btn-danger batchDel"><i
-					class="layui-icon">&#xe640;</i>批量删除</a>
-			</div>
-		<!-- <div class="layui-inline">
-			<div class="layui-form-mid layui-word-aux"></div>
-		</div> -->
+		</div>
+	</form>
 	</blockquote>
 	<!-- 数据表格 -->
 	<table id="adminList" lay-filter="test"></table>
 	<script type="text/javascript" src="${ctx }/layui/layui.js"></script>
 	<%--<script type="text/javascript" src="${ctx }/page/partner/customerList.js"></script>--%>
-	<script type="text/html" id="barEdit">
-  		<a class="layui-btn layui-btn-xs" lay-event="edit">审核</a>
-  		<a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
-	</script>
 	<script >
         layui.config({
             base : "js/"
@@ -57,8 +76,33 @@
             layer = parent.layer === undefined ? layui.layer : parent.layer,
                 laypage = layui.laypage,
                 $ = layui.jquery;
+            active = {
+                search : function() {
+                    var nickname = $('#nickname'), sex = $('#sex option:selected'), vip = $('#vip option:selected') ,phone = $('#phone');
+                    //执行重载
+                    table
+                        .reload(
+                            'adminList',
+                            {
+                                page : {
+                                    curr : 1
+                                    //重新从第 1 页开始
+                                },
+                                where : {
+                                    //key: {
+                                    nickname : nickname
+                                        .val(),
+                                    phone : phone
+                                        .val(),
+                                    sex : sex
+                                        .val(),
+                                    vip : vip
+                                        .val()
+                                }
+                            });
+                }
+            };
             //数据表格
-            console.log("------------------------------------------------------")
             table.render({
                 id:'adminList',
                 elem: '#adminList'
@@ -68,17 +112,14 @@
                 ,limit:10//每页默认数
                 ,limits:[10,20,30,40]
                 ,cols: [[ //表头
-                    {type:'checkbox'}
-                    ,{field:'id', title: 'ID', sort: true}
-                    ,{field:'username', title: '登陆名'}
-                    ,{field:'nickname', title: '全称'}
-                    ,{field:'eMail', title: '邮箱'}
+                    {field:'id', title: 'ID', sort: true}
+                    ,{field:'nickname', title: '昵称'}
                     ,{field:'sex', title: '性别',templet: '#sexTpl'}
-                    ,{field:'birthday', title: '出生日期',templet: '<div>{{ formatTime(d.birthday,"yyyy-MM-dd")}}</div>'}
-                    ,{field:'address', title: '地址'}
+                    ,{field:'vip', title: '会员',templet: '#vipTpl'}
+                    ,{field:'vipTime', title: '会员到期时间',templet: '<div>{{ formatTime(d.vipTime,"yyyy-MM-dd")}}</div>'}
                     ,{field:'phone', title: '联系方式'}
                     ,{field:'money', title: '金钱'}
-                    ,{title: '操作',toolbar: '#barEdit'}
+                    ,{field:'money', title: '佣金',templet: '<div>{{ d.money * 0.3}}</div>'}
                 ]]
                 ,page: true //开启分页
                 ,where: {timestamp: (new Date()).valueOf()}
@@ -123,7 +164,20 @@
                     })
                 }
             });
-
+            //查询
+            $("#cx").click(function() {
+                var type = $(this).data('type');
+                active[type] ? active[type].call(this) : '';
+            })
+            //重置
+            $("#cz").click(function() {
+                 $('#nickname').val("");
+                $("#sex").val("-1");
+                 $('#vip').val("-1");
+                 $('#phone').val("");
+                var form = layui.form;
+                form.render('select');
+            })
 
             //添加角色
             $(".adminAdd_btn").click(function(){
@@ -230,6 +284,14 @@
    		 	保密
   		{{#  } }}
 	</script>
-
+	<script type="text/html" id="vipTpl">
+		{{#  if(d.vip === '0'){ }}
+		普通
+		{{#  } else if(d.sex === '1'){ }}
+		<span style="color: sandybrown;">VIP</span>
+		{{#  } else{ }}
+		异常
+		{{#  } }}
+	</script>
 </body>
 </html>

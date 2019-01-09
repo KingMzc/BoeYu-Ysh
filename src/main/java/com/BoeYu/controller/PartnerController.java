@@ -3,11 +3,10 @@ package com.BoeYu.controller;
 import com.BoeYu.pojo.*;
 import com.BoeYu.service.AdminService;
 import com.BoeYu.service.CustomerService;
-import com.BoeYu.util.DateUtil;
+import com.BoeYu.service.PartnerService;
 import com.BoeYu.util.ResultUtil;
 import com.BoeYu.util.ShiroUtils;
 import net.sf.json.JSONObject;
-import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -30,6 +29,8 @@ public class PartnerController {
     private AdminService adminService;
     @Autowired
     private CustomerService customerService;
+    @Autowired
+    private PartnerService partnerService;
 
     @RequestMapping("/List")
     public String partnerList() {
@@ -59,11 +60,129 @@ public class PartnerController {
         return "page/partner/customerList";
     }
 
+    @RequestMapping("/imgerweima")
+    public String imgerweima(HttpServletRequest req) {
+        TbAdmin admin = adminService.selAdminByUserName(req.getSession().getAttribute("username").toString());
+        req.setAttribute("codeImg",admin.getCodeImg());
+        return "page/partner/imgerweima";
+    }
+    @RequestMapping("/tixian")
+    public String tixian(HttpServletRequest req) {
+        TbAdmin admin = adminService.selAdminByUserName(req.getSession().getAttribute("username").toString());
+        Account account  =adminService.selectAccount(admin.getPhone());
+        req.setAttribute("money",account.getMoney());
+        req.setAttribute("smoney",account.getSmoney());
+        req.setAttribute("tmoney",account.getTmoney());
+        return "page/partner/tixian";
+    }
+
+    @RequestMapping("/addtixian")
+    @ResponseBody
+    public ResultUtil addtixian(HttpServletRequest req,String yinhang,String zhanghu,String jine,String newsImg,
+                                String newsImgt,String newsImgs,String dzjine) {
+        ResultUtil resultUti = new ResultUtil();
+        TbAdmin admin = adminService.selAdminByUserName(req.getSession().getAttribute("username").toString());
+        if (partnerService.selectcashlog(admin.getPhone())>0){
+            resultUti.setCode(1);
+            resultUti.setMsg("已经有一笔提现正在审核，请勿重复提交！");
+            return resultUti;
+        }
+        Cashlog cashlog = new Cashlog();
+        cashlog.setZhanghu(zhanghu);
+        cashlog.setBank(newsImgs);
+        cashlog.setFkPartnerId(admin.getPhone());
+        cashlog.setFlag("2");
+        cashlog.setIdcardz(newsImg);
+        cashlog.setIdcardf(newsImgt);
+        cashlog.setMoney(jine);
+        cashlog.setTmoney(dzjine);
+        cashlog.setBankid(yinhang);
+        cashlog.setNickname(admin.getFullname());
+        int flag = partnerService.addcashlog(cashlog);
+          if (flag>0){
+              resultUti.setCode(0);
+              resultUti.setMsg("提交成功");
+          }else{
+              resultUti.setCode(1);
+              resultUti.setMsg("提交失败");
+          }
+        return resultUti;
+    }
+
+    @RequestMapping("/cashlog")
+    public String carouselList() {
+        return "page/partner/cashlog";
+    }
+
+    @RequestMapping("/admincashlog")
+    public String admincashlog() {
+        return "page/admin/cashlog";
+    }
+
+    @RequestMapping("/list")
+    @ResponseBody
+    public ResultUtil getCarouseList(HttpServletRequest req,Integer page,Integer limit,PartnerSearch partnerSearch) {
+        TbAdmin admin = adminService.selAdminByUserName(req.getSession().getAttribute("username").toString());
+        if (admin.getFlag().equals("0")){
+            ResultUtil cashlog = partnerService.selCashlog(page, limit,"admin",partnerSearch);
+            return cashlog;
+        }else{
+            ResultUtil cashlog = partnerService.selCashlog(page, limit,admin.getPhone(),partnerSearch);
+            return cashlog;
+        }
+    }
+
+    @RequestMapping("/tupdate")
+    @ResponseBody
+    public ResultUtil tupdate(HttpServletRequest req,String id) {
+        ResultUtil resultUti = new ResultUtil();
+        TbAdmin admin = adminService.selAdminByUserName(req.getSession().getAttribute("username").toString());
+        Cashlog cashlog = partnerService.selcashlog(Integer.valueOf(id));
+        cashlog.setFlag("0");
+        cashlog.setAdname(admin.getFullname());
+        cashlog.setAdmsg("审核通过");
+        if(partnerService.updatetcashlog(cashlog)>0){
+           Account account = new Account();
+            account.setFkPartnerId(cashlog.getFkPartnerId());
+            account.setMoney(cashlog.getMoney());
+            account.setTmoney(cashlog.getTmoney());
+            if(partnerService.updateAccount(account)>0){
+                resultUti.setCode(0);
+                resultUti.setMsg("审核成功");
+            }else{
+                resultUti.setCode(1);
+                resultUti.setMsg("审核失败");
+            }
+        }else{
+            resultUti.setCode(1);
+            resultUti.setMsg("审核失败");
+        }
+        return resultUti;
+    }
+
+    @RequestMapping("/fupdate")
+    @ResponseBody
+    public ResultUtil fupdate(HttpServletRequest req,String id,String yijian) {
+        ResultUtil resultUti = new ResultUtil();
+        TbAdmin admin = adminService.selAdminByUserName(req.getSession().getAttribute("username").toString());
+        Cashlog cashlog = partnerService.selcashlog(Integer.valueOf(id));
+        cashlog.setFlag("1");
+        cashlog.setAdname(admin.getFullname());
+        cashlog.setAdmsg(yijian);
+        if(partnerService.updatetcashlog(cashlog)>0){
+                resultUti.setCode(0);
+                resultUti.setMsg("审核成功");
+        }else{
+            resultUti.setCode(1);
+            resultUti.setMsg("审核失败");
+        }
+        return resultUti;
+    }
+
     @RequestMapping("/getCustomerList")
     @ResponseBody
-    public ResultUtil customerList(HttpServletRequest req,Integer page,Integer limit) {
+    public ResultUtil customerList(HttpServletRequest req,Integer page,Integer limit,UserSearch search) {
         TbAdmin admin = adminService.selAdminByUserName(req.getSession().getAttribute("username").toString());
-        UserSearch search = new UserSearch();
         search.setPartnerId(admin.getPhone());
         ResultUtil admins = customerService.selCustomer(page, limit,search);
         return admins;

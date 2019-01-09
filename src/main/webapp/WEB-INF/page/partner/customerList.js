@@ -5,8 +5,34 @@ layui.config({
 		layer = parent.layer === undefined ? layui.layer : parent.layer,
 		laypage = layui.laypage,
 		$ = layui.jquery;
+    active = {
+        search : function() {
+            var nickname = $('#nickname'), sex = $('#sex option:selected'), vip = $('#vip option:selected') ,phone = $('#phone');
+            //执行重载
+            table
+                .reload(
+                    'userList',
+                    {
+                        page : {
+                            curr : 1
+                            //重新从第 1 页开始
+                        },
+                        where : {
+                            //key: {
+                            nickname : nickname
+                                .val(),
+                            phone : phone
+                                .val(),
+                            sex : sex
+                                .val(),
+                            vip : vip
+                                .val()
+                        }
+                    });
+        }
+    };
+
 		//数据表格
-	console.log("------------------------------------------------------")
 		table.render({
 			id:'adminList',
 		    elem: '#adminList'
@@ -31,6 +57,12 @@ layui.config({
 				,page: true //开启分页
 				,where: {timestamp: (new Date()).valueOf()}
 		  });
+
+    //查询
+    $(".search_btn").click(function() {
+        var type = $(this).data('type');
+        active[type] ? active[type].call(this) : '';
+    })
 		//监听工具条
 		  table.on('tool(test)', function(obj){
 		    var data = obj.data,adminId=$("#adminId").val();

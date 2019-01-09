@@ -12,7 +12,7 @@ public interface CustomerService {
 
      Customer selCustomerById(Long id);
 
-     Map<String,Object> loginInfo(String phone,String wxid,String mm);
+     Map<String,Object> loginInfo(String phone,String wxid);
 
      int addCustomer(Customer customer);
 

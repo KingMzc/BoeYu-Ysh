@@ -8,8 +8,11 @@ import com.BoeYu.util.WXPayUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -25,8 +28,8 @@ public class WxPayController {
     @RequestMapping("/WxPay")
     @ResponseBody
     public ResultUtil WxPay(String token,String orderNo,String openid){
-        System.out.println("........................-"+orderNo);
-        System.out.println("........................+"+openid);
+        /*System.out.println("........................-"+orderNo);
+        System.out.println("........................+"+openid);*/
         ResultUtil resultUti=new ResultUtil();
         if(CheckToken(token)==false){
             resultUti.setCode(1);
@@ -48,6 +51,49 @@ public class WxPayController {
             resultUti.setMsg("服务器内部错误!");
         }
             return resultUti;
+    }
+
+    /**
+     * 微信异步通知
+     */
+    @ResponseBody
+    @RequestMapping(value = "/Wxcall", method = { RequestMethod.GET, RequestMethod.POST })
+    public String callBack(HttpServletRequest request, HttpServletResponse response){
+        //System.out.println("微信支付成功,微信发送的callback信息,请注意修改订单信息");
+        //InputStream is = null;
+        try {
+            InputStream inStream = request.getInputStream();
+            ByteArrayOutputStream outSteam = new ByteArrayOutputStream();
+            byte[] buffer = new byte[1024];
+            int len = 0;
+            while ((len = inStream.read(buffer)) != -1) {
+                outSteam.write(buffer, 0, len);
+            }
+            String resultxml = new String(outSteam.toByteArray(), "utf-8");
+            //is = request.getInputStream();//获取请求的流信息(这里是微信发的xml格式所有只能使用流来读)
+            //String xml = WXPayUtil.inputStream2String(is, "UTF-8");
+            Map<String, String> notifyMap = WXPayUtil.xmlToMap(resultxml);//将微信发的xml转map
+            if(notifyMap.get("return_code").equals("SUCCESS")){
+                if(notifyMap.get("result_code").equals("SUCCESS")){
+                    String ordersSn = notifyMap.get("out_trade_no");//商户订单号 
+                    String amountpaid = notifyMap.get("total_fee");//实际支付的订单金额:单位 分
+                    //支付成功执行业务逻辑
+                    //int returnResult = drvSchoolOrdersService.updateHdOrders(ordersSn);
+                    // BigDecimal amountPay = (new BigDecimal(amountpaid).divide(new BigDecimal("100"))).setScale(2);//将分转换成元-实际支付金额:元
+                    //String openid = notifyMap.get("openid");  //如果有需要可以获取
+                    //String trade_type = notifyMap.get("trade_type");  
+                    /*以下是自己的业务处理------仅做参考
+                     * 更新order对应字段/已支付金额/状态码
+                     */
+                }
+            }
+            //告诉微信服务器收到信息了，不要在调用回调action了========这里很重要回复微信服务器信息用流发送一个xml即可
+            response.getWriter().write("<xml><return_code><![CDATA[SUCCESS]]></return_code></xml>");
+            inStream.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     /**
@@ -133,7 +179,7 @@ public class WxPayController {
             //dat.put("prepayid",signt.get("prepay_id"));
             dat.put("sign",WXPayUtil.generateSignature(da,"BoeyuYshXiongXiong3611OK2018YESW"));
         }
-        System.out.println(dat);
+        //System.out.println(dat);
         return dat;
     }
 

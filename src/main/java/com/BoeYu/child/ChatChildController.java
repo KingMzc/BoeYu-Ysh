@@ -117,7 +117,7 @@ public class ChatChildController {
     @ResponseBody
     public ResultUtil ChildChat(String tflag,String android,String type,String toId, String message ,MultipartFile file, HttpServletRequest req) throws IOException {
         ResultUtil resultUti = new ResultUtil();
-        String messagee=new String(message.trim().getBytes("ISO-8859-1"), "UTF-8");
+        String messagee=message;
         Date date = new Date();
         Chat chat = new Chat();
         Random d = new Random();

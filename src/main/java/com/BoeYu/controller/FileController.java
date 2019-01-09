@@ -59,7 +59,7 @@ public class FileController {
 	/**
 	 * 本地图片回显
 	 * 
-	 * @param request
+	 * @param
 	 * @param response
 	 * @return
 	 */

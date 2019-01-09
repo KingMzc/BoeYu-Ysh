@@ -9,6 +9,15 @@ public class UserSearch {
 	private String createTimeStart;
 	private String createTimeEnd;
 	private String operation;
+	private String phone;
+
+	public String getPhone() {
+		return phone;
+	}
+
+	public void setPhone(String phone) {
+		this.phone = phone;
+	}
 
 	public String getPartnerId() {
 		return partnerId;
