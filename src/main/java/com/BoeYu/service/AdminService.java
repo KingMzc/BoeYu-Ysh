@@ -96,5 +96,7 @@ public interface AdminService {
 
 	int addPartnerAdmin(TbAdmin admin);
 
+	int addAccount(Account account);
+
 	Account selectAccount(String id);
 }

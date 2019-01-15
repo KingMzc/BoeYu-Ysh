@@ -1,18 +1,33 @@
 package com.BoeYu.parent;
 
+import com.BoeYu.controller.WebSocket;
 import com.BoeYu.pojo.*;
 import com.BoeYu.service.ChildService;
 import com.BoeYu.service.CustomerService;
 import com.BoeYu.service.SafeUrlService;
+import com.BoeYu.util.Base64Util;
 import com.BoeYu.util.DateUtil;
 import com.BoeYu.util.ResultUtil;
+import net.sf.json.JSONObject;
+import org.bouncycastle.util.Arrays;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.crypto.Cipher;
+import javax.crypto.spec.IvParameterSpec;
+import javax.crypto.spec.SecretKeySpec;
+import javax.servlet.http.HttpServletRequest;
+import java.io.*;
+import java.net.HttpURLConnection;
+
+import java.net.URL;
+import java.security.spec.AlgorithmParameterSpec;
 import java.util.Date;
 import java.util.List;
+
+import static org.apache.poi.util.StringUtil.UTF8;
 
 @Controller
 @RequestMapping("Api/parent")
@@ -23,9 +38,50 @@ public class SafeController {
     private SafeUrlService safeUrlService;
     @Autowired
     private ChildService childService;
+
+
+
+
+    /*@RequestMapping("jiemi")
+    @ResponseBody
+    public ResultUtil deciphering(String encrypdata,String ivdata,HttpServletRequest request) throws Exception {
+        ResultUtil resultUti=new ResultUtil();
+        byte[] encrypdat  = Base64Util.decode(encrypdata);
+        byte[] iv = Base64Util.decode(ivdata);
+        byte[] session_k = Base64Util.decode();
+        int base = 16;
+        if (session_k.length % base != 0) {
+            int groups = session_k.length / base + (session_k.length % base != 0 ? 1 : 0);
+            byte[] temp = new byte[groups * base];
+            Arrays.fill(temp, (byte) 0);
+            System.arraycopy(session_k, 0, temp, 0, session_k.length);
+            session_k = temp;
+        }
+        if (iv.length % base != 0) {
+            int groups = iv.length / base + (iv.length % base != 0 ? 1 : 0);
+            byte[] temp = new byte[groups * base];
+            Arrays.fill(temp, (byte) 0);
+            System.arraycopy(iv, 0, temp, 0, iv.length);
+            iv = temp;
+        }
+        AlgorithmParameterSpec ivSpec = new IvParameterSpec(iv);
+        Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
+        SecretKeySpec keySpec = new SecretKeySpec(session_k, "AES");
+        cipher.init(Cipher.DECRYPT_MODE, keySpec, ivSpec);
+        String phone =new String(cipher.doFinal(encrypdat),"UTF-8");
+        resultUti.setCode(0);
+	 return resultUti;
+
+    }*/
+
+
+
+
+
+
     @RequestMapping("/SafeChildUrl")
     @ResponseBody
-    public ResultUtil SafeChildUrl(String token,String url ,String type){
+    public ResultUtil SafeChildUrl(String token,String url ,String type) throws IOException {
         String md ="";
         if (type.equals("0")){
             md="白名单";
@@ -63,6 +119,7 @@ public class SafeController {
         if(flag>0){
             resultUti.setCode(0);
             resultUti.setMsg(md+"设置成功");
+            WebSocket.sendmsg(customer.getFkFamilyId(),"SafeUrl:"+type);
             return resultUti;
         }else{
             resultUti.setCode(1);
@@ -96,7 +153,7 @@ public class SafeController {
 
     @RequestMapping("/deleteSafeChild")
     @ResponseBody
-    public ResultUtil deleteSafeChild(String token, String id){
+    public ResultUtil deleteSafeChild(String token, String id,String type) throws IOException {
         ResultUtil resultUti=new ResultUtil();
         if(CheckToken(token)==false){
             resultUti.setCode(1);
@@ -108,6 +165,7 @@ public class SafeController {
         if (flag>0){
             resultUti.setCode(0);
             resultUti.setMsg("删除成功");
+            WebSocket.sendmsg(customer.getFkFamilyId(),"SafeUrl:"+type);
             return resultUti;
         }else{
             resultUti.setCode(1);
@@ -118,7 +176,7 @@ public class SafeController {
 
     @RequestMapping("/SetSafeChildUrl")
     @ResponseBody
-    public ResultUtil SetSafeChildUrl(String token,String type){
+    public ResultUtil SetSafeChildUrl(String token,String type) throws IOException {
         ResultUtil resultUti=new ResultUtil();
         String md ="";
         if (type.equals("0")){
@@ -151,6 +209,7 @@ public class SafeController {
         if(flag>0){
             resultUti.setCode(0);
             resultUti.setMsg(md+"启用成功");
+            WebSocket.sendmsg(customer.getFkFamilyId(),"SafeUrl:"+type);
             return resultUti;
         }else{
             resultUti.setCode(1);
@@ -193,7 +252,7 @@ public class SafeController {
         return resultUti;
     }
     /**
-     * 添加新的安全区域
+     *添加新的安全区域
      *@参数  [token, coordinate, name]
      *@返回值  com.BoeYu.util.ResultUtil
      *@创建人  KingRoc

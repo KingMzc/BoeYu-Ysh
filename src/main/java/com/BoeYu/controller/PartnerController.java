@@ -211,6 +211,9 @@ public class PartnerController {
         String token  = getAccessToken();
         if (token.equals("errer")){
             resultUti.setCode(1);
+
+
+
             resultUti.setMsg("注册失败");
             return resultUti;
         }
@@ -237,7 +240,7 @@ public class PartnerController {
             printWriter.flush();
             //开始获取数据
             BufferedInputStream bis = new BufferedInputStream(httpURLConnection.getInputStream());
-            OutputStream os = new FileOutputStream(new File("D:/erweima/"+username+".png"));
+            OutputStream os = new FileOutputStream(new File("D:/upload/"+username+".png"));
             int len;
             byte[] arr = new byte[1024];
             while ((len = bis.read(arr)) != -1)
@@ -260,6 +263,12 @@ public class PartnerController {
         admin.setCodeImg(username+".png");
         admin.setFlag("2");
         if(adminService.addPartnerAdmin(admin)>0){
+            Account account = new Account();
+            account.setFkPartnerId(username);
+            account.setTmoney("0");
+            account.setMoney("0");
+            account.setSmoney("0");
+            adminService.addAccount(account);
             resultUti.setCode(0);
             resultUti.setMsg("注册成功");
         }else{

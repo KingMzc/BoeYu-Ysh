@@ -30,7 +30,13 @@ public class SafeUrlServiceImpl implements SafeUrlService {
 
     @Override
     public List<SafeUrl> SelectSafeUrl(String childId,String type) {
+
         return safeUrlMapper.selectSafeUrl(childId,type);
+    }
+
+    @Override
+    public List<SafeUrl> SelectSafeUrll(String childId) {
+        return safeUrlMapper.SelectSafeUrll(childId);
     }
 
     @Override

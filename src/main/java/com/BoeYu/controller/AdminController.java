@@ -513,6 +513,7 @@ public class AdminController {
 		if(a!=null){
 			return new ResultUtil(500, "用户名已存在,请重试！");
 		}
+		admin.setFlag("0");
 		adminServiceImpl.insAdmin(admin);
 		return ResultUtil.ok();
 	}

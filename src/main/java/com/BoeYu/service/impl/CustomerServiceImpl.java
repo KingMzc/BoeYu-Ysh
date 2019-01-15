@@ -96,12 +96,12 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     public Map<String, Object> loginInfo(String phone, String wxid) {
         Map<String, Object> map =new HashMap<String, Object>();
-        Customer customer =customerMapper.selectByLogin(phone,wxid);
+        Customer customer =customerMapper.selectByLogin(phone);
         if (customer==null){
             map.put("customer",0);
             return map;
         }
-        String token= DigestUtils.md5DigestAsHex((new Date().getTime()+""+phone+wxid).getBytes());
+        String token= DigestUtils.md5DigestAsHex((new Date().getTime()+""+phone).getBytes());
         customer.setToken(token);
         if(customer.getVipTime()==null){
             customer.setVip("0");
@@ -127,7 +127,10 @@ public class CustomerServiceImpl implements CustomerService {
     public int selectPhone(String phone) {
         return customerMapper.selectPhone(phone);
     }
-
+    @Override
+    public int selectPhonewx(String phone,String wxid) {
+        return customerMapper.selectPhonewx(phone,wxid);
+    }
     @Override
     public int selectToken(String token) {
         return customerMapper.selectToken(token);
@@ -167,6 +170,11 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     public int updateVip(Customer customer) {
         return customerMapper.updateVip(customer);
+    }
+
+    @Override
+    public int updateWxid(String phone,String wxid) {
+        return customerMapper.updateWxid(phone,wxid);
     }
 
     @Override

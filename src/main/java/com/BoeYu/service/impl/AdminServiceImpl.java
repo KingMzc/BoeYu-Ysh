@@ -412,6 +412,11 @@ public class AdminServiceImpl implements AdminService {
 	}
 
 	@Override
+	public int addAccount(Account account) {
+		return accountMapper.insert(account);
+	}
+
+	@Override
 	public Account selectAccount(String id) {
 		return accountMapper.selectAccount(id);
 	}

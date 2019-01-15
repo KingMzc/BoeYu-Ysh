@@ -87,10 +87,12 @@ public class InfoChildController {
         ResultUtil resultUti=new ResultUtil();
         Child child =GetChild(android);
         List<SafeUrl> list = new ArrayList<SafeUrl>();
-        if(type==null||type==""){
-            list  = safeUrlService.SelectSafeUrl(child.getId().toString(),child.getFlag());
+        if(type.equals("0")||type.equals("1")){
+            list  = safeUrlService.SelectSafeUrl(child.getAndroid(),type);
         }else if(type.equals("2")){
-            list  = safeUrlService.SelectSafeUrl(child.getId().toString(),"2");
+            list  = safeUrlService.SelectSafeUrl(child.getAndroid(),"2");
+        }else if(type.equals("3")){
+            list  = safeUrlService.SelectSafeUrll(child.getAndroid());
         }else{
             resultUti.setCode(0);
             resultUti.setMsg("无效参数！");

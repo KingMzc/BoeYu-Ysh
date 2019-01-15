@@ -18,6 +18,8 @@ public interface CustomerService {
 
      int selectPhone(String phone);
 
+    int selectPhonewx(String phone,String wxid);
+
      int selectToken(String token);
 
      Customer GetCustomerByToken(String token);
@@ -31,6 +33,8 @@ public interface CustomerService {
      int updateName(Customer customer);
 
     int updateVip(Customer customer);
+
+    int updateWxid(String phone,String wxid);
 
     int updatepassword(Customer customer);
 

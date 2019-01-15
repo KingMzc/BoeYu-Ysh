@@ -29,7 +29,7 @@
 
 	<input type="hidden" id="adminId"
 		value="<shiro:principal property="id"/>" />
-	<blockquote class="layui-elem-quote list_search">
+	<%--<blockquote class="layui-elem-quote list_search">
 		<shiro:hasPermission name="sys:admin:save">
 			<div class="layui-inline">
 				<a class="layui-btn layui-btn-normal adminAdd_btn"><i
@@ -45,7 +45,7 @@
 		<!-- <div class="layui-inline">
 			<div class="layui-form-mid layui-word-aux"></div>
 		</div> -->
-	</blockquote>
+	</blockquote>--%>
 	<!-- 数据表格 -->
 	<table id="adminList" lay-filter="test"></table>
 	<script type="text/javascript" src="${ctx }/layui/layui.js"></script>

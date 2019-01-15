@@ -24,7 +24,7 @@ public interface CustomerMapper {
 
     Customer GetCustomerByPhone(String phone);
 
-    Customer selectByLogin(@Param("phone") String phone,@Param("wxid") String wxid);
+    Customer selectByLogin(@Param("phone") String phone);
 
     int updateByExampleSelective(@Param("record") Customer record, @Param("example") CustomerExample example);
 
@@ -38,11 +38,14 @@ public interface CustomerMapper {
 
     int updateVip(Customer record);
 
+    int updateWxid(String phone,String wxid);
+
     int updateChild(Customer record);
 
     int updateVipTime(Customer record);
 
     int selectPhone(String phone);
+    int selectPhonewx(String phone,String wxid);
 
     int selectToken(String token);
 

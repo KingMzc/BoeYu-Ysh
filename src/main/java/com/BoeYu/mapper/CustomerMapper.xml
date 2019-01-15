@@ -107,7 +107,6 @@
     <include refid="Base_Column_List" />
     from customer
     where phone = #{phone,jdbcType=VARCHAR}
-    and wxid = #{wxid,jdbcType=VARCHAR}
   </select>
 
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
@@ -398,6 +397,13 @@
     where phone = #{0}
   </select>
 
+  <select id="selectPhonewx" resultType="java.lang.Integer">
+    select
+    count(1)
+    from customer
+    where phone = #{0} and wxid=#{1}
+  </select>
+
   <select id="selectToken" resultType="java.lang.Integer">
     select
     count(1)
@@ -410,6 +416,13 @@
     set
       token = #{token,jdbcType=VARCHAR}
     where phone = #{phone,jdbcType=VARCHAR}
+  </update>
+
+  <update id="updateWxid" >
+    update customer
+    set
+      wxid = #{1}
+    where phone = #{0}
   </update>
 
   <select id="GetCustomerByToken"  resultMap="BaseResultMap">

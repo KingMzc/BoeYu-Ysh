@@ -232,4 +232,11 @@
     from safe_url
     where fk_child_id = #{0} and safe_type=#{1}
   </select>
+
+  <select id="SelectSafeUrll"  resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from safe_url
+    where fk_child_id = #{0}
+  </select>
 </mapper>

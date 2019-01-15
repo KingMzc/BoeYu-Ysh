@@ -28,8 +28,6 @@ public class WxPayController {
     @RequestMapping("/WxPay")
     @ResponseBody
     public ResultUtil WxPay(String token,String orderNo,String openid){
-        /*System.out.println("........................-"+orderNo);
-        System.out.println("........................+"+openid);*/
         ResultUtil resultUti=new ResultUtil();
         if(CheckToken(token)==false){
             resultUti.setCode(1);

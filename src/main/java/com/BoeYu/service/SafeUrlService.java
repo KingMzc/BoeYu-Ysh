@@ -12,6 +12,8 @@ public interface SafeUrlService {
 
     List<SafeUrl> SelectSafeUrl(String childId,String type);
 
+    List<SafeUrl> SelectSafeUrll(String childId);
+
     int delteteSafeUrl(Integer id);
 
     int CheckRegion(String childId);

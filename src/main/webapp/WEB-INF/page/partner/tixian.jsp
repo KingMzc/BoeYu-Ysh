@@ -38,12 +38,6 @@
 		   <%-- <div class="layui-inline">
 			    已经提现金额：${tmoney}
 		    </div>--%>
-		<select name="city" lay-verify="">
-			<option value="">请选择一个城市</option>
-			<option value="010">北京</option>
-			<option value="021">上海</option>
-			<option value="0571">杭州</option>
-		</select>
 	</blockquote>
 <div style="width: 100%;height: 100%;text-align: center">
 	      提现申请温馨提示<br/>
