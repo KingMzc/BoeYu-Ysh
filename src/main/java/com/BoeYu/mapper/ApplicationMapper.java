@@ -49,7 +49,11 @@ public interface ApplicationMapper {
 
     List<ApplicationTime> selectApplicationTimes(String android);
 
+    List<ApplicationTime> selApplicationTimes(String android);
+
     List<Application> selectApplicationTimeStart(String android);
 
     List<AppRecordt> selectApplicationRecord (String android);
+
+    int deletechildd(String android);
 }

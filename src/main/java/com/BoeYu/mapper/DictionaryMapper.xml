@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.BoeYu.mapper.FamilyMapper">
-  <resultMap id="BaseResultMap" type="com.BoeYu.pojo.Family">
+<mapper namespace="com.BoeYu.mapper.DictionaryMapper">
+  <resultMap id="BaseResultMap" type="com.BoeYu.pojo.Dictionary">
     <id column="id" jdbcType="INTEGER" property="id" />
-    <result column="fk_customer_id" jdbcType="VARCHAR" property="fkCustomerId" />
-    <result column="fk_child_id" jdbcType="VARCHAR" property="fkChildId" />
-    <result column="flag" jdbcType="CHAR" property="flag" />
-    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="nkey" jdbcType="VARCHAR" property="nkey" />
+    <result column="value" jdbcType="VARCHAR" property="value" />
+    <result column="flag" jdbcType="VARCHAR" property="flag" />
+    <result column="createtime" jdbcType="TIMESTAMP" property="createtime" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -67,15 +68,15 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, fk_customer_id, fk_child_id, flag, create_time
+    id, nkey, value, flag, createtime, name
   </sql>
-  <select id="selectByExample" parameterType="com.BoeYu.pojo.FamilyExample" resultMap="BaseResultMap">
+  <select id="selectByExample" parameterType="com.BoeYu.pojo.DictionaryExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from family
+    from dictionary
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
@@ -86,85 +87,96 @@
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from family
+    from dictionary
     where id = #{id,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-    delete from family
+    delete from dictionary
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <delete id="deleteByExample" parameterType="com.BoeYu.pojo.FamilyExample">
-    delete from family
+  <delete id="deleteByExample" parameterType="com.BoeYu.pojo.DictionaryExample">
+    delete from dictionary
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.BoeYu.pojo.Family">
-    insert into family (id, fk_customer_id, fk_child_id, 
-      flag, create_time)
-    values (#{id,jdbcType=INTEGER}, #{fkCustomerId,jdbcType=VARCHAR}, #{fkChildId,jdbcType=VARCHAR}, 
-      #{flag,jdbcType=CHAR}, #{createTime,jdbcType=TIMESTAMP})
+  <insert id="insert" parameterType="com.BoeYu.pojo.Dictionary">
+    insert into dictionary (id, nkey, value, 
+      flag, createtime, name
+      )
+    values (#{id,jdbcType=INTEGER}, #{nkey,jdbcType=VARCHAR}, #{value,jdbcType=VARCHAR}, 
+      #{flag,jdbcType=VARCHAR}, #{createtime,jdbcType=TIMESTAMP}, #{name,jdbcType=VARCHAR}
+      )
   </insert>
-  <insert id="insertSelective" parameterType="com.BoeYu.pojo.Family">
-    insert into family
+  <insert id="insertSelective" parameterType="com.BoeYu.pojo.Dictionary">
+    insert into dictionary
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
         id,
       </if>
-      <if test="fkCustomerId != null">
-        fk_customer_id,
+      <if test="nkey != null">
+        nkey,
       </if>
-      <if test="fkChildId != null">
-        fk_child_id,
+      <if test="value != null">
+        value,
       </if>
       <if test="flag != null">
         flag,
       </if>
-      <if test="createTime != null">
-        create_time,
+      <if test="createtime != null">
+        createtime,
+      </if>
+      <if test="name != null">
+        name,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
         #{id,jdbcType=INTEGER},
       </if>
-      <if test="fkCustomerId != null">
-        #{fkCustomerId,jdbcType=VARCHAR},
+      <if test="nkey != null">
+        #{nkey,jdbcType=VARCHAR},
       </if>
-      <if test="fkChildId != null">
-        #{fkChildId,jdbcType=VARCHAR},
+      <if test="value != null">
+        #{value,jdbcType=VARCHAR},
       </if>
       <if test="flag != null">
-        #{flag,jdbcType=CHAR},
+        #{flag,jdbcType=VARCHAR},
       </if>
-      <if test="createTime != null">
-        #{createTime,jdbcType=TIMESTAMP},
+      <if test="createtime != null">
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="com.BoeYu.pojo.FamilyExample" resultType="java.lang.Long">
-    select count(*) from family
+  <select id="countByExample" parameterType="com.BoeYu.pojo.DictionaryExample" resultType="java.lang.Long">
+    select count(*) from dictionary
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </select>
   <update id="updateByExampleSelective" parameterType="map">
-    update family
+    update dictionary
     <set>
       <if test="record.id != null">
         id = #{record.id,jdbcType=INTEGER},
       </if>
-      <if test="record.fkCustomerId != null">
-        fk_customer_id = #{record.fkCustomerId,jdbcType=VARCHAR},
+      <if test="record.nkey != null">
+        nkey = #{record.nkey,jdbcType=VARCHAR},
       </if>
-      <if test="record.fkChildId != null">
-        fk_child_id = #{record.fkChildId,jdbcType=VARCHAR},
+      <if test="record.value != null">
+        value = #{record.value,jdbcType=VARCHAR},
       </if>
       <if test="record.flag != null">
-        flag = #{record.flag,jdbcType=CHAR},
+        flag = #{record.flag,jdbcType=VARCHAR},
       </if>
-      <if test="record.createTime != null">
-        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      <if test="record.createtime != null">
+        createtime = #{record.createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.name != null">
+        name = #{record.name,jdbcType=VARCHAR},
       </if>
     </set>
     <if test="_parameter != null">
@@ -172,86 +184,45 @@
     </if>
   </update>
   <update id="updateByExample" parameterType="map">
-    update family
+    update dictionary
     set id = #{record.id,jdbcType=INTEGER},
-      fk_customer_id = #{record.fkCustomerId,jdbcType=VARCHAR},
-      fk_child_id = #{record.fkChildId,jdbcType=VARCHAR},
-      flag = #{record.flag,jdbcType=CHAR},
-      create_time = #{record.createTime,jdbcType=TIMESTAMP}
+      nkey = #{record.nkey,jdbcType=VARCHAR},
+      value = #{record.value,jdbcType=VARCHAR},
+      flag = #{record.flag,jdbcType=VARCHAR},
+      createtime = #{record.createtime,jdbcType=TIMESTAMP},
+      name = #{record.name,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.BoeYu.pojo.Family">
-    update family
+  <update id="updateByPrimaryKeySelective" parameterType="com.BoeYu.pojo.Dictionary">
+    update dictionary
     <set>
-      <if test="fkCustomerId != null">
-        fk_customer_id = #{fkCustomerId,jdbcType=VARCHAR},
+      <if test="nkey != null">
+        nkey = #{nkey,jdbcType=VARCHAR},
       </if>
-      <if test="fkChildId != null">
-        fk_child_id = #{fkChildId,jdbcType=VARCHAR},
+      <if test="value != null">
+        value = #{value,jdbcType=VARCHAR},
       </if>
       <if test="flag != null">
-        flag = #{flag,jdbcType=CHAR},
+        flag = #{flag,jdbcType=VARCHAR},
       </if>
-      <if test="createTime != null">
-        create_time = #{createTime,jdbcType=TIMESTAMP},
+      <if test="createtime != null">
+        createtime = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.BoeYu.pojo.Family">
-    update family
-    set fk_customer_id = #{fkCustomerId,jdbcType=VARCHAR},
-      fk_child_id = #{fkChildId,jdbcType=VARCHAR},
-      flag = #{flag,jdbcType=CHAR},
-      create_time = #{createTime,jdbcType=TIMESTAMP}
+  <update id="updateByPrimaryKey" parameterType="com.BoeYu.pojo.Dictionary">
+    update dictionary
+    set nkey = #{nkey,jdbcType=VARCHAR},
+      value = #{value,jdbcType=VARCHAR},
+      flag = #{flag,jdbcType=VARCHAR},
+      createtime = #{createtime,jdbcType=TIMESTAMP},
+      name = #{name,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
-  </update>
-
-  <select id="GetchildId"  resultType="java.lang.String">
-    select
-    fk_child_id
-    from family
-    where fk_customer_id=#{customerid}
-  </select>
-
-  <select id="CheckChildIsCustomer" resultType="java.lang.Integer">
-    select
-    count(1)
-    from family
-    where fk_customer_id = #{0} and fk_child_id=#{1}
-  </select>
-
-  <select id="selectflag" resultType="java.lang.String">
-    select
-    flag
-    from family
-    where fk_customer_id = #{0} and fk_child_id=#{1}
-  </select>
-
-  <select id="selectChildBinding" resultType="java.lang.Integer">
-    select
-    count(1)
-    from family
-    where fk_child_id=#{0}
-  </select>
-
-  <delete id="deletechild" >
-    delete from family
-    WHERE fk_child_id=#{0}
-  </delete>
-
-  <select id="GetChatList" parameterType="com.BoeYu.pojo.FamilyExample" resultMap="BaseResultMap">
-    select
-    fk_customer_id, fk_child_id,flag
-    from family
-    where fk_child_id=#{0}
-  </select>
-
-  <update id="updateflag" >
-    update family
-    set flag =#{2}
-    where fk_customer_id = #{0} and fk_child_id=#{1}
   </update>
 </mapper>

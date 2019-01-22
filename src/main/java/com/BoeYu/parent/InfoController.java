@@ -458,6 +458,7 @@ public class InfoController {
         Feedback feedback =new Feedback();
         feedback.setFkCustomerId(customer.getPhone());
         feedback.setContent(content);
+        feedback.setType("1");
         feedback.setCreateTime(new Date());
         customerService.addFeedback(feedback);
         resultUti.setCode(0);

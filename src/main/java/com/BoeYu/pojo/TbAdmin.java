@@ -30,6 +30,42 @@ public class TbAdmin {
     private String CodeImg;
 
     private String Flag;
+    private String idcardz;
+    private String idcardf;
+    private String wxid;
+    private String sfzhm;
+
+    public String getSfzhm() {
+        return sfzhm;
+    }
+
+    public void setSfzhm(String sfzhm) {
+        this.sfzhm = sfzhm;
+    }
+
+    public String getIdcardz() {
+        return idcardz;
+    }
+
+    public void setIdcardz(String idcardz) {
+        this.idcardz = idcardz;
+    }
+
+    public String getIdcardf() {
+        return idcardf;
+    }
+
+    public void setIdcardf(String idcardf) {
+        this.idcardf = idcardf;
+    }
+
+    public String getWxid() {
+        return wxid;
+    }
+
+    public void setWxid(String wxid) {
+        this.wxid = wxid;
+    }
 
     public String getToken() {
         return Token;

@@ -31,4 +31,6 @@ public interface CashlogMapper {
     int selectcashlog(String partnerid);
 
     int updatetcashlog(Cashlog record);
+
+    List<Cashlog> selCashlogByTime(String phone,String TimeS, String TimeE);
 }

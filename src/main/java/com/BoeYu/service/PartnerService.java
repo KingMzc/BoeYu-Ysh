@@ -1,10 +1,11 @@
 package com.BoeYu.service;
 
 
-import com.BoeYu.pojo.Account;
-import com.BoeYu.pojo.Cashlog;
-import com.BoeYu.pojo.PartnerSearch;
+import com.BoeYu.pojo.*;
 import com.BoeYu.util.ResultUtil;
+
+import java.util.List;
+import java.util.Map;
 
 public interface PartnerService {
 	int addcashlog(Cashlog cashlog);
@@ -18,5 +19,25 @@ public interface PartnerService {
 	Cashlog selcashlog(Integer id);
 
 	int updateAccount(Account account);
+
+	int selectPhone(String phone);
+
+	int selectPhonewx(String phone,String wxid);
+
+	Map<String,Object> loginInfo(String phone, String wxid);
+
+	int updateWxid(String phone,String wxid);
+
+	int addAdmin(TbAdmin tbAdmin);
+
+	int addBankId(Adminbank adminbank);
+
+	int updateAdmin(TbAdmin tbAdmin);
+
+	List<cashList> selcashlist(String phone, String time);
+
+	List<Adminbank> selBankList(String phone);
+
+	int deleteBank(String id);
 
 }

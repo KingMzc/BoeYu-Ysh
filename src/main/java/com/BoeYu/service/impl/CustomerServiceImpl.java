@@ -34,6 +34,9 @@ public class CustomerServiceImpl implements CustomerService {
     private FeedbackMapper feedbackMapper;
     @Autowired
     private ApplicationMapper applicationMapper;
+
+    @Autowired
+    private ApplicationTimesMapper applicationTimesMapper;
     @Override
     public ResultUtil selCustomer(Integer page, Integer limit, UserSearch search) {
         PageHelper.startPage(page, limit);
@@ -115,6 +118,11 @@ public class CustomerServiceImpl implements CustomerService {
         customerMapper.updateToken(customer);
         map.put("customer",customer);
         map.put("token",token);
+        if(customer.getFkFamilyId()==null){
+            map.put("flag","0");
+        }else{
+            map.put("flag",familyMapper.selectflag(customer.getPhone(),customer.getFkFamilyId()));
+        }
         return map;
     }
 
@@ -273,7 +281,18 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public List<ApplicationTime> selectApplicationTimes(String android) {
-        return applicationMapper.selectApplicationTimes(android);
+        return applicationMapper.selApplicationTimes(android);
+    }
+
+    @Override
+    public List<ApplicationTime> selectAppListTimes(String android) {
+        String week = DateUtil.week();
+        return applicationMapper.selectApplicationTime(android,week);
+    }
+
+    @Override
+    public List<ApplicationTimes> selApplicationTimes(String id) {
+        return applicationTimesMapper.selApplicationTimes(id);
     }
 
     @Override
@@ -289,6 +308,16 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     public String Getpassword(String phone) {
         return customerMapper.Getpassword(phone);
+    }
+
+    @Override
+    public int addInvitation(Family family) {
+        return familyMapper.insert(family);
+    }
+
+    @Override
+    public int updateflag(String cusid, String childid, String flag) {
+        return familyMapper.updateflag(cusid,childid,flag);
     }
 
 

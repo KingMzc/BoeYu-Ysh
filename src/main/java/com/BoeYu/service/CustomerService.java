@@ -72,9 +72,17 @@ public interface CustomerService {
 
     List<ApplicationTime> selectApplicationTimes(String android);
 
+    List<ApplicationTime> selectAppListTimes(String android);
+
+    List<ApplicationTimes> selApplicationTimes(String id);
+
     List<Application> selectApplicationTimeStart(String android);
 
     List<AppRecordt> selectApplicationRecord(String android);
 
     String Getpassword(String phone);
+
+    int addInvitation(Family family);
+
+    int updateflag(String cusid,String childid,String flag);
 }

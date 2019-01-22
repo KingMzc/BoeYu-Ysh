@@ -16,7 +16,7 @@ public class ApplicationTime {
 
     private String lockType;
 
-    private String appTime;
+    private String times;
 
     private String applicationId;
 
@@ -68,12 +68,12 @@ public class ApplicationTime {
         this.lockType = lockType;
     }
 
-    public String getAppTime() {
-        return appTime;
+    public String getTimes() {
+        return times;
     }
 
-    public void setAppTime(String appTime) {
-        this.appTime = appTime;
+    public void setTimes(String times) {
+        this.times = times;
     }
 
     public String getApplicationId() {
@@ -100,27 +100,9 @@ public class ApplicationTime {
         this.appUpdatetime = appUpdatetime;
     }
 
-    public String getWeek() {
-        return week;
-    }
-
-    public void setWeek(String week) {
-        this.week = week;
-    }
-
-    public String getTimes() {
-        return times;
-    }
-
-    public void setTimes(String times) {
-        this.times = times;
-    }
-
     private String applicationName;
 
     private String appUpdatetime;
 
-    private String week;
 
-    private String times;
 }

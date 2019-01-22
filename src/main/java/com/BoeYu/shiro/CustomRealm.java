@@ -45,7 +45,7 @@ public class CustomRealm extends AuthorizingRealm {
 	private static Logger logger=LoggerFactory.getLogger(CustomRealm.class);
 
 	public CustomRealm() {
-		logger.info("CustomRealm====================");
+		/*logger.info("CustomRealm====================");*/
 	}
 
 	@Override

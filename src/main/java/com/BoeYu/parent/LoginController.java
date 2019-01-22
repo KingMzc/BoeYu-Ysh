@@ -106,6 +106,7 @@ public class LoginController {
      */
     @RequestMapping("/flogin")
     @ResponseBody
+
     public ResultUtil FLogin(HttpServletRequest request,String encrypdata,String ivdata,String partnerId,String code) throws Exception {
         ResultUtil resultUti=new ResultUtil();
         if (encrypdata==null||encrypdata.length()<=0||ivdata==null||ivdata.length()<=0||code==null||code.length()<=0){

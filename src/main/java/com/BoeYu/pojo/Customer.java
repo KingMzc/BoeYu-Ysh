@@ -13,7 +13,7 @@ public class Customer {
 
     private Date loginTime;
 
-    private String message;
+    private String address;
 
     private String phone;
 
@@ -96,11 +96,11 @@ public class Customer {
     }
 
     public String getMessage() {
-        return message;
+        return address;
     }
 
     public void setMessage(String message) {
-        this.message = message == null ? null : message.trim();
+        this.address = message == null ? null : message.trim();
     }
 
     public String getPhone() {

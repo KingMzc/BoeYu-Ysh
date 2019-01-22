@@ -139,7 +139,7 @@ public class LockController {
      */
     @RequestMapping("/SetApplicationTime")
     @ResponseBody
-    public ResultUtil SetApplicationTime( String token,String times,String id,String week){
+    public ResultUtil SetApplicationTime( String token,String times,String id,String week) throws IOException {
         ResultUtil resultUti=new ResultUtil();
         if(CheckToken(token)==false){
             resultUti.setCode(1);
@@ -153,6 +153,7 @@ public class LockController {
         applicationTimes.setFlag("0");
         if(timeService.selectAppLockTime(id,week)>0){
             if(timeService.updateAppLockTime(applicationTimes)>0){
+                WebSocket.sendmsg(GetCustomer(token).getFkFamilyId(),"SetApplicationTime");
                 resultUti.setMsg("锁屏时间修改成功");
                 resultUti.setCode(0);
             }else{
@@ -162,6 +163,7 @@ public class LockController {
         }else{
             if(timeService.addAppLockTime(applicationTimes)>0){
                 resultUti.setMsg("锁屏时间设置成功");
+                WebSocket.sendmsg(GetCustomer(token).getFkFamilyId(),"SetApplicationTime");
                 resultUti.setCode(0);
             }else{
                 resultUti.setMsg("锁屏时间设置失败");
@@ -179,7 +181,7 @@ public class LockController {
      */
     @RequestMapping("/SetAppType")
     @ResponseBody
-    public ResultUtil updateAppType( String token,String android,String id,String applicationType){
+    public ResultUtil updateAppType( String token,String android,String id,String applicationType) throws IOException {
         ResultUtil resultUti=new ResultUtil();
         if(CheckToken(token)==false){
             resultUti.setCode(1);
@@ -193,6 +195,7 @@ public class LockController {
         if(customerService.updateAppType(application)>0){
             resultUti.setMsg("设置成功");
             resultUti.setCode(0);
+            WebSocket.sendmsg(android,"SetAppType");
         }else{
             resultUti.setMsg("设置失败");
             resultUti.setCode(1);
@@ -208,7 +211,7 @@ public class LockController {
      */
     @RequestMapping("/SetLockApp")
     @ResponseBody
-    public ResultUtil updateLockApp( String token,String android,String id,String lockType){
+    public ResultUtil updateLockApp( String token,String android,String id,String lockType) throws IOException {
         ResultUtil resultUti=new ResultUtil();
         if(CheckToken(token)==false){
             resultUti.setCode(1);
@@ -222,6 +225,7 @@ public class LockController {
         if(customerService.updateLockApp(application)>0){
             resultUti.setMsg("设置成功");
             resultUti.setCode(0);
+            WebSocket.sendmsg(android,"SetLockApp");
         }else{
             resultUti.setMsg("设置失败");
             resultUti.setCode(1);
@@ -230,7 +234,7 @@ public class LockController {
     }
 
     /**
-     * 家长端获取应用列表和锁定时间
+     * 家长端获取应用列表
      *@参数  [token, android]
      *@返回值  com.BoeYu.util.ResultUtil
      *@创建人  KingRoc
@@ -256,7 +260,34 @@ public class LockController {
         }
         return resultUti;
     }
+    /**
+     * 家长端获取应用列表时间
+     *@参数  [token, ApplicationId]
+     *@返回值  com.BoeYu.util.ResultUtil
+     *@创建人  KingRoc
+     *@创建时间  2018/12/14
+     */
+    @RequestMapping("/ShowApplicationTimes")
+    @ResponseBody
+    public ResultUtil ShowApplicationTimes( String token,String ApplicationId) {
+        ResultUtil resultUti = new ResultUtil();
+        if(CheckToken(token)==false){
+            resultUti.setCode(1);
+            resultUti.setMsg("登录身份过期请重新登录!");
 
+            return resultUti;
+        }
+        List<ApplicationTimes> list =customerService.selApplicationTimes(ApplicationId);
+        if(list.size()>0){
+            resultUti.setCode(0);
+            resultUti.setMsg("查询成功");
+            resultUti.setData(list);
+        }else{
+            resultUti.setCode(0);
+            resultUti.setMsg("暂无数据");
+        }
+        return resultUti;
+    }
 
 
     @RequestMapping("/EyeRemind")

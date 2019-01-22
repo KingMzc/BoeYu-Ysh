@@ -36,4 +36,19 @@ public interface TbAdminMapper {
     int updateToken(TbAdmin record);
 
     int checkphone(String phone);
+
+
+    int selectPhone(String phone);
+
+    int selectPhonewx(String phone,String wxid);
+
+    TbAdmin selectByLogin(String phone);
+
+    int updateWxid(String phone,String wxid);
+
+    int selectToken(String token);
+
+    TbAdmin selAdminByToken(String token);
+
+    int updateAdminidcard(TbAdmin tbAdmin);
 }

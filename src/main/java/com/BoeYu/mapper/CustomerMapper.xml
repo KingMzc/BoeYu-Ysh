@@ -7,7 +7,7 @@
     <result column="wxid" jdbcType="VARCHAR" property="wxid" />
     <result column="sex" jdbcType="VARCHAR" property="sex" />
     <result column="login_time" jdbcType="TIMESTAMP" property="loginTime" />
-    <result column="message" jdbcType="VARCHAR" property="message" />
+    <result column="address" jdbcType="VARCHAR" property="address" />
     <result column="phone" jdbcType="VARCHAR" property="phone" />
     <result column="status" jdbcType="VARCHAR" property="status" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
@@ -79,8 +79,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, nickname, wxid, sex, login_time, message, phone, status, create_time, fk_img_id, 
-    vip, vip_time, fk_family_id, token, update_time, password
+    id, nickname, wxid, sex, login_time, address, phone, status, create_time, fk_img_id,
+    vip, vip_time, fk_family_id, token, update_time, password,partnerId
   </sql>
   <select id="selectByExample" parameterType="com.BoeYu.pojo.CustomerExample" resultMap="BaseResultMap">
     select
@@ -104,7 +104,8 @@
   </select>
   <select id="selectByLogin"  resultMap="BaseResultMap">
     select
-    <include refid="Base_Column_List" />
+    id, nickname, wxid, sex, login_time, address, phone, status, create_time, fk_img_id,
+    vip, vip_time, fk_family_id, token, update_time, password,partnerId
     from customer
     where phone = #{phone,jdbcType=VARCHAR}
   </select>
@@ -480,5 +481,19 @@
 
   <select id="GetMoney"  resultType="java.lang.String">
     select SUM(money) FROM  rechargelog  where fk_customer_id = #{0}
+  </select>
+
+  <select id="countvipcustomer"  resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from customer
+    where partnerId = #{0} and vip=#{1}
+  </select>
+
+  <select id="countcustomer"  resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from customer
+    where partnerId = #{0}
   </select>
 </mapper>

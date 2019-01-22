@@ -120,7 +120,7 @@ public class InfoChildController {
     @ResponseBody
     public ResultUtil ShowApplication(String android) {
         ResultUtil resultUti = new ResultUtil();
-        List<ApplicationTime> list =customerService.selectApplicationTimes(android);
+        List<ApplicationTime> list =customerService.selectAppListTimes(android);
         if(list.size()>0){
             resultUti.setCode(0);
             resultUti.setMsg("查询成功");

@@ -7,6 +7,7 @@ import org.jaudiotagger.audio.exceptions.ReadOnlyFileException;
 import org.jaudiotagger.audio.mp3.MP3AudioHeader;
 import org.jaudiotagger.audio.mp3.MP3File;
 import org.jaudiotagger.tag.TagException;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
@@ -91,6 +92,45 @@ public class MyUtil {
 		MP3File f = (MP3File) AudioFileIO.read(file);
 		MP3AudioHeader audioHeader = (MP3AudioHeader)f.getAudioHeader();
 		return audioHeader.getTrackLength();
+	}
+//D盘上传jpg 文件
+	public static String shangchuan(MultipartFile file){
+		Random d = new Random();
+		String img = UUID.randomUUID().toString().replace("-", "") + d.nextInt(10000) + ".jpg";
+		try {
+			// uploadFile.transferTo(new
+			// File(req.getServletContext().getRealPath("WEB-INF/upload"),img));
+			File f=new File(GlobalUtil.getValue("upfile.path"));
+			if(!f.exists()){
+				f.mkdirs();
+			}
+			file.transferTo(new File(f, img));
+		} catch (IllegalStateException e) {
+			img="";
+			e.printStackTrace();
+		} catch (IOException e) {
+			img="";
+			e.printStackTrace();
+		}
+		return img;
+	}
+
+	public static boolean deletewj(String fileName){
+		//String fileName="C:/Users/Admin/Desktop/f766.png";
+		File file = new File(fileName);
+		// 如果文件路径所对应的文件存在，并且是一个文件，则直接删除
+		if (file.exists() && file.isFile()) {
+			if (file.delete()) {
+				//System.out.println("删除单个文件" + fileName + "成功！");
+                     return true;
+			} else {
+				return false;
+				//System.out.println("删除单个文件" + fileName + "失败！");
+			}
+		} else {
+			//System.out.println("删除单个文件失败：" + fileName + "不存在！");
+			return false;
+		}
 	}
 
 }

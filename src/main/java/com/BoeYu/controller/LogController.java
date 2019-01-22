@@ -51,9 +51,14 @@ public class LogController {
 	private static final String APPID = "appid";
 
 
+	public static void main(String[] args) throws FileNotFoundException {
 
-
-	public static void main(String[] args) throws Exception {
+		/*for (int i=3;i<101;i++){
+			OutputStream os = new FileOutputStream(new File("C:/Users/Admin/Desktop/cs/"+i+".text"));
+		}*/
+		for (int i=1;i<101;i++){
+			MyUtil.deletewj("C:/Users/Admin/Desktop/cs/"+i+".text");
+		}
 
 
 	}

@@ -762,4 +762,16 @@ public class AdminController {
 		return logServiceImpl.selLogList(page,limit,search);
 	}
 
+
+	@RequestMapping("/checkList")
+	public String checkList() {
+		return "page/admin/dictionaryList";
+	}
+
+	@RequestMapping("/getDictionaryList")
+	@ResponseBody
+	public ResultUtil getDictionaryList(Integer page,Integer limit) {
+		return adminServiceImpl.dictionaryList(page, limit);
+	}
+
 }

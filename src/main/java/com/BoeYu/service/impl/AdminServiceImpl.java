@@ -37,6 +37,9 @@ public class AdminServiceImpl implements AdminService {
 	@Autowired
 	private AccountMapper accountMapper;
 
+	@Autowired
+	private DictionaryMapper dictionaryMapper;
+
 	/**
 	 * 管理员登陆
 	 */
@@ -61,6 +64,19 @@ public class AdminServiceImpl implements AdminService {
 		TbRolesExample example = new TbRolesExample();
 		List<TbRoles> list = tbRolesMapper.selectByExample(example);
 		PageInfo<TbRoles> pageInfo = new PageInfo<TbRoles>(list);
+		ResultUtil resultUtil = new ResultUtil();
+		resultUtil.setCode(0);
+		resultUtil.setCount(pageInfo.getTotal());
+		resultUtil.setData(pageInfo.getList());
+		return resultUtil;
+	}
+
+	@Override
+	public ResultUtil dictionaryList(Integer page, Integer limit) {
+		PageHelper.startPage(page, limit);
+		DictionaryExample example = new DictionaryExample();
+		List<Dictionary> list = dictionaryMapper.selectByExample(example);
+		PageInfo<Dictionary> pageInfo = new PageInfo<Dictionary>(list);
 		ResultUtil resultUtil = new ResultUtil();
 		resultUtil.setCode(0);
 		resultUtil.setCount(pageInfo.getTotal());
@@ -419,6 +435,16 @@ public class AdminServiceImpl implements AdminService {
 	@Override
 	public Account selectAccount(String id) {
 		return accountMapper.selectAccount(id);
+	}
+
+	@Override
+	public int selectToken(String token) {
+		return tbAdminMapper.selectToken(token);
+	}
+
+	@Override
+	public TbAdmin selAdminByToken(String token) {
+		return tbAdminMapper.selAdminByToken(token);
 	}
 
 	@Override

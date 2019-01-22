@@ -250,6 +250,14 @@
     from application_times
     where fk_application_id = #{0} and week = #{1} and flag='0'
   </select>
+
+  <select id="selApplicationTimes"  resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from application_times
+    where fk_application_id = #{0}  and flag='0'
+  </select>
+
   <update id="updateAppLockTimeFlag" >
     update application_times
     set

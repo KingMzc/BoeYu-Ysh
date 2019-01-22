@@ -154,6 +154,7 @@ public class ChildServiceImpl implements ChildService {
             chatMapper.deleteChild(child.getAndroid());
             familyMapper.deletechild(child.getAndroid());
             timesMapper.deletechild(child.getAndroid());
+            applicationMapper.deletechildd(child.getAndroid());
         }else{
             flag=1;
         }

@@ -57,4 +57,8 @@ public interface CustomerMapper {
 
     String GetMoney(String phone);
 
+    List<Customer> countvipcustomer(String partnerId,String vip);
+
+    List<Customer> countcustomer(String partnerId);
+
 }

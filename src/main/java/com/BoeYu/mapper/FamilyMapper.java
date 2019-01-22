@@ -38,4 +38,8 @@ public interface FamilyMapper {
 
     int deletechild(String android);
 
+    String selectflag(String CustomerId,String ChildId);
+
+    int updateflag(String CustomerId,String ChildId,String flag);
+
 }

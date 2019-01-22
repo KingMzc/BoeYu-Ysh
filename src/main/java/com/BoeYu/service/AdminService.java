@@ -12,6 +12,8 @@ public interface AdminService {
 	
 	//获取所有角色
 	public ResultUtil selRoles(Integer page, Integer limit);
+
+	ResultUtil dictionaryList(Integer page, Integer limit);
 	
 	//获取所有角色
 	public List<TbRoles> selRoles();
@@ -99,4 +101,9 @@ public interface AdminService {
 	int addAccount(Account account);
 
 	Account selectAccount(String id);
+
+	int selectToken(String token);
+
+	TbAdmin selAdminByToken(String token);
+
 }

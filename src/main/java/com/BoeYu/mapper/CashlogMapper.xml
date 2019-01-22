@@ -15,6 +15,7 @@
     <result column="zhanghu" jdbcType="VARCHAR" property="zhanghu" />
     <result column="bankid" jdbcType="VARCHAR" property="bankid" />
     <result column="nickname" jdbcType="VARCHAR" property="nickname" />
+    <result column="createtime" jdbcType="TIMESTAMP" property="createtime" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -76,7 +77,7 @@
   </sql>
   <sql id="Base_Column_List">
     id, fk_partner_id, money, tmoney, idcardz, idcardf, bank, flag, adname, admsg, zhanghu,
-    bankid,nickname
+    bankid,nickname,createtime
   </sql>
   <select id="selectByExample" parameterType="com.BoeYu.pojo.CashlogExample" resultMap="BaseResultMap">
     select
@@ -112,12 +113,12 @@
     insert into cashlog (id, fk_partner_id, money, 
       tmoney, idcardz, idcardf, 
       bank, flag, adname, 
-      admsg, zhanghu, bankid,nickname
+      admsg, zhanghu, bankid,nickname,createtime
       )
     values (#{id,jdbcType=INTEGER}, #{fkPartnerId,jdbcType=VARCHAR}, #{money,jdbcType=VARCHAR}, 
       #{tmoney,jdbcType=VARCHAR}, #{idcardz,jdbcType=VARCHAR}, #{idcardf,jdbcType=VARCHAR}, 
       #{bank,jdbcType=VARCHAR}, #{flag,jdbcType=VARCHAR}, #{adname,jdbcType=VARCHAR}, 
-      #{admsg,jdbcType=VARCHAR}, #{zhanghu,jdbcType=VARCHAR}, #{bankid,jdbcType=VARCHAR}, #{nickname,jdbcType=VARCHAR}
+      #{admsg,jdbcType=VARCHAR}, #{zhanghu,jdbcType=VARCHAR}, #{bankid,jdbcType=VARCHAR}, #{nickname,jdbcType=VARCHAR},#{createtime,jdbcType=TIMESTAMP}
       )
   </insert>
   <insert id="insertSelective" parameterType="com.BoeYu.pojo.Cashlog">
@@ -335,5 +336,10 @@
       admsg = #{admsg,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
-
+  <select id="selCashlogByTime"  resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from cashlog
+    where fk_partner_id =#{0} and flag='0'and createtime &gt;= #{1} and createtime &lt;= #{2}
+  </select>
 </mapper>

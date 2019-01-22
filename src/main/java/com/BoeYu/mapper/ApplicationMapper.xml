@@ -21,12 +21,10 @@
     <result column="createtime" jdbcType="TIMESTAMP" property="createtime" />
     <result column="fk_child_id" jdbcType="VARCHAR" property="fkChildId" />
     <result column="lock_type" jdbcType="CHAR" property="lockType" />
-    <result column="app_time" jdbcType="VARCHAR" property="appTime" />
+    <result column="times" jdbcType="VARCHAR" property="times" />
     <result column="application_id" jdbcType="VARCHAR" property="applicationId" />
     <result column="application_name" jdbcType="VARCHAR" property="applicationName" />
     <result column="app_updatetime" jdbcType="VARCHAR" property="appUpdatetime" />
-    <result column="week" jdbcType="VARCHAR" property="week" />
-    <result column="times" jdbcType="VARCHAR" property="times" />
   </resultMap>
 
   <resultMap id="ApplicationRecord" type="com.BoeYu.pojo.AppRecordt">
@@ -371,6 +369,16 @@
     where a.fk_child_id = #{0} and t.week=#{1}
   </select>
 
+  <select id="selApplicationTimes"  resultMap="ApplicationTime">
+    select
+      id, application_type, application_img,
+      createtime, fk_child_id, lock_type,
+      application_id, application_name,
+      app_updatetime
+    from application a
+    where a.fk_child_id = #{0}
+  </select>
+
   <select id="selectApplicationTimes"  resultMap="ApplicationTime">
     select
       a.id, application_type, application_img,
@@ -397,5 +405,10 @@
     from application a JOIN application_record r on a.id = r.fk_application_id
     WHERE a.fk_child_id=#{0} and DATE_SUB(CURDATE(), INTERVAL 7 DAY) &lt; record_time ORDER BY record_time DESC
   </select>
+
+  <delete id="deletechildd" >
+    delete from application
+    where fk_child_id = #{0}
+  </delete>
 
 </mapper>
