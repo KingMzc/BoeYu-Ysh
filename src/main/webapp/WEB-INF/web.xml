@@ -22,15 +22,16 @@
         <filter-mapping>  
             <filter-name>DruidWebStatFilter</filter-name>  
             <url-pattern>/*</url-pattern>
-        </filter-mapping>  
+        </filter-mapping>
 
+	<listener>
+		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+	</listener>
 	<context-param>
 		<param-name>contextConfigLocation</param-name>
 		<param-value>classpath:spring/applicationContext-*.xml</param-value>
 	</context-param>
-	<listener>
-		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
-	</listener>
+
 
 	<!-- 以过滤器的方式整合进shiro框架 -->
 	<filter>

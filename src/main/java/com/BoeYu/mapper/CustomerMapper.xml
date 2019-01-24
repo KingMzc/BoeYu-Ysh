@@ -122,13 +122,13 @@
   </delete>
   <insert id="insert" parameterType="com.BoeYu.pojo.Customer">
     insert into customer (id, nickname, wxid, 
-      sex, login_time, message, 
+      sex, login_time, address,
       phone, status, create_time, 
       fk_img_id, vip, vip_time, 
       fk_family_id, token, update_time, 
       password,partnerId)
     values (#{id,jdbcType=BIGINT}, #{nickname,jdbcType=VARCHAR}, #{wxid,jdbcType=VARCHAR}, 
-      #{sex,jdbcType=VARCHAR}, #{loginTime,jdbcType=TIMESTAMP}, #{message,jdbcType=VARCHAR}, 
+      #{sex,jdbcType=VARCHAR}, #{loginTime,jdbcType=TIMESTAMP}, #{address,jdbcType=VARCHAR},
       #{phone,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
       #{fkImgId,jdbcType=VARCHAR}, #{vip,jdbcType=VARCHAR}, #{vipTime,jdbcType=TIMESTAMP}, 
       #{fkFamilyId,jdbcType=VARCHAR}, #{token,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP}, 
@@ -152,8 +152,8 @@
       <if test="loginTime != null">
         login_time,
       </if>
-      <if test="message != null">
-        message,
+      <if test="address != null">
+        address,
       </if>
       <if test="phone != null">
         phone,
@@ -202,8 +202,8 @@
       <if test="loginTime != null">
         #{loginTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="message != null">
-        #{message,jdbcType=VARCHAR},
+      <if test="address != null">
+        #{address,jdbcType=VARCHAR},
       </if>
       <if test="phone != null">
         #{phone,jdbcType=VARCHAR},
@@ -261,8 +261,8 @@
       <if test="record.loginTime != null">
         login_time = #{record.loginTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="record.message != null">
-        message = #{record.message,jdbcType=VARCHAR},
+      <if test="record.address != null">
+        address = #{record.address,jdbcType=VARCHAR},
       </if>
       <if test="record.phone != null">
         phone = #{record.phone,jdbcType=VARCHAR},
@@ -306,7 +306,7 @@
       wxid = #{record.wxid,jdbcType=VARCHAR},
       sex = #{record.sex,jdbcType=VARCHAR},
       login_time = #{record.loginTime,jdbcType=TIMESTAMP},
-      message = #{record.message,jdbcType=VARCHAR},
+    address = #{record.address,jdbcType=VARCHAR},
       phone = #{record.phone,jdbcType=VARCHAR},
       status = #{record.status,jdbcType=VARCHAR},
       create_time = #{record.createTime,jdbcType=TIMESTAMP},
@@ -336,8 +336,8 @@
       <if test="loginTime != null">
         login_time = #{loginTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="message != null">
-        message = #{message,jdbcType=VARCHAR},
+      <if test="address != null">
+        address = #{address,jdbcType=VARCHAR},
       </if>
       <if test="phone != null">
         phone = #{phone,jdbcType=VARCHAR},
@@ -378,7 +378,7 @@
       wxid = #{wxid,jdbcType=VARCHAR},
       sex = #{sex,jdbcType=VARCHAR},
       login_time = #{loginTime,jdbcType=TIMESTAMP},
-      message = #{message,jdbcType=VARCHAR},
+      address = #{address,jdbcType=VARCHAR},
       phone = #{phone,jdbcType=VARCHAR},
       status = #{status,jdbcType=VARCHAR},
       create_time = #{createTime,jdbcType=TIMESTAMP},
@@ -416,6 +416,20 @@
     update customer
     set
       token = #{token,jdbcType=VARCHAR}
+    where phone = #{phone,jdbcType=VARCHAR}
+  </update>
+
+  <update id="updateLoginTime" parameterType="com.BoeYu.pojo.Customer">
+    update customer
+    set
+      login_time = #{loginTime,jdbcType=TIMESTAMP}
+    where phone = #{phone,jdbcType=VARCHAR}
+  </update>
+
+  <update id="updateFkFamilyId" parameterType="com.BoeYu.pojo.Customer">
+    update customer
+    set
+      fk_family_id = #{fkFamilyId,jdbcType=VARCHAR}
     where phone = #{phone,jdbcType=VARCHAR}
   </update>
 

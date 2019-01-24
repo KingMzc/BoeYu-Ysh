@@ -225,4 +225,16 @@
       name = #{name,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
+
+  <update id="updateByID" parameterType="com.BoeYu.pojo.Dictionary">
+    update dictionary
+    set
+      value = #{value,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+  <select id="selDictionaryval"  resultType="java.lang.String">
+    select value from dictionary
+   where nkey=#{0}
+  </select>
 </mapper>

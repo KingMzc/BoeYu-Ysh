@@ -54,6 +54,8 @@ public interface CustomerService {
 
     int updateVipTime(Customer customer);
 
+    int updateFkFamilyId(Customer customer);
+
     List<Vip> GetVipList();
 
     Vip selectByPrimaryKey(Integer id);

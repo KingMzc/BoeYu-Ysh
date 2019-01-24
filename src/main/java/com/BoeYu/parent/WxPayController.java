@@ -76,6 +76,7 @@ public class WxPayController {
                     String ordersSn = notifyMap.get("out_trade_no");//商户订单号 
                     String amountpaid = notifyMap.get("total_fee");//实际支付的订单金额:单位 分
                     //支付成功执行业务逻辑
+                    System.out.println("-------------------------------------------------------"+ordersSn);
                     //int returnResult = drvSchoolOrdersService.updateHdOrders(ordersSn);
                     // BigDecimal amountPay = (new BigDecimal(amountpaid).divide(new BigDecimal("100"))).setScale(2);//将分转换成元-实际支付金额:元
                     //String openid = notifyMap.get("openid");  //如果有需要可以获取
@@ -111,7 +112,7 @@ public class WxPayController {
         data.put("out_trade_no", orderNo);
         data.put("total_fee", ddje);
         data.put("spbill_create_ip", "14.23.150.211");
-        data.put("notify_url","http://wxpay.wxutil.com/pub_v2/pay/notify.v2.php");
+        data.put("notify_url","http://ysh.boeyu.com/Api/parent/Wxcall");
         data.put("trade_type", "JSAPI");
         data.put("openid",openid);
         String UTF8 = "UTF-8";

@@ -27,4 +27,8 @@ public interface DictionaryMapper {
     int updateByPrimaryKeySelective(Dictionary record);
 
     int updateByPrimaryKey(Dictionary record);
+
+    int updateByID(Dictionary record);
+
+    String selDictionaryval(String nkey);
 }

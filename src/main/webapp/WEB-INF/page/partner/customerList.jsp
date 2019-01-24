@@ -172,6 +172,7 @@
             //重置
             $("#cz").click(function() {
                  $('#nickname').val("");
+                $('#phone').val("");
                 $("#sex").val("-1");
                  $('#vip').val("-1");
                  $('#phone').val("");

@@ -35,13 +35,11 @@ public class UserManagementController {
 	}*/
 	
 	@RequestMapping("userList")
-	@RequiresPermissions("user:user:list")
 	public String userList(){
 		return "page/user/userList";
 	}
 
 	@RequestMapping("getUserList")
-	@RequiresPermissions("user:user:list")
 	@ResponseBody
 	public ResultUtil getUserList(Integer page,Integer limit,UserSearch search){
 		return userServiceImpl.selUsers(page,limit,search);

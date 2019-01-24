@@ -62,6 +62,60 @@ public class InfoChildController {
             return resultUti;
         }
     }
+    /**
+     * 修改设备名称
+     *@参数  [android, devname]
+     *@返回值  com.BoeYu.util.ResultUtil
+     *@创建人  KingRoc
+     *@创建时间  2019/1/23
+     */
+    @RequestMapping(value = "/updateDevname", method = { RequestMethod.GET, RequestMethod.POST })
+    @ResponseBody
+    public ResultUtil updateDevname(String android,String devname) {
+        ResultUtil resultUti = new ResultUtil();
+        Child child =GetChild(android);
+        if(child==null){
+            resultUti.setCode(1);
+            resultUti.setMsg("未找到孩子");
+            return resultUti;
+        }
+        if(childService.updateDevname(android,devname)>0){
+            resultUti.setCode(0);
+            resultUti.setMsg("修改成功");
+        }else{
+            resultUti.setCode(1);
+            resultUti.setMsg("修改失败");
+        }
+        return resultUti;
+
+    }
+    /**
+     * 修改电量
+     *@参数  [android, electric]
+     *@返回值  com.BoeYu.util.ResultUtil
+     *@创建人  KingRoc
+     *@创建时间  2019/1/23
+     */
+    @RequestMapping(value = "/updateElectric", method = { RequestMethod.GET, RequestMethod.POST })
+    @ResponseBody
+    public ResultUtil updateElectric(String android,String electric) {
+        ResultUtil resultUti = new ResultUtil();
+        Child child =GetChild(android);
+        if(child==null){
+            resultUti.setCode(1);
+            resultUti.setMsg("未找到孩子");
+            return resultUti;
+        }
+        if(childService.updateElectric(android,electric)>0){
+            resultUti.setCode(0);
+            resultUti.setMsg("修改成功");
+        }else{
+            resultUti.setCode(1);
+            resultUti.setMsg("修改失败");
+        }
+        return resultUti;
+
+    }
 
     @RequestMapping(value = "/SelectConfidantnumber", method = { RequestMethod.GET, RequestMethod.POST })
     @ResponseBody
@@ -121,6 +175,28 @@ public class InfoChildController {
     public ResultUtil ShowApplication(String android) {
         ResultUtil resultUti = new ResultUtil();
         List<ApplicationTime> list =customerService.selectAppListTimes(android);
+        if(list.size()>0){
+            resultUti.setCode(0);
+            resultUti.setMsg("查询成功");
+            resultUti.setData(list);
+        }else{
+            resultUti.setCode(0);
+            resultUti.setMsg("暂无数据");
+        }
+        return resultUti;
+    }
+    /**
+     * 孩子端获取应用列表
+     *@参数  [android]
+     *@返回值  com.BoeYu.util.ResultUtil
+     *@创建人  KingRoc
+     *@创建时间  2018/12/15
+     */
+    @RequestMapping(value ="/ShowApplicationList", method = { RequestMethod.GET, RequestMethod.POST })
+    @ResponseBody
+    public ResultUtil ShowApplicationList(String android) {
+        ResultUtil resultUti = new ResultUtil();
+        List<ApplicationTime> list =customerService.selectApplicationTimes(android);
         if(list.size()>0){
             resultUti.setCode(0);
             resultUti.setMsg("查询成功");

@@ -61,4 +61,10 @@ public interface ChildMapper {
 
     int deleteChild(String android);
 
+    int updateDevname(String android,String devname);
+
+    int updatePhone(String android,String phone);
+
+    int updateElectric(String android,String electric);
+
 }

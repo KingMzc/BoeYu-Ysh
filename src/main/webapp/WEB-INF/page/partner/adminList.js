@@ -5,8 +5,34 @@ layui.config({
 		layer = parent.layer === undefined ? layui.layer : parent.layer,
 		laypage = layui.laypage,
 		$ = layui.jquery;
+
+    active = {
+        search : function() {
+            var fullname = $('#fullname'), sex = $('#sex option:selected'), flag = $('#flag option:selected') ,phone = $('#phone');
+            //执行重载
+            table
+                .reload(
+                    'adminList',
+                    {
+                        page : {
+                            curr : 1
+                            //重新从第 1 页开始
+                        },
+                        where : {
+                            //key: {
+                            fullname : fullname
+                                .val(),
+                            phone : phone
+                                .val(),
+                            sex : sex
+                                .val(),
+                            flag : flag
+                                .val()
+                        }
+                    });
+        }
+    };
 		//数据表格
-	console.log("------------------------------------------------------")
 		table.render({
 			id:'adminList',
 		    elem: '#adminList'
@@ -19,7 +45,7 @@ layui.config({
               {type:'checkbox'}
               ,{field:'id', title: 'ID', sort: true}
               ,{field:'username', title: '登陆名'}
-              ,{field:'fullname', title: '全称'}
+              ,{field:'fullname', title: '姓名'}
               ,{field:'eMail', title: '邮箱'}
               ,{field:'sex', title: '性别',templet: '#sexTpl'}
               ,{field:'birthday', title: '出生日期',templet: '<div>{{ formatTime(d.birthday,"yyyy-MM-dd")}}</div>'}
@@ -32,6 +58,21 @@ layui.config({
 				,page: true //开启分页
 				,where: {timestamp: (new Date()).valueOf()}
 		  });
+    //查询
+    $("#cx").click(function() {
+        var type = $(this).data('type');
+        active[type] ? active[type].call(this) : '';
+    })
+    //重置
+    $("#cz").click(function() {
+        $('#fullname').val("");
+        $("#sex").val("-1");
+        $('#flag').val("-1");
+        $('#phone').val("");
+        var form = layui.form;
+        form.render('select');
+    })
+
 		//监听工具条
 		  table.on('tool(test)', function(obj){
 		    var data = obj.data,adminId=$("#adminId").val();
@@ -67,7 +108,7 @@ layui.config({
 		      layer.open({
 		    	  type: 2,
 		    	  title:"编辑角色",
-		    	  area: ['380px', '560px'],
+		    	  area: ['360px', '250px'],
 		    	  content:ctx+"/partner/editAdmin/"+data.id //这里content是一个普通的String
 		      })
 		    }

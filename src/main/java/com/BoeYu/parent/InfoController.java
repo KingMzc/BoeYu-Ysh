@@ -444,6 +444,31 @@ public class InfoController {
         }
         return resultUti;
     }
+    /**
+     * 家长修改孩子电话
+     *@参数  [token, android, Phone]
+     *@返回值  com.BoeYu.util.ResultUtil
+     *@创建人  KingRoc
+     *@创建时间  2019/1/23
+     */
+    @RequestMapping(value = "/updateChildPhone", method = { RequestMethod.GET, RequestMethod.POST })
+    @ResponseBody
+    public ResultUtil updateChildPhone(String token,String android,String Phone) {
+        ResultUtil resultUti = new ResultUtil();
+        if(CheckToken(token)==false){
+            resultUti.setCode(1);
+            resultUti.setMsg("登录身份过期请重新登录!");
+            return resultUti;
+        }
+        if(childService.updatePhone(android,Phone)>0){
+            resultUti.setCode(0);
+            resultUti.setMsg("修改成功");
+        }else{
+            resultUti.setCode(1);
+            resultUti.setMsg("修改失败");
+        }
+        return resultUti;
+    }
 
     @RequestMapping("/Feedback")
     @ResponseBody

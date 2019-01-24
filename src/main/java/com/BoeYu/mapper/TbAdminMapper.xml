@@ -94,7 +94,6 @@
     from tb_admin
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
-
     </if>
       <if test="_parameter == null" >
           where flag = 0
@@ -106,9 +105,19 @@
 
   <select id="selectpByExample" resultMap="BaseResultMap"  >
     select
-    *
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
     from tb_admin
-      where flag > 0
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="_parameter == null" >
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
   </select>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
     select 

@@ -21,7 +21,7 @@ public interface AdminService {
 	//获取所有管理员
 	 ResultUtil selAdmins(Integer page,Integer limit);
 	//获取城市合伙人
-	ResultUtil selpAdmins(Integer page,Integer limit);
+	ResultUtil selpAdmins(Integer page,Integer limit,AdminSearch search);
 
 	
 	//获取角色菜单
@@ -105,5 +105,9 @@ public interface AdminService {
 	int selectToken(String token);
 
 	TbAdmin selAdminByToken(String token);
+
+	int updateDictionary(String val,Long id);
+
+	String selDictionaryval(String nkey);
 
 }

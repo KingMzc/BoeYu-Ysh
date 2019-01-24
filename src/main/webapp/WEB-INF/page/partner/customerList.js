@@ -7,7 +7,7 @@ layui.config({
 		$ = layui.jquery;
     active = {
         search : function() {
-            var nickname = $('#nickname'), sex = $('#sex option:selected'), vip = $('#vip option:selected') ,phone = $('#phone');
+            var fullname = $('#fullname'), sex = $('#sex option:selected'), flag = $('#flag option:selected') ,phone = $('#phone');
             //执行重载
             table
                 .reload(
@@ -19,13 +19,13 @@ layui.config({
                         },
                         where : {
                             //key: {
-                            nickname : nickname
+                            fullname : fullname
                                 .val(),
                             phone : phone
                                 .val(),
                             sex : sex
                                 .val(),
-                            vip : vip
+                            flag : vip
                                 .val()
                         }
                     });

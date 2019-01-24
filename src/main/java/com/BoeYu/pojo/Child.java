@@ -29,6 +29,36 @@ public class Child extends ChildKey {
 
     private String fkCustomerId;
 
+    private String devname;
+
+    private String phone;
+
+    private String electric;
+
+    public String getDevname() {
+        return devname;
+    }
+
+    public void setDevname(String devname) {
+        this.devname = devname;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public String getElectric() {
+        return electric;
+    }
+
+    public void setElectric(String electric) {
+        this.electric = electric;
+    }
+
     public String getName() {
         return name;
     }

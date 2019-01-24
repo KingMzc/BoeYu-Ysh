@@ -5,6 +5,10 @@ import com.BoeYu.mapper.*;
 import com.BoeYu.pojo.*;
 import com.BoeYu.service.ChildService;
 import com.BoeYu.util.DateUtil;
+import com.BoeYu.util.MyUtil;
+import com.BoeYu.util.ResultUtil;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -188,5 +192,43 @@ public class ChildServiceImpl implements ChildService {
         applicationRecord.setTime(time);
         applicationRecord.setRecordTime(new Date(new Long(recordTime)));
         return applicationRecordMapper.insert(applicationRecord);
+    }
+
+    @Override
+    public ResultUtil selChild(Integer page, Integer limit, ChildSearch search) {
+        PageHelper.startPage(page, limit);
+        ChildExample example = new ChildExample();
+        example.setOrderByClause("create_time DESC");
+        ChildExample.Criteria criteria = example.createCriteria();
+
+        if(search.getName()!=null&&!"".equals(search.getName())){
+            //注意：模糊查询需要进行拼接”%“  如下，不进行拼接是不能完成查询的哦。
+            criteria.andNameLike("%"+search.getName()+"%");
+        }
+        if(search.getSex()!=null&&!"-1".equals(search.getSex())){
+            criteria.andSexEqualTo(search.getSex());
+        }
+        List<Child> childs =  childMapper.selectByExample(example);
+        PageInfo<Child> pageInfo = new PageInfo<Child>(childs);
+        ResultUtil resultUtil = new ResultUtil();
+        resultUtil.setCode(0);
+        resultUtil.setCount(pageInfo.getTotal());
+        resultUtil.setData(pageInfo.getList());
+        return resultUtil;
+    }
+
+    @Override
+    public int updateDevname(String android, String devname) {
+        return childMapper.updateDevname(android,devname);
+    }
+
+    @Override
+    public int updatePhone(String android, String phone) {
+        return childMapper.updatePhone(android,phone);
+    }
+
+    @Override
+    public int updateElectric(String android, String electric) {
+        return childMapper.updateElectric(android,electric);
     }
 }

@@ -6,7 +6,6 @@ import com.BoeYu.service.CustomerService;
 import com.BoeYu.service.PartnerService;
 import com.BoeYu.util.*;
 import net.sf.json.JSONObject;
-import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.bouncycastle.util.Arrays;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -112,7 +111,7 @@ public class PartnerController {
                 tbAdmin.setSex("");
                 tbAdmin.setUsername(phone);
                 tbAdmin.setFullname(phone);
-                tbAdmin.setFlag("2");
+                tbAdmin.setFlag(adminService.selDictionaryval("check"));
                 String token  = getAccessToken();
                 if (token.equals("errer")){
                     tbAdmin.setCodeImg("");
@@ -293,39 +292,17 @@ public class PartnerController {
      */
     @RequestMapping("/addIdCard")
     @ResponseBody
-    public ResultUtil addIdCard(String token, MultipartFile filez,MultipartFile filef,String sfzhm, String name){
+    public ResultUtil addIdCard(String token, String filez,String filef,String sfzhm, String name){
         ResultUtil resultUti=new ResultUtil();
         if(CheckAdminToken(token)==false){
             resultUti.setCode(1);
             resultUti.setMsg("登录身份过期请重新登录! ");
             return resultUti;
         }
-        if (filez == null) {
-            resultUti.setCode(1);
-            resultUti.setMsg("身份证正面为空! ");
-            return resultUti;
-        }
-        if (filef == null) {
-            resultUti.setCode(1);
-            resultUti.setMsg("身份证反面为空! ");
-            return resultUti;
-        }
-        String imgz = MyUtil.shangchuan(filez);
-        if (imgz.equals("")){
-            resultUti.setCode(1);
-            resultUti.setMsg("身份证正面上传失败");
-            return resultUti;
-        }
-        String imgf = MyUtil.shangchuan(filef);
-        if (imgf.equals("")){
-            resultUti.setCode(1);
-            resultUti.setMsg("身份证反面上传失败");
-            return resultUti;
-        }
-       TbAdmin tbAdmin = new TbAdmin();
+        TbAdmin tbAdmin = new TbAdmin();
         tbAdmin.setFullname(name);
-        tbAdmin.setIdcardz(imgz);
-        tbAdmin.setIdcardf(imgf);
+        tbAdmin.setIdcardz(filez);
+        tbAdmin.setIdcardf(filef);
         tbAdmin.setSfzhm(sfzhm);
         tbAdmin.setPhone(GetAdmin(token).getPhone());
         if(partnerService.updateAdmin(tbAdmin)>0){
@@ -403,7 +380,7 @@ public class PartnerController {
         Feedback feedback =new Feedback();
         feedback.setFkCustomerId(tbAdmin.getPhone());
         feedback.setContent(content);
-        feedback.setType("1");
+        feedback.setType("0");
         feedback.setCreateTime(new Date());
         customerService.addFeedback(feedback);
         resultUti.setCode(0);
@@ -454,8 +431,38 @@ public class PartnerController {
         }
         return resultUti;
     }
-
-
+    /**
+     *@参数  [token, file]
+     *@返回值  com.BoeYu.util.ResultUtil
+     *@创建人  KingRoc
+     *@创建时间  2019/1/24
+     */
+    @RequestMapping("/upsfz")
+    @ResponseBody
+    public ResultUtil upsfz(String token,MultipartFile file){
+        ResultUtil resultUti=new ResultUtil();
+        if(CheckAdminToken(token)==false){
+            resultUti.setCode(1);
+            resultUti.setMsg("登录身份过期请重新登录! ");
+            return resultUti;
+        }
+        if (file == null) {
+            resultUti.setCode(1);
+            resultUti.setMsg("上传文件为空! ");
+            return resultUti;
+        }
+        String img = MyUtil.shangchuan(file);
+        if (img.equals("")){
+            resultUti.setCode(1);
+            resultUti.setMsg("文件上传失败");
+            return resultUti;
+        }else{
+            resultUti.setCode(0);
+            resultUti.setMsg("上传成功");
+            resultUti.setData(img);
+        }
+        return resultUti;
+    }
 
 
 
@@ -468,14 +475,12 @@ public class PartnerController {
     }
 
     @RequestMapping("/getAdminList")
-    @RequiresPermissions("partner:admin:list")
     @ResponseBody
-    public ResultUtil getAdminList(Integer page,Integer limit) {
-        ResultUtil admins = adminService.selpAdmins(page, limit);
+    public ResultUtil getAdminList(Integer page,Integer limit,AdminSearch search) {
+        ResultUtil admins = adminService.selpAdmins(page, limit,search);
         return admins;
     }
     @RequestMapping("/editAdmin/{id}")
-    @RequiresPermissions("partner:admin:update")
     public String editAdmin(HttpServletRequest req,@PathVariable("id")Long id) {
         TbAdmin ad = adminService.selAdminById(id);
         List<TbRoles> roles = adminService.selRoles();
@@ -688,7 +693,7 @@ public class PartnerController {
         admin.setSex("1");
         admin.setPassword(password);
         admin.setCodeImg(username+".png");
-        admin.setFlag("2");
+        admin.setFlag(adminService.selDictionaryval("check"));
         if(adminService.addPartnerAdmin(admin)>0){
             Account account = new Account();
             account.setFkPartnerId(username);

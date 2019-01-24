@@ -114,7 +114,7 @@
 				</c:if>
 			</div>
 		</div>
-		<div class="layui-form-item">
+		<%--<div class="layui-form-item">
 			<label class="layui-form-label">分配角色</label>
 			<div class="layui-input-block">
 				<select name="roleId">
@@ -129,7 +129,7 @@
 					</c:forEach>
 				</select>
 			</div>
-		</div>
+		</div>--%>
 		<div class="layui-form-item">
 			<div class="layui-input-block">
 				<button class="layui-btn" lay-submit="" lay-filter="updAdmin">立即保存</button>

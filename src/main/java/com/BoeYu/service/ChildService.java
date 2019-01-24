@@ -1,8 +1,7 @@
 package com.BoeYu.service;
 
-import com.BoeYu.pojo.Application;
-import com.BoeYu.pojo.Child;
-import com.BoeYu.pojo.Confidantnumber;
+import com.BoeYu.pojo.*;
+import com.BoeYu.util.ResultUtil;
 
 import java.util.List;
 import java.util.Map;
@@ -52,5 +51,13 @@ public interface ChildService {
     int deleteApplication(String android,String applicationId);
 
     int addApplicationRecord(String applicationId,String time,String recordTime);
+
+    ResultUtil selChild(Integer page, Integer limit, ChildSearch search);
+
+    int updateDevname(String android,String devname);
+
+    int updatePhone(String android,String phone);
+
+    int updateElectric(String android,String electric);
 
 }

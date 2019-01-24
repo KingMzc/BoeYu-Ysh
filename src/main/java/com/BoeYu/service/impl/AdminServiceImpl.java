@@ -110,10 +110,26 @@ public class AdminServiceImpl implements AdminService {
 	}
 
 	@Override
-	public ResultUtil selpAdmins(Integer page, Integer limit) {
+	public ResultUtil selpAdmins(Integer page, Integer limit,AdminSearch search) {
 		PageHelper.startPage(page, limit);
 		TbAdminExample example = new TbAdminExample();
-
+		/*example.setOrderByClause("create_time DESC");*/
+		TbAdminExample.Criteria criteria = example.createCriteria();
+		if(search.getFullname()!=null&&!"".equals(search.getFullname())){
+			//注意：模糊查询需要进行拼接”%“  如下，不进行拼接是不能完成查询的哦。
+			criteria.andFullnameLike("%"+search.getFullname()+"%");
+		}
+		if(search.getPhone()!=null&&!"".equals(search.getPhone())){
+			//注意：模糊查询需要进行拼接”%“  如下，不进行拼接是不能完成查询的哦。
+			criteria.andPhoneLike("%"+search.getPhone()+"%");
+		}
+		if(search.getSex()!=null&&!"-1".equals(search.getSex())){
+			criteria.andSexEqualTo(search.getSex());
+		}
+		if(search.getFlag()!=null&&!"-1".equals(search.getFlag())){
+			criteria.andFlagEqualTo(search.getFlag());
+		}
+		criteria.andFlagdayu("0");
 		List<TbAdmin> list = tbAdminMapper.selectpByExample(example);
 		// 将roleName写进TbAdmin
 		for (TbAdmin tbAdmin : list) {
@@ -445,6 +461,19 @@ public class AdminServiceImpl implements AdminService {
 	@Override
 	public TbAdmin selAdminByToken(String token) {
 		return tbAdminMapper.selAdminByToken(token);
+	}
+
+	@Override
+	public int updateDictionary(String val, Long id) {
+		Dictionary dictionary =new Dictionary();
+		dictionary.setValue(val);
+		dictionary.setId(id.intValue());
+		return dictionaryMapper.updateByID(dictionary);
+	}
+
+	@Override
+	public String selDictionaryval(String nkey) {
+		return dictionaryMapper.selDictionaryval(nkey);
 	}
 
 	@Override

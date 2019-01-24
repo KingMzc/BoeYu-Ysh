@@ -18,7 +18,8 @@ layui.config({
               {type:'checkbox'}
               ,{field:'id', title: 'ID', sort: true}
               ,{field:'nkey', title: 'KEY'}
-              ,{field:'name', title: '描述'}
+              ,{field:'name', title: '描述1'}
+              ,{field:'value', title: '状态',templet : '#sexTpl'}
               //,{field:'roleName', title: '角色名',edit: 'text'}
               ,{title: '操作',toolbar: '#barEdit'}
 		    ]]
@@ -40,42 +41,42 @@ layui.config({
 	        },1000);
 		    layer.msg('角色名更改为：'+ value,{icon: 1});
 		  });*/
-    form.on('switch(switchTest)', function (obj) {
-        console.log(this);
-        alert(this.value)
-    });
 		//监听工具条
 		  table.on('tool(roleList)', function(obj){
 		    var data = obj.data;
 
-		    if(obj.event === 'del'){
-
-		      layer.confirm('真的删除行么', function(index){
+		    if(obj.event === 'editb'){
+		      layer.confirm('确定要关闭吗？', function(index){
 		    	  $.ajax({
-		    		  url:ctx+'/sys/delRole/'+data.roleId,
+		    		  url:ctx+'/sys/updateDictionary/1/'+data.id,
 		    		  type : "get",
 		    		  success : function(d){
 		    			  if(d.code==0){
 		    				  //obj.del();
 		    				  table.reload('roleList', {})
 		    			  }else{
-		    				  layer.msg("权限不足，联系超管！",{icon: 5});
+		    				  layer.msg("关闭失败",{icon: 5});
 		    			  }
 		    		  }
 		    	  })
 		        layer.close(index);
 		      });
 		    } else if(obj.event === 'edit'){
-		    	alert("1111111");
-                alert(obj);
-                alert(obj.event);
-                alert(obj.skin);
-		      layer.open({
-		    	  type: 2,
-		    	  title:"编辑角色",
-		    	  area: ['380px', '600px'],
-		    	  content:ctx+"/sys/editRole?roleId="+data.roleId, //这里content是一个普通的String
-		      })
+                layer.confirm('确定要开启吗？', function(index){
+                    $.ajax({
+                        url:ctx+'/sys/updateDictionary/2/'+data.id,
+                        type : "get",
+                        success : function(d){
+                            if(d.code==0){
+                                //obj.del();
+                                table.reload('roleList', {})
+                            }else{
+                                layer.msg("开启失败",{icon: 5});
+                            }
+                        }
+                    })
+                    layer.close(index);
+                });
 		    }
 		  });
 		  

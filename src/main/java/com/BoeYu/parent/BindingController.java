@@ -62,16 +62,23 @@ public class BindingController {
             return resultUti;
         }
         Customer customer=GetCustomer(token);
-        Child child = new Child();
-        child.setAndroid(android);
-        child.setFkCustomerId(customer.getPhone());
-        int flag = childService.deleteChild(child);
-        if (flag==0){
-            resultUti.setCode(0);
-            resultUti.setMsg("解除绑定成功");
-        }else if (flag==1){
+        if (childService.GetChildByAndroid(android).getFkCustomerId().equals(customer.getPhone())){
+            Child child = new Child();
+            child.setAndroid(android);
+            child.setFkCustomerId(customer.getPhone());
+            int flag = childService.deleteChild(child);
+            if (flag==0){
+                customer.setFkFamilyId("");
+                customerService.updateFkFamilyId(customer);
+                resultUti.setCode(0);
+                resultUti.setMsg("解除绑定成功");
+            }else if (flag==1){
+                resultUti.setCode(1);
+                resultUti.setMsg("解除绑定失败");
+            }
+        }else{
             resultUti.setCode(1);
-            resultUti.setMsg("解除绑定失败");
+            resultUti.setMsg("你不是孩子的绑定者，无法解绑孩子");
         }
         return resultUti;
     }

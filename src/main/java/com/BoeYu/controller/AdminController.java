@@ -774,4 +774,18 @@ public class AdminController {
 		return adminServiceImpl.dictionaryList(page, limit);
 	}
 
+	@RequestMapping("/updateDictionary/{val}/{id}")
+	@ResponseBody
+	public ResultUtil updateDictionary(@PathVariable("val")String val,@PathVariable("id")Long id) {
+		ResultUtil resultUti=new ResultUtil();
+		if(adminServiceImpl.updateDictionary(val,id)>0){
+			resultUti.setCode(0);
+			resultUti.setMsg("修改成功");
+		}else {
+			resultUti.setCode(1);
+			resultUti.setMsg("修改失败");
+		}
+			return resultUti;
+	}
+
 }

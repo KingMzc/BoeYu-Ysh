@@ -211,6 +211,10 @@ public class TbAdminExample {
             addCriterion("flag =", value, "flag");
             return (Criteria) this;
         }
+        public Criteria andFlagdayu(String value) {
+            addCriterion("flag >", value, "flag");
+            return (Criteria) this;
+        }
 
         public Criteria andUsernameNotEqualTo(String value) {
             addCriterion("username <>", value, "username");

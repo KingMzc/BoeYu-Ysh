@@ -46,7 +46,17 @@
 	<script type="text/javascript" src="${ctx }/layui/layui.js"></script>
 	<script type="text/javascript" src="${ctx }/page/admin/dictionaryList.js"></script>
 	<script type="text/html" id="barEdit">
-		<input type="checkbox" name="check" lay-skin="switch" lay-filter="switchTest" lay-text="ON|OFF" checked>
+		<a class="layui-btn layui-btn-xs" lay-event="edit">开启</a>
+		<a class="layui-btn layui-btn-xs" lay-event="editb">关闭</a>
+	</script>
+	<script type="text/html" id="sexTpl">
+		{{#  if(d.value === '1'){ }}
+		审核关闭
+		{{#  } else if(d.value === '2'){ }}
+		审核开启
+		{{#  } else{ }}
+		异常
+		{{#  } }}
 	</script>
 </body>
 </html>

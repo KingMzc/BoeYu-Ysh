@@ -17,6 +17,9 @@
     <result column="safe_type" jdbcType="VARCHAR" property="safeType" />
     <result column="type" jdbcType="VARCHAR" property="type" />
     <result column="fk_customer_id" jdbcType="VARCHAR" property="fkCustomerId" />
+    <result column="devname" jdbcType="VARCHAR" property="devname" />
+    <result column="phone" jdbcType="VARCHAR" property="phone" />
+    <result column="electric" jdbcType="VARCHAR" property="electric" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -78,7 +81,7 @@
   </sql>
   <sql id="Base_Column_List">
     id, android, name, sex, grade, years, create_time, flag, fk_family_id, fk_img_id, 
-    coordinate, child_type, safe_type, type, fk_customer_id
+    coordinate, child_type, safe_type, type, fk_customer_id,devname,phone,electric
   </sql>
   <select id="selectByExample" parameterType="com.BoeYu.pojo.ChildExample" resultMap="BaseResultMap">
     select
@@ -110,17 +113,18 @@
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
+
   <insert id="insert" parameterType="com.BoeYu.pojo.Child">
     insert into child (id, android, name, 
       sex, grade, years, create_time, 
       flag, fk_family_id, fk_img_id, 
       coordinate, child_type, safe_type, 
-      type, fk_customer_id)
+      type, fk_customer_id,devname,phone,electric)
     values (#{id,jdbcType=INTEGER}, #{android,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
       #{sex,jdbcType=CHAR}, #{grade,jdbcType=VARCHAR}, #{years,jdbcType=TIMESTAMP}, #{createTime,jdbcType=TIMESTAMP}, 
       #{flag,jdbcType=CHAR}, #{fkFamilyId,jdbcType=VARCHAR}, #{fkImgId,jdbcType=VARCHAR}, 
       #{coordinate,jdbcType=VARCHAR}, #{childType,jdbcType=CHAR}, #{safeType,jdbcType=VARCHAR}, 
-      #{type,jdbcType=VARCHAR}, #{fkCustomerId,jdbcType=VARCHAR})
+      #{type,jdbcType=VARCHAR}, #{fkCustomerId,jdbcType=VARCHAR},#{devname,jdbcType=VARCHAR},#{phone,jdbcType=VARCHAR},#{electric,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.BoeYu.pojo.Child">
     insert into child
@@ -448,6 +452,25 @@
     update child
     set
       flag = #{1}
+    where android = #{0}
+  </update>
+
+  <update id="updateDevname">
+    update child
+    set
+      devname = #{1}
+    where android = #{0}
+  </update>
+  <update id="updatePhone">
+    update child
+    set
+      phone = #{1}
+    where android = #{0}
+  </update>
+  <update id="updateElectric">
+    update child
+    set
+      electric = #{1}
     where android = #{0}
   </update>
 

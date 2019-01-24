@@ -6,7 +6,7 @@
 <html>
 <head>
 <meta charset="utf-8">
-<title>用户列表</title>
+<title>孩子管理</title>
 <meta name="renderer" content="webkit">
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 <meta name="viewport"
@@ -31,12 +31,8 @@
 			<div>
 				<div class="layui-inline">
 					<div class="layui-input-inline">
-						<input type="text" id="nickname" value="" placeholder="请输入昵称"
+						<input type="text" id="name" value="" placeholder="姓名"
 							class="layui-input search_input">
-					</div>
-					<div class="layui-input-inline">
-						<input type="text" id="phone" value="" placeholder="请输入电话"
-							   class="layui-input search_input">
 					</div>
 					<div class="layui-input-inline layui-form">
 						<select name="sex" class="" id="sex">
@@ -46,26 +42,14 @@
 							<%--<option value="2">保密</option>--%>
 						</select>
 					</div>
-					<%--<div class="layui-input-inline layui-form">
-						<select name="status" class="" id="status">
-							<option value="-1">请选择账户状态</option>
-							<option value="0">未激活</option>
-							<option value="1">正常</option>
-							<option value="2">禁用</option>
-						</select>
-					</div>--%>
-					<div class="layui-input-inline layui-form">
-						<select name="vip" class="" id="vip">
-							<option value="-1">请选择账户类型</option>
-							<option value="0">普通</option>
-							<option value="1">VIP</option>
-							<%--<option value="2">异常</option>--%>
-						</select>
-					</div>
+					<a class="layui-btn search_btn" lay-submit="" data-type="search" id="cx"
+					   lay-filter="search">查询</a>
+					<a class="layui-btn search_btn" lay-submit="" data-type="search" id="cz"
+					   lay-filter="search">重置</a>
 				</div>
 			</div>
 			<div style="margin-top: 1%">
-				<div class="layui-inline">
+				<%--<div class="layui-inline">
 					<input type="text" id="createTimeStart"
 						class="layui-input userName" name="createTimeStart"
 						placeholder="注册时间(开始)" value="">
@@ -73,22 +57,8 @@
 				<div class="layui-inline">
 					<input type="text" id="createTimeEnd" class="layui-input userName"
 						name="createTimeEnd" placeholder="注册时间(结束)" value="">
-				</div>
-				<a class="layui-btn search_btn" lay-submit="" data-type="search" id="cx"
-				   lay-filter="search">查询</a>
-				<a class="layui-btn search_btn" lay-submit="" data-type="search" id="cz"
-				   lay-filter="search">重置</a>
-				<%--<shiro:hasPermission name="user:user:save">
-					<div class="layui-inline">
-						<a class="layui-btn layui-btn-normal userAdd_btn">添加用户</a>
-					</div>
-				</shiro:hasPermission>
-				<shiro:hasPermission name="user:user:delete">
-					<div class="layui-inline">
-						<a class="layui-btn layui-btn-danger batchDel">批量删除</a>
-					</div>
-				</shiro:hasPermission>--%>
-				<%--<div class="layui-inline">（支持模糊查询）</div>--%>
+				</div>--%>
+
 			</div>
 		</form>
 	</blockquote>
@@ -98,12 +68,7 @@
 	</div>
 	<script type="text/javascript" src="${ctx }/layui/layui.js"></script>
 	<script type="text/html" id="barEdit">
-		<shiro:hasPermission name="user:user:update">
 			<a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
-		</shiro:hasPermission>
-  		<%--<shiro:hasPermission name="user:user:delete">
-  			<a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
-		</shiro:hasPermission>--%>
 	</script>
 	<script type="text/html" id="sexTpl">
  		 {{#  if(d.sex === '0'){ }}
@@ -111,26 +76,58 @@
   		{{#  } else if(d.sex === '1'){ }}
    		 	男
 		{{#  } else{ }}
-   		 	保密
+   		 	未设置
   		{{#  } }}
 	</script>
-	<script type="text/html" id="statusTpl">
- 		 {{#  if(d.status === '0'){ }}
-   		 <span style="color: #FFB800;">未激活</span>
-  		{{#  } else if(d.status === '1'){ }}
-			<span style="color: #01AAED;">正常</span>
+	<script type="text/html" id="gradeTpl">
+ 		 {{#  if(d.grade === '0'){ }}
+   		 一年级
+  		{{#  } else if(d.grade === '1'){ }}
+		 二年级
+		 {{#  } else if(d.grade === '2'){ }}
+		 三年级
+		 {{#  } else if(d.grade === '3'){ }}
+		 四年级
+		 {{#  } else if(d.grade === '4'){ }}
+		 五年级
+		 {{#  } else if(d.grade === '5'){ }}
+		 六年级
+		 {{#  } else if(d.grade === '6'){ }}
+		 七年级
+		 {{#  } else if(d.grade === '7'){ }}
+		 一年级
+		 {{#  } else if(d.grade === '8'){ }}
+		 八年级
+		 {{#  } else if(d.grade === '9'){ }}
+		 九年级
+		 {{#  } else if(d.grade === '10'){ }}
+		 高一年级
+		 {{#  } else if(d.grade === '11'){ }}
+		 高二年级
+		 {{#  } else if(d.grade === '12'){ }}
+		 高三年级
 		{{#  } else{ }}
-   		 	<span style="color: #FF5722;">禁用</span>
+   		 未设置
   		{{#  } }}
 	</script>
 
-	<script type="text/html" id="vipTpl">
-		{{#  if(d.vip === '0'){ }}
-		<span style="color: #FFB800;">普通</span>
-		{{#  } else if(d.vip === '1'){ }}
-		<span style="color: #01AAED;">VIP</span>
+	<script type="text/html" id="safeType">
+		{{#  if(d.safeType === '0'){ }}
+		白名单
+		{{#  } else if(d.safeType === '1'){ }}
+        黑名单
 		{{#  } else{ }}
-		<span style="color: #FF5722;">异常</span>
+        未设置
+		{{#  } }}
+	</script>
+
+	<script type="text/html" id="childType">
+		{{#  if(d.childType === '0'){ }}
+		未锁定屏幕
+		{{#  } else if(d.childType === '1'){ }}
+		锁定屏幕
+		{{#  } else{ }}
+		未设置
 		{{#  } }}
 	</script>
 	<script>
@@ -148,9 +145,7 @@
 									max = null,
 									active = {
 										search : function() {
-											var nickname = $('#nickname'),phone = $('#phone') ,sex = $('#sex option:selected'), vip = $('#vip option:selected') ,status = $('#status option:selected'),
-													createTimeStart = $("#createTimeStart"),
-													createTimeEnd = $("#createTimeEnd");
+											var name = $('#name'), sex = $('#sex option:selected');
 											//执行重载
 											table
 													.reload(
@@ -162,19 +157,9 @@
 																},
 																where : {
 																	//key: {
-																	nickname : nickname
+																	name : name
 																			.val(),
-                                                                    phone : phone
-                                                                        .val(),
 																	sex : sex
-																			.val(),
-                                                                    status : status
-                                                                            .val(),
-																	vip : vip
-																			.val(),
-																	createTimeStart : createTimeStart
-																			.val(),
-																	createTimeEnd : createTimeEnd
 																			.val()
 																//}
 																}
@@ -216,15 +201,12 @@
 									.render({
 										id : 'userList',
 										elem : '#userList',
-										url : ctx + '/user/getCustomerList' //数据接口
+										url : ctx + '/child/getchildList' //数据接口
 										,
 										limit : 10//每页默认数
 										,
 										limits : [ 10, 20, 30, 40 ],
 										cols : [ [ //表头
-												/*{
-													type : 'checkbox'
-												},*/
 												{
 													field : 'id',
 													title : 'ID',
@@ -232,49 +214,48 @@
 												},
 
 												{
-													field : 'nickname',
-													title : '昵称'
+													field : 'name',
+													title : '姓名'
 												},
 												{
 													field : 'sex',
 													title : '性别',
 													templet : '#sexTpl',
 												},
+												{
+													field : 'grade',
+													title : '年级',
+                                                    templet : '#gradeTpl'
+												},
+												{
+													field : 'safeType',
+													title : '安全模式',
+													templet : '#safeType',
+												},
+												{
+													field : 'childType',
+													title : '孩子状态',
+													templet : '#childType',
+												},
+												{
+													field : 'years',
+													title : '生日',
+													templet : '<div>{{ formatTime(d.years,"yyyy-MM-dd")}}</div>'
+												},
 
-
-												{
-													field : 'phone',
-													title : '手机',
-													width : 120
-												},
-												/*{
-													field : 'status',
-													title : '状态',
-													templet : '#statusTpl',
-												},*/
-												{
-													field : 'vip',
-													title : 'VIP',
-													templet : '#vipTpl',
-												},
-												{
-													field : 'vipTime',
-													title : 'vip到期时间',
-													templet : '<div>{{ formatTime(d.vipTime,"yyyy-MM-dd hh:mm:ss")}}</div>'
-												},
-												{
-													field : 'loginTime',
-													title : '登录日期',
-													templet : '<div>{{ formatTime(d.loginTime,"yyyy-MM-dd hh:mm:ss")}}</div>'
-												},
 												{
 													field : 'createTime',
 													title : '注册日期',
 													templet : '<div>{{ formatTime(d.createTime,"yyyy-MM-dd hh:mm:ss")}}</div>'
-												}, /*{
+												},
+                                            {
+                                                field : 'fkCustomerId',
+                                                title : '家长电话'
+                                            }/*,
+											{
 													title : '操作',
 													toolbar : '#barEdit'
-												}*/ ] ],
+												} */] ],
 										page : true
 										,where: {timestamp: (new Date()).valueOf()}
 									//开启分页
@@ -313,18 +294,15 @@
 
 							});
 
-							//查询
-							$("#cx").click(function() {
-								var type = $(this).data('type');
-								active[type] ? active[type].call(this) : '';
-							})
-
+                            //查询
+                            $("#cx").click(function() {
+                                var type = $(this).data('type');
+                                active[type] ? active[type].call(this) : '';
+                            })
+                            //重置
                             $("#cz").click(function() {
-                                $('#nickname').val("");
+                                $('#name').val("");
                                 $("#sex").val("-1");
-                                $('#vip').val("-1");
-                                $('#createTimeEnd').val("");
-                                $('#createTimeStart').val("");
                                 var form = layui.form;
                                 form.render('select');
                             })

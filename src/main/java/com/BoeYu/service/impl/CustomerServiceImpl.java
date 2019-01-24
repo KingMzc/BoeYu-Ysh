@@ -116,6 +116,8 @@ public class CustomerServiceImpl implements CustomerService {
             }
         }
         customerMapper.updateToken(customer);
+        customer.setLoginTime(new Date());
+        customerMapper.updateLoginTime(customer);
         map.put("customer",customer);
         map.put("token",token);
         if(customer.getFkFamilyId()==null){
@@ -236,6 +238,11 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     public int updateVipTime(Customer customer) {
         return customerMapper.updateVipTime(customer);
+    }
+
+    @Override
+    public int updateFkFamilyId(Customer customer) {
+        return customerMapper.updateFkFamilyId(customer);
     }
 
     @Override

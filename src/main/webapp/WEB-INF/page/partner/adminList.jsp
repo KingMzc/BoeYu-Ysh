@@ -29,23 +29,41 @@
 
 	<input type="hidden" id="adminId"
 		value="<shiro:principal property="id"/>" />
-	<%--<blockquote class="layui-elem-quote list_search">
-		<shiro:hasPermission name="sys:admin:save">
-			<div class="layui-inline">
-				<a class="layui-btn layui-btn-normal adminAdd_btn"><i
-					class="layui-icon">&#xe608;</i> 添加管理员</a>
+	<blockquote class="layui-elem-quote list_search">
+		<form class="layui-form">
+			<div>
+				<div class="layui-inline">
+					<div class="layui-input-inline">
+						<input type="text" id="fullname" value="" placeholder="请输入姓名"
+							   class="layui-input search_input">
+					</div>
+					<div class="layui-input-inline">
+						<input type="text" id="phone" value="" placeholder="手机号码"
+							   class="layui-input search_input">
+					</div>
+					<div class="layui-input-inline layui-form">
+						<select name="sex" class="sex" id="sex">
+							<option value="-1">请选择性别</option>
+							<option value="1">男</option>
+							<option value="0">女</option>
+						</select>
+					</div>
+					<div class="layui-input-inline layui-form">
+						<select name="flag" class="flag" id="flag">
+							<option value="-1">请选择账户状态</option>
+							<option value="1">通过</option>
+							<option value="3">未通过</option>
+							<option value="2">待审核</option>
+						</select>
+					</div>
+					<a class="layui-btn search_btn" lay-submit="" data-type="search" id="cx"
+					   lay-filter="search">查询</a>
+					<a class="layui-btn search_btn" lay-submit="" data-type="search" id="cz"
+					   lay-filter="search">重置</a>
+				</div>
 			</div>
-		</shiro:hasPermission>
-		<shiro:hasPermission name="sys:admin:delete">
-			<div class="layui-inline">
-				<a class="layui-btn layui-btn-danger batchDel"><i
-					class="layui-icon">&#xe640;</i>批量删除</a>
-			</div>
-		</shiro:hasPermission>
-		<!-- <div class="layui-inline">
-			<div class="layui-form-mid layui-word-aux"></div>
-		</div> -->
-	</blockquote>--%>
+		</form>
+	</blockquote>
 	<!-- 数据表格 -->
 	<table id="adminList" lay-filter="test"></table>
 	<script type="text/javascript" src="${ctx }/layui/layui.js"></script>
@@ -54,9 +72,9 @@
 	<shiro:hasPermission name="sys:admin:update">
   		<a class="layui-btn layui-btn-xs" lay-event="edit">审核</a>
 	</shiro:hasPermission>
-	<shiro:hasPermission name="sys:admin:delete">
+	<%--<shiro:hasPermission name="sys:admin:delete">
   		<a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
-	</shiro:hasPermission>
+	</shiro:hasPermission>--%>
 	</script>
 	<script type="text/html" id="sexTpl">
  		 {{#  if(d.sex === '0'){ }}

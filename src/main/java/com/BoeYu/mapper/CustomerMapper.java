@@ -36,6 +36,8 @@ public interface CustomerMapper {
 
     int updateToken(Customer record);
 
+    int updateLoginTime(Customer record);
+
     int updateVip(Customer record);
 
     int updateWxid(String phone,String wxid);
@@ -43,6 +45,8 @@ public interface CustomerMapper {
     int updateChild(Customer record);
 
     int updateVipTime(Customer record);
+
+    int updateFkFamilyId(Customer record);
 
     int selectPhone(String phone);
     int selectPhonewx(String phone,String wxid);
