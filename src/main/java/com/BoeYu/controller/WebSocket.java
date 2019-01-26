@@ -23,7 +23,7 @@ public class WebSocket {
     private static int onlineCount = 0;
     //concurrent包的线程安全Set，用来存放每个客户端对应的MyWebSocket对象。若要实现服务端与单一客户端通信的话，可以使用Map来存放，其中Key可以为用户标识
     private static CopyOnWriteArraySet<WebSocket> webSocketSet = new CopyOnWriteArraySet<WebSocket>();
-    private static Map<String, WebSocket> map = new HashMap<String, WebSocket>();
+    public static final Map<String, WebSocket> map = new HashMap<String, WebSocket>();
     //与某个客户端的连接会话，需要通过它来给客户端发送数据
     private Session session;
     /**
@@ -32,11 +32,17 @@ public class WebSocket {
      */
     @OnOpen
     public void onOpen(Session session,@PathParam("uid")String uid){
+        System.out.println("--"+uid+"加入了聊天-------------------------------------");
         this.session = session;
-        webSocketSet.add(this);     //加入set中
-        addOnlineCount();           //在线数加1
+      /*  webSocketSet.add(this);     //加入set中
+        addOnlineCount();           //在线数加1*/
         map.put(uid,this);
        // System.out.println("有新连接加入！当前在线人数为" + getOnlineCount());
+        System.out.println("------进来的时候maphashCode-------"+map.hashCode());
+        System.out.println("------mapsize-------"+map.size());
+        for (Map.Entry<String, WebSocket> entry : map.entrySet()) {
+            System.out.println("-1-------------Key = " + entry.getKey() + ", Value = " + entry.getValue());
+        }
     }
     /**
      * 连接关闭调用的方法
@@ -91,9 +97,18 @@ public class WebSocket {
      */
     public static int sendmsg(String id,String message) throws IOException {
         int flag = 0;
+        System.out.println("------发消息的时候maphashCode-------"+map.hashCode());
+        System.out.println("------mapsize-------"+map.size());
+        for (Map.Entry<String, WebSocket> entry : map.entrySet()) {
+            System.out.println("-1-------------Key = " + entry.getKey() + ", Value = " + entry.getValue());
+        }
+        System.out.println("1------------------------"+id);
         if(map.get(id)!=null){
+            System.out.println("2------------------------"+id);
             if(map.get(id).session.isOpen()==true){
+                System.out.println("3------------------------"+id);
                 map.get(id).sendMessage(message);
+                System.out.println("4------------------------"+id);
                 flag++;
             }
         }
@@ -101,6 +116,7 @@ public class WebSocket {
     }
 
     public  void sendMessage(String message) throws IOException{
+
         this.session.getBasicRemote().sendText(message);
         //this.session.getAsyncRemote().sendText(message);
     }

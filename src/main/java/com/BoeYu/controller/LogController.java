@@ -24,9 +24,7 @@ import java.security.*;
 import java.security.spec.AlgorithmParameterSpec;
 import java.security.spec.InvalidParameterSpecException;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
+import java.util.*;
 
 @Controller
 @RequestMapping("log/")
@@ -56,12 +54,16 @@ public class LogController {
 		/*for (int i=3;i<101;i++){
 			OutputStream os = new FileOutputStream(new File("C:/Users/Admin/Desktop/cs/"+i+".text"));
 		}*/
-		for (int i=1;i<101;i++){
-			MyUtil.deletewj("C:/Users/Admin/Desktop/cs/"+i+".text");
-		}
+        String xx= new String("123");
+		String WW= new String("123");
+		Map map = new HashMap();
+		map.put(xx,"abc");
+		System.out.println(map.get(WW));
+
 
 
 	}
+
 
 
 

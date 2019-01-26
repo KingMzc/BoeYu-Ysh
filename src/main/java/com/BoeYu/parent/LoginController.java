@@ -275,6 +275,32 @@ public class LoginController {
         resultUti.setData(child);
         return resultUti;
     }
+    /**
+     *@参数  [token]
+     *@返回值  com.BoeYu.util.ResultUtil
+     *@创建人  KingRoc
+     *@创建时间  2019/1/24
+     */
+    @RequestMapping("/GetParentInfo")
+    @ResponseBody
+    public ResultUtil GetParentInfo(String token){
+        ResultUtil resultUti=new ResultUtil();
+        if(CheckToken(token)==false){
+            resultUti.setCode(1);
+            resultUti.setMsg("登录身份过期请重新登录！");
+            return resultUti;
+        }
+        Customer customer = GetCustomer(token);
+        if(customer!=null){
+            resultUti.setCode(0);
+            resultUti.setMsg("查询成功");
+            resultUti.setData(customer);
+        }else{
+            resultUti.setCode(0);
+            resultUti.setMsg("暂无数据");
+        }
+        return resultUti;
+    }
 
     @RequestMapping("/ShowMap")
     @ResponseBody

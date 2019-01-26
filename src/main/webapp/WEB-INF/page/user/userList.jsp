@@ -183,11 +183,13 @@
 									};
 
 							var start = laydate.render({
+
 								elem : '#createTimeStart',
 								type : 'datetime',
 								max : nowTime,
 								btns : [ 'clear', 'confirm' ],
 								done : function(value, date) {
+                                    alert(date);
 									endMax = end.config.max;
 									end.config.min = date;
 									end.config.min.month = date.month - 1;
@@ -218,6 +220,7 @@
 										elem : '#userList',
 										url : ctx + '/user/getCustomerList' //数据接口
 										,
+                                        toolbar : true,
 										limit : 10//每页默认数
 										,
 										limits : [ 10, 20, 30, 40 ],

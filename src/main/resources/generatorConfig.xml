@@ -61,6 +61,6 @@
 		<!--<table schema="" tableName="application_times"></table>-->
 		<!--<table schema="" tableName="region"></table>-->
 		<!--<table schema="" tableName="region_time"></table>-->
-		<table schema="" tableName="rechargelog"></table>
+		<table schema="" tableName="discount"></table>
 	</context>
 </generatorConfiguration>

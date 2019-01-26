@@ -65,7 +65,7 @@ public class FileController {
 	 */
 	@RequestMapping(value = "/showPic")
 	@ResponseBody
-	public String showPic(String fileName, HttpServletResponse response) {
+	public String showPic(String fileName, HttpServletResponse response){
 		// String fileName="4d857472b93b4b9bb04d65f1506b2a329707.jpeg";
 		FileInputStream fis = null;
 		OutputStream os = null;

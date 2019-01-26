@@ -136,7 +136,7 @@
 					base : "js/"
 				})
 				.use(
-						[ 'form', 'layer', 'jquery', 'table', 'laydate' ],
+						[ 'form', 'layer', 'jquery', 'table', 'laydate','laytpl' ],
 						function() {
 							var form = layui.form, table = layui.table, layer = parent.layer === undefined ? layui.layer
 									: parent.layer, laydate = layui.laydate

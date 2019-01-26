@@ -243,6 +243,61 @@ public class PartnerController {
         }
         return resultUti;
     }
+
+    /**
+     *@参数  [token]
+     *@返回值  com.BoeYu.util.ResultUtil
+     *@创建人  KingRoc
+     *@创建时间  2019/1/24
+     */
+    @RequestMapping("/GetPartnerInfo")
+    @ResponseBody
+    public ResultUtil GetPartnerInfo(String token){
+        ResultUtil resultUti=new ResultUtil();
+        if(CheckAdminToken(token)==false){
+            resultUti.setCode(1);
+            resultUti.setMsg("登录身份过期请重新登录! ");
+            return resultUti;
+        }
+        TbAdmin tbAdmin = adminService.selAdminByToken(token);
+        if (tbAdmin!=null){
+            resultUti.setCode(0);
+            resultUti.setMsg("查询成功");
+            resultUti.setData(tbAdmin);
+        }else{
+            resultUti.setCode(1);
+            resultUti.setMsg("暂无数据");
+        }
+        return resultUti;
+    }
+
+    /**
+     *@参数  [token, phone]
+     *@返回值  com.BoeYu.util.ResultUtil
+     *@创建人  KingRoc
+     *@创建时间  2019/1/24
+     */
+    @RequestMapping("/GetPartnerAccount")
+    @ResponseBody
+    public ResultUtil GetPartnerIfo(String token,String phone){
+        ResultUtil resultUti=new ResultUtil();
+        if(CheckAdminToken(token)==false){
+            resultUti.setCode(1);
+            resultUti.setMsg("登录身份过期请重新登录! ");
+            return resultUti;
+        }
+        Map<String,Object> map=partnerService.partnerInfo(phone);
+        if (map!=null){
+            resultUti.setCode(0);
+            resultUti.setMsg("查询成功");
+            resultUti.setData(map);
+        }else{
+            resultUti.setCode(1);
+            resultUti.setMsg("暂无数据");
+        }
+        return resultUti;
+    }
+
     /**
      *@参数  [token, file, BankId, BankName]
      *@返回值  com.BoeYu.util.ResultUtil

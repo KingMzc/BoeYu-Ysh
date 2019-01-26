@@ -105,6 +105,27 @@ public class PartnerServiceImpl implements PartnerService {
 		String token= DigestUtils.md5DigestAsHex((new Date().getTime()+""+phone).getBytes());
 		tbAdmin.setToken(token);
 		tbAdminMapper.updateToken(tbAdmin);
+		/*Account account = accountMapper.selectAccount(phone);
+		if (account==null){
+			Account at = new Account();
+			at.setFkPartnerId(phone);
+			at.setTmoney("0");
+			at.setMoney("0");
+			at.setSmoney("0");
+			accountMapper.insert(at);
+			account=accountMapper.selectAccount(phone);
+		}*/
+		map.put("Admin",tbAdmin);
+		/*map.put("account",account);*/
+		/*map.put("customerS",customerMapper.countcustomer(phone));
+		map.put("customerV",customerMapper.countvipcustomer(phone,"1"));
+		map.put("customer",customerMapper.countvipcustomer(phone,"0"));*/
+		return map;
+	}
+
+	@Override
+	public Map<String, Object> partnerInfo(String phone) {
+		Map<String, Object> map =new HashMap<String, Object>();
 		Account account = accountMapper.selectAccount(phone);
 		if (account==null){
 			Account at = new Account();
@@ -115,7 +136,6 @@ public class PartnerServiceImpl implements PartnerService {
 			accountMapper.insert(at);
 			account=accountMapper.selectAccount(phone);
 		}
-		map.put("Admin",tbAdmin);
 		map.put("account",account);
 		map.put("customerS",customerMapper.countcustomer(phone));
 		map.put("customerV",customerMapper.countvipcustomer(phone,"1"));

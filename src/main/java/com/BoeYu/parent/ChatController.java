@@ -7,10 +7,6 @@ import com.BoeYu.service.ChatService;
 import com.BoeYu.service.CustomerService;
 import com.BoeYu.util.GlobalUtil;
 import com.BoeYu.util.ResultUtil;
-import org.apache.commons.fileupload.FileItem;
-import org.apache.commons.fileupload.FileUploadException;
-import org.apache.commons.fileupload.disk.DiskFileItemFactory;
-import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
@@ -206,6 +202,7 @@ public class ChatController {
             chat.setChatMsg(message);
         }
         int flag= chatService.addChat(chat);
+        //开始发送消息
         if(flag>0){
             WebSocket.sendmsg(toId,"NewMessage:"+customer.getPhone());
             resultUti.setCode(0);
@@ -268,9 +265,6 @@ public class ChatController {
     @RequestMapping(value = "/show")
     @ResponseBody
     public ResultUtil showPic(String token,String fileName, HttpServletResponse response) {
-        if(CheckToken(token)==false){
-            return ResultUtil.error("登录身份过期请重新登录!");
-        }
         FileInputStream fis = null;
         OutputStream os = null;
         try {

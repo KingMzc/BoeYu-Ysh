@@ -1,5 +1,6 @@
 package com.BoeYu.parent;
 
+import com.BoeYu.controller.WebSocket;
 import com.BoeYu.pojo.Child;
 import com.BoeYu.pojo.Customer;
 import com.BoeYu.pojo.Family;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.io.IOException;
 import java.util.Date;
 
 @Controller
@@ -54,7 +56,7 @@ public class BindingController {
 
     @RequestMapping("/RelieveBinding")
     @ResponseBody
-    public ResultUtil RelieveBinding(String token, String android){
+    public ResultUtil RelieveBinding(String token, String android) throws IOException {
         ResultUtil resultUti = new ResultUtil();
         if(CheckToken(token)==false){
             resultUti.setCode(1);
@@ -72,6 +74,7 @@ public class BindingController {
                 customerService.updateFkFamilyId(customer);
                 resultUti.setCode(0);
                 resultUti.setMsg("解除绑定成功");
+                WebSocket.sendmsg(android,"RelieveBinding");
             }else if (flag==1){
                 resultUti.setCode(1);
                 resultUti.setMsg("解除绑定失败");

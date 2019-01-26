@@ -26,8 +26,7 @@ public class MainController {
 	public List<Customer> getUserTotal(){
 		return mainServiceImpl.selUserList();
 	}
-	
-	
+
 	@RequestMapping("getUsersToday")
 	@ResponseBody
 	public List<Customer> getUsersToday(){

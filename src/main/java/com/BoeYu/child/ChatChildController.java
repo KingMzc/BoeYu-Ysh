@@ -3,7 +3,6 @@ package com.BoeYu.child;
 import com.BoeYu.controller.WebSocket;
 import com.BoeYu.pojo.Chat;
 import com.BoeYu.pojo.Child;
-import com.BoeYu.pojo.Family;
 import com.BoeYu.service.ChatService;
 import com.BoeYu.service.ChildService;
 import com.BoeYu.util.GlobalUtil;
@@ -176,7 +175,13 @@ public class ChatChildController {
             chat.setChatMsg(messagee);
         }
         int flag= chatService.addChat(chat);
+        // 孩子给家长开始发送消息
         if(flag>0){
+            System.out.println("-准备发送消息--"+toId+"------------------------");
+            System.out.println("-FA-MAP---"+WebSocket.map.size()+"------------------------------");
+            WebSocket.map.clear();
+            WebSocket.map.put("12345",null);
+            System.out.println("-FA-666---"+WebSocket.map.size()+"------------------------------");
             WebSocket.sendmsg(toId,"NewMessage:"+android);
             resultUti.setCode(0);
             resultUti.setMsg("发送成功");

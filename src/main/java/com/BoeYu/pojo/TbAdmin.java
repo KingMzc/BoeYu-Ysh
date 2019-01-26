@@ -34,6 +34,15 @@ public class TbAdmin {
     private String idcardf;
     private String wxid;
     private String sfzhm;
+    private String createTime;
+
+    public String getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(String createTime) {
+        this.createTime = createTime;
+    }
 
     public String getSfzhm() {
         return sfzhm;

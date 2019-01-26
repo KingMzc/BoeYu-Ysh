@@ -1269,6 +1269,7 @@ layui.define(['laytpl', 'laypage', 'layer', 'form', 'util'], function(exports){
               }()
               ,done: function(panel, list){
                 list.on('click', function(){
+                  debugger;
                   var type = $(this).data('type')
                   table.exportFile(options.id, null, type);
                 });
@@ -1796,8 +1797,30 @@ layui.define(['laytpl', 'laypage', 'layer', 'form', 'util'], function(exports){
   //表格导出
   table.exportFile = function(id, data, type){
     data = data || table.clearCacheKey(table.cache[id]);
+
     type = type || 'csv';
-    
+    if(id=='discountczkList'){
+        var count = 0;
+        for(var j in data){
+            count ++;
+        }
+      var cs = '';
+      for (var i =0;i<count;i++) {
+          cs=cs+data[i].id+','
+      }
+        var dadis={
+            id:cs
+        }
+        $.ajax({
+            url:ctx+'/sys/updateExport',
+            type : "get",
+            data : dadis,
+            dataType:'text',
+            success : function(d){
+
+            }
+        })
+    }
     var config = thisTable.config[id] || {}
     ,textType = ({
       csv: 'text/csv'

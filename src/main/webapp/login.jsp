@@ -21,10 +21,10 @@
     <h1>管理员登录</h1>
     <form class="layui-form" id="form">
         <div class="layui-form-item">
-            <input class="layui-input" name="username" placeholder="用户名" value="admin" lay-verify="required" type="text" autocomplete="off">
+            <input class="layui-input" name="username" placeholder="用户名" value="" lay-verify="required" type="text" autocomplete="off">
         </div>
         <div class="layui-form-item">
-            <input class="layui-input" name="password" placeholder="密码" value="123456"  lay-verify="required" type="password" autocomplete="off">
+            <input class="layui-input" name="password" placeholder="密码" value=""  lay-verify="required" type="password" autocomplete="off">
         </div>
         <div class="layui-form-item form_code">
             <input class="layui-input" style="width: 140px;" name="vcode" placeholder="验证码" lay-verify="required" type="text" autocomplete="off" maxlength="4">

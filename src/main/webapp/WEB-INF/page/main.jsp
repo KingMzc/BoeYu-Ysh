@@ -30,43 +30,52 @@
 	</fieldset>
 	<div>
 		<table class="layui-table">
-			<colgroup>
-				<col width="150">
-				<col width="200">
-				<col>
-			</colgroup>
+
 			<thead>
 				<tr>
 					<th><strong>统计</strong></th>
-					<th><strong>用户</strong></th>
+					<th><strong>家长</strong></th>
+					<th><strong>统计</strong></th>
+					<th><strong>合伙人</strong></th>
 				</tr>
 			</thead>
 			<tbody>
 				<tr>
 					<td>总数</td>
 					<td class="userTotal"></td>
+					<td>总数</td>
+					<td class="parTotal"></td>
 				</tr>
 				<tr>
 					<td>今日</td>
 					<td class="usersToday"></td>
+					<td>今日</td>
+					<td class="parToday"></td>
 				</tr>
 				<tr>
 					<td>昨日</td>
 					<td class="usersYestoday"></td>
+					<td>昨日</td>
+					<td class="parYestoday"></td>
 				</tr>
 				<tr>
 					<td>本周</td>
 					<td class="usersYearWeek"></td>
+					<td>本周</td>
+					<td class="parYearWeek"></td>
 				</tr>
 				<tr>
 					<td>本月</td>
 					<td class="usersMonth"></td>
+					<td>本月</td>
+					<td class="parMonth"></td>
 				</tr>
 			</tbody>
 		</table>
 	</div>
+
 	<fieldset class="layui-elem-field layui-field-title">
-		<legend>网站用户性别占比</legend>
+		<legend>家长性别占比</legend>
 	</fieldset>
 	<div id="info" style="width: 600px; height: 400px;"></div>
 

@@ -26,6 +26,8 @@ public interface PartnerService {
 
 	Map<String,Object> loginInfo(String phone, String wxid);
 
+	Map<String,Object> partnerInfo(String phone);
+
 	int updateWxid(String phone,String wxid);
 
 	int addAdmin(TbAdmin tbAdmin);
@@ -39,5 +41,7 @@ public interface PartnerService {
 	List<Adminbank> selBankList(String phone);
 
 	int deleteBank(String id);
+
+
 
 }
